@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { WORKSTATIONS, RECIPES, ITEMS } from './data/mockData';
 import { CraftingEngine } from './engine/calculator';
 import type { WorkstationId, CraftTier, CraftCategory, UserCategoryTiers, DurabilityLevel } from './types/crafting';
@@ -155,7 +155,7 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-[#0c0d0f] text-zinc-200 font-sans p-4 md:p-8 bg-[radial-gradient(#1a1c23_1px,transparent_1px)] [background-size:16px_16px]">
-      
+
       {/* ВЕРХНЯЯ ПАНЕЛЬ / ШАПКА */}
       <header className="max-w-7xl mx-auto mb-6 flex items-center justify-between border-b border-zinc-800/80 pb-4">
         <div className="flex items-center gap-3">
@@ -216,8 +216,8 @@ export function App() {
                         key={level}
                         onClick={() => handleDurabilityChange(bench.id, level)}
                         className={`py-1 text-[10px] font-mono transition uppercase rounded-xs ${currentDur === level
-                            ? 'bg-orange-600 text-black font-bold shadow'
-                            : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800 border border-zinc-800'
+                          ? 'bg-orange-600 text-black font-bold shadow'
+                          : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800 border border-zinc-800'
                           }`}
                       >
                         {level}
@@ -239,9 +239,9 @@ export function App() {
                           <button
                             key={t}
                             onClick={() => setCategoryTier(cat, t)}
-                            className={`py-0.5 text-[10px] font-mono transition uppercase ${ (categoryTiers[cat] ?? 1) === t
-                                ? 'bg-orange-600 text-black font-bold'
-                                : 'bg-zinc-900 text-zinc-500 hover:bg-zinc-800 border border-zinc-800/60'
+                            className={`py-0.5 text-[10px] font-mono transition uppercase ${(categoryTiers[cat] ?? 1) === t
+                              ? 'bg-orange-600 text-black font-bold'
+                              : 'bg-zinc-900 text-zinc-500 hover:bg-zinc-800 border border-zinc-800/60'
                               }`}
                           >
                             T{t}
@@ -259,7 +259,7 @@ export function App() {
 
       {/* ОСНОВНОЙ КОНТЕНТ */}
       <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
+
         {/* ЛЕВАЯ КОЛОНКА: ФИЛЬТРЫ И СПИСОК РЕЦЕПТОВ */}
         <section className="lg:col-span-5 space-y-4">
           <div className="bg-[#121418]/90 border border-zinc-800 rounded p-4 space-y-4 shadow-xl backdrop-blur-sm">
@@ -287,8 +287,8 @@ export function App() {
                 <button
                   onClick={() => { setSelectedBench('all'); setSelectedCategory('all'); }}
                   className={`px-2.5 py-1.5 text-[11px] font-mono uppercase text-left transition border ${selectedBench === 'all'
-                      ? 'bg-orange-600/20 border-orange-500 text-orange-400 font-bold'
-                      : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                    ? 'bg-orange-600/20 border-orange-500 text-orange-400 font-bold'
+                    : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:border-zinc-700'
                     }`}
                 >
                   Все верстаки
@@ -298,8 +298,8 @@ export function App() {
                     key={w.id}
                     onClick={() => { setSelectedBench(w.id); setSelectedCategory('all'); }}
                     className={`px-2 py-1.5 text-[11px] font-mono uppercase text-left flex items-center gap-2 transition border ${selectedBench === w.id
-                        ? 'bg-orange-600/20 border-orange-500 text-orange-400 font-bold'
-                        : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                      ? 'bg-orange-600/20 border-orange-500 text-orange-400 font-bold'
+                      : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:border-zinc-700'
                       }`}
                   >
                     {getBenchIcon(w.id)}
@@ -339,8 +339,8 @@ export function App() {
                       key={recipe.id}
                       onClick={() => setSelectedRecipeId(recipe.id)}
                       className={`w-full p-2 text-left flex items-center justify-between transition border ${selectedRecipeId === recipe.id
-                          ? 'bg-orange-600/20 border-orange-500 text-orange-300 font-bold'
-                          : 'bg-[#121418] border-zinc-800/60 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                        ? 'bg-orange-600/20 border-orange-500 text-orange-300 font-bold'
+                        : 'bg-[#121418] border-zinc-800/60 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
                         }`}
                     >
                       <div className="flex items-center gap-2">
@@ -362,7 +362,7 @@ export function App() {
 
             {/* КОЛИЧЕСТВО */}
             <div className="space-y-1.5 pt-2 border-t border-zinc-800">
-              <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Количество партий</label>
+              <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Количество</label>
               <input
                 type="number"
                 min={1}

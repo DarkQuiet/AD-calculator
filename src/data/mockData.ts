@@ -36,10 +36,10 @@ export const WORKSTATIONS: Workstation[] = [
 ];
 
 export const ITEMS: Record<string, Item> = {
-  // === БАЗОВОЕ СЫРЬЕ И КОМПОНЕНТЫ ===
+  // === БАЗОВОЕ СЫРЬЁ И КОМПОНЕНТЫ ===
   silicate_vessels: { id: 'silicate_vessels', name: 'Силикатные сосуды', icon: 'FlaskConical', isBase: false },
   oil_raw: { id: 'oil_raw', name: 'Нефть', icon: 'Droplet', isBase: true },
-  sodium_phosphate: { id: 'sodium_phosphate', name: 'Фосфонат натрия', icon: 'Sparkles', isBase: false },
+  sodium_phosphate: { id: 'sodium_phosphate', name: 'Фосфонат натрия', icon: 'Sparkles', isBase: true },
   ferrocene: { id: 'ferrocene', name: 'Ферроцен', icon: 'Box', isBase: false },
   chem_concentrate_jar: { id: 'chem_concentrate_jar', name: 'Баночка с хим. концентратом', icon: 'FlaskConical', isBase: true },
   oil_bottle: { id: 'oil_bottle', name: 'Бутылка с нефтью', icon: 'Droplet', isBase: true },
@@ -49,20 +49,34 @@ export const ITEMS: Record<string, Item> = {
   gunpowder: { id: 'gunpowder', name: 'Порох', icon: 'Flame', isBase: false },
   carbon_steel: { id: 'carbon_steel', name: 'Углеродная сталь', icon: 'Box', isBase: true },
 
-  // --- Базовые компоненты для Реагентов и Полимеров ---
+  // --- Базовые компоненты для Реагентов, Полимеров и Медицины ---
   hand_sanitizer: { id: 'hand_sanitizer', name: 'Санитайзер для рук', icon: 'FlaskConical', isBase: true },
   wood_bark: { id: 'wood_bark', name: 'Древесная кора', icon: 'Box', isBase: true },
   nail_polish_remover: { id: 'nail_polish_remover', name: 'Жидкость для снятия лака', icon: 'FlaskConical', isBase: true },
   dirty_water: { id: 'dirty_water', name: 'Грязная вода', icon: 'Droplet', isBase: true },
+  clean_water: { id: 'clean_water', name: 'Чистая вода', icon: 'Droplet', isBase: true },
   chalk: { id: 'chalk', name: 'Мел', icon: 'Box', isBase: true },
   dirty_cloth: { id: 'dirty_cloth', name: 'Грязная ткань', icon: 'Layers', isBase: true },
   clean_cloth: { id: 'clean_cloth', name: 'Чистая ткань', icon: 'Layers', isBase: true },
-  chlorine: { id: 'chlorine', name: 'Хлорин', icon: 'FlaskConical', isBase: true },
+  dirty_bandage: { id: 'dirty_bandage', name: 'Грязный бинт', icon: 'Layers', isBase: true },
+  salt: { id: 'salt', name: 'Соль', icon: 'Sparkles', isBase: true },
+  wood: { id: 'wood', name: 'Дерево', icon: 'Box', isBase: true },
+  empty_bottle: { id: 'empty_bottle', name: 'Пустая бутылка', icon: 'FlaskConical', isBase: true },
+  gelatin_capsule_pack: { id: 'gelatin_capsule_pack', name: 'Пакетик желатиновых капсул', icon: 'Box', isBase: false },
+  sewing_kit: { id: 'sewing_kit', name: 'Швейный набор', icon: 'Scissors', isBase: false },
+  field_surgical_kit: { id: 'field_surgical_kit', name: 'Полевой хирургический набор', icon: 'Box', isBase: true },
+  chem_stabilizer: { id: 'chem_stabilizer', name: 'Химический стабилизатор', icon: 'FlaskConical', isBase: true },
+  precision_parts: { id: 'precision_parts', name: 'Высокоточные детали', icon: 'Cpu', isBase: true },
+  duct_tape: { id: 'duct_tape', name: 'Изолента', icon: 'Box', isBase: true },
   sulfur_ore: { id: 'sulfur_ore', name: 'Серная руда', icon: 'Box', isBase: true },
   methanol: { id: 'methanol', name: 'Метанол', icon: 'FlaskConical', isBase: true },
   synthetic_junk: { id: 'synthetic_junk', name: 'Синтетический мусор', icon: 'Box', isBase: true },
   wires: { id: 'wires', name: 'Провода', icon: 'Cpu', isBase: true },
   glass: { id: 'glass', name: 'Стекло', icon: 'Box', isBase: true },
+
+  // --- Базовые компоненты для Кожи ---
+  raw_hide: { id: 'raw_hide', name: 'Сырая шкура', icon: 'Layers', isBase: true },
+  animal_bones: { id: 'animal_bones', name: 'Кости животного', icon: 'Box', isBase: true },
 
   // === КРАФТОВЫЕ ПРЕДМЕТЫ (Нефтехимия и Реагенты) ===
   tech_oil: { id: 'tech_oil', name: 'Техническое масло', icon: 'Droplet', isBase: false },
@@ -83,6 +97,7 @@ export const ITEMS: Record<string, Item> = {
   calcium_carbonate: { id: 'calcium_carbonate', name: 'Карбонат кальция', icon: 'Sparkles', isBase: false },
   cloth: { id: 'cloth', name: 'Ткань', icon: 'Layers', isBase: false },
   durable_cloth: { id: 'durable_cloth', name: 'Прочная ткань', icon: 'Layers', isBase: false },
+  chlorine: { id: 'chlorine', name: 'Хлорин', icon: 'FlaskConical', isBase: false },
 
   // === КРАФТОВЫЕ ПРЕДМЕТЫ (Полимеры) ===
   plastic: { id: 'plastic', name: 'Пластик', icon: 'Square', isBase: false },
@@ -90,6 +105,26 @@ export const ITEMS: Record<string, Item> = {
   mpd: { id: 'mpd', name: 'МПД', icon: 'FlaskConical', isBase: false },
   mini_poly_containers: { id: 'mini_poly_containers', name: 'Миниатюрные полимерные контейнеры', icon: 'Box', isBase: false },
   polycarbonate: { id: 'polycarbonate', name: 'Поликарбонат', icon: 'Layers', isBase: false },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Кожа) ===
+  cleaned_hide: { id: 'cleaned_hide', name: 'Очищенная шкура', icon: 'Layers', isBase: false },
+  tanned_leather: { id: 'tanned_leather', name: 'Дубленая кожа', icon: 'Layers', isBase: false },
+  tattoo_machine_wire_belt: { id: 'tattoo_machine_wire_belt', name: 'Ремень провода тату-машинки', icon: 'Box', isBase: false },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Медицина) ===
+  clean_bandage: { id: 'clean_bandage', name: 'Чистый бинт', icon: 'Layers', isBase: false },
+  med_bandage: { id: 'med_bandage', name: 'Медицинский бинт', icon: 'Layers', isBase: false },
+  hemostatic_bandage: { id: 'hemostatic_bandage', name: 'Бинт с гемостатическим порошком', icon: 'Layers', isBase: false },
+  empty_blood_bag: { id: 'empty_blood_bag', name: 'Пустой пакет крови', icon: 'Box', isBase: false },
+  med_splint: { id: 'med_splint', name: 'Медицинская шина', icon: 'Box', isBase: false },
+  sal_ammoniac: { id: 'sal_ammoniac', name: 'Нашатырный спирт', icon: 'FlaskConical', isBase: false },
+  ibuprofen: { id: 'ibuprofen', name: 'Ибупрофен', icon: 'FlaskConical', isBase: false },
+  vicodin: { id: 'vicodin', name: 'Викодин', icon: 'FlaskConical', isBase: false },
+  nurofen_d: { id: 'nurofen_d', name: 'Нейрофен-Д', icon: 'FlaskConical', isBase: false },
+  first_aid_kit: { id: 'first_aid_kit', name: 'Набор первой помощи', icon: 'Box', isBase: false },
+  medical_kit: { id: 'medical_kit', name: 'Медицинская аптечка', icon: 'Box', isBase: false },
+  scalpel: { id: 'scalpel', name: 'Скальпель', icon: 'Scissors', isBase: false },
+  iv_drip: { id: 'iv_drip', name: 'Капельница', icon: 'Box', isBase: false },
 
   // === КРАФТОВЫЕ ПРЕДМЕТЫ (Патроны и Гильзы) ===
   cartridge_cases: { id: 'cartridge_cases', name: 'Гильзы', icon: 'Box', isBase: false },
@@ -108,6 +143,435 @@ export const ITEMS: Record<string, Item> = {
 };
 
 export const RECIPES: Recipe[] = [
+  // ==========================================
+  // === ШВЕЙНЫЙ СТОЛ: Кожа
+  // ==========================================
+
+  // --- ТИР 1 КОЖА ---
+  {
+    id: 'recipe_cleaned_hide_t1',
+    name: 'Очищенная шкура x10 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 1,
+    craftTimeSec: 15,
+    durabilityCost: 0.5,
+    inputs: [
+      { itemId: 'raw_hide', amount: 5 },
+      { itemId: 'reagent_jars', amount: 10 },
+      { itemId: 'salt', amount: 5 },
+      { itemId: 'dirty_water', amount: 5 }
+    ],
+    outputs: [{ itemId: 'cleaned_hide', amount: 10 }]
+  },
+  {
+    id: 'recipe_tanned_leather_t1',
+    name: 'Дубленая кожа x5 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 1,
+    craftTimeSec: 20,
+    durabilityCost: 0.5,
+    inputs: [
+      { itemId: 'cleaned_hide', amount: 10 },
+      { itemId: 'wood_bark', amount: 15 },
+      { itemId: 'dirty_water', amount: 5 }
+    ],
+    outputs: [{ itemId: 'tanned_leather', amount: 5 }]
+  },
+  {
+    id: 'recipe_gelatin_capsule_pack_t1',
+    name: 'Пакетик желатиновых капсул x10 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 0.15,
+    inputs: [
+      { itemId: 'animal_bones', amount: 5 }
+    ],
+    outputs: [{ itemId: 'gelatin_capsule_pack', amount: 10 }]
+  },
+  {
+    id: 'recipe_sewing_kit_t1',
+    name: 'Швейный набор x6 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 0.2,
+    inputs: [
+      { itemId: 'scrap_metal', amount: 7 },
+      { itemId: 'plastic', amount: 10 }
+    ],
+    outputs: [{ itemId: 'sewing_kit', amount: 6 }]
+  },
+
+  // --- ТИР 2 КОЖА ---
+  {
+    id: 'recipe_cleaned_hide_t2',
+    name: 'Очищенная шкура x10 (T2)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 0.25,
+    inputs: [
+      { itemId: 'ethanol', amount: 5 },
+      { itemId: 'raw_hide', amount: 5 },
+      { itemId: 'dirty_water', amount: 1 }
+    ],
+    outputs: [{ itemId: 'cleaned_hide', amount: 10 }]
+  },
+  {
+    id: 'recipe_tanned_leather_t2',
+    name: 'Дубленая кожа x5 (T2)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 2,
+    craftTimeSec: 20,
+    durabilityCost: 0.25,
+    inputs: [
+      { itemId: 'tannin', amount: 5 },
+      { itemId: 'cleaned_hide', amount: 10 },
+      { itemId: 'dirty_water', amount: 1 }
+    ],
+    outputs: [{ itemId: 'tanned_leather', amount: 5 }]
+  },
+  {
+    id: 'recipe_gelatin_capsule_pack_t2',
+    name: 'Пакетик желатиновых капсул x20 (T2)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.15,
+    inputs: [
+      { itemId: 'animal_bones', amount: 5 }
+    ],
+    outputs: [{ itemId: 'gelatin_capsule_pack', amount: 20 }]
+  },
+  {
+    id: 'recipe_sewing_kit_t2',
+    name: 'Швейный набор x10 (T2)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.15,
+    inputs: [
+      { itemId: 'scrap_metal', amount: 5 },
+      { itemId: 'plastic', amount: 7 }
+    ],
+    outputs: [{ itemId: 'sewing_kit', amount: 10 }]
+  },
+  {
+    id: 'recipe_tattoo_machine_wire_belt_t2',
+    name: 'Ремень провода тату-машинки x1 (T2)',
+    workstationId: 'sewing_bench',
+    category: 'Кожа',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 0.15,
+    inputs: [
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'rubber', amount: 5 }
+    ],
+    outputs: [{ itemId: 'tattoo_machine_wire_belt', amount: 1 }]
+  },
+
+  // ==========================================
+  // === ХИМИЧЕСКИЙ СТОЛ: Медицина
+  // ==========================================
+
+  // --- ТИР 1 МЕДИЦИНА ---
+  {
+    id: 'recipe_clean_bandage_t1',
+    name: 'Чистый бинт x4 (T1)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1.5,
+    inputs: [
+      { itemId: 'cloth', amount: 10 },
+      { itemId: 'med_reagents', amount: 3 }
+    ],
+    outputs: [{ itemId: 'clean_bandage', amount: 4 }]
+  },
+  {
+    id: 'recipe_chlorine_t1',
+    name: 'Хлорин x5 (T1)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'reagent_jars', amount: 5 },
+      { itemId: 'salt', amount: 2 },
+      { itemId: 'dirty_water', amount: 1 }
+    ],
+    outputs: [{ itemId: 'chlorine', amount: 5 }]
+  },
+  {
+    id: 'recipe_empty_blood_bag_t1',
+    name: 'Пустой пакет крови x10 (T1)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'plastic', amount: 5 }
+    ],
+    outputs: [{ itemId: 'empty_blood_bag', amount: 10 }]
+  },
+  {
+    id: 'recipe_med_splint_t1',
+    name: 'Медицинская шина x1 (T1)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 2,
+    inputs: [
+      { itemId: 'dirty_bandage', amount: 3 },
+      { itemId: 'wood', amount: 6 }
+    ],
+    outputs: [{ itemId: 'med_splint', amount: 1 }]
+  },
+  {
+    id: 'recipe_sal_ammoniac_t1',
+    name: 'Нашатырный спирт x1 (T1)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'empty_bottle', amount: 1 },
+      { itemId: 'glycerin', amount: 2 },
+      { itemId: 'saltpeter', amount: 2 },
+      { itemId: 'clean_water', amount: 1 }
+    ],
+    outputs: [{ itemId: 'sal_ammoniac', amount: 1 }]
+  },
+  {
+    id: 'recipe_ibuprofen_t1',
+    name: 'Ибупрофен x1 (T1)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'silicate_vessels', amount: 2 },
+      { itemId: 'med_reagents', amount: 4 },
+      { itemId: 'gelatin_capsule_pack', amount: 4 }
+    ],
+    outputs: [{ itemId: 'ibuprofen', amount: 1 }]
+  },
+
+  // --- ТИР 2 МЕДИЦИНА ---
+  {
+    id: 'recipe_first_aid_kit_t2',
+    name: 'Набор первой помощи x1 (T2)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 3,
+    inputs: [
+      { itemId: 'clean_bandage', amount: 1 },
+      { itemId: 'med_reagents', amount: 10 },
+      { itemId: 'rubber', amount: 1 },
+      { itemId: 'sewing_kit', amount: 10 },
+      { itemId: 'field_surgical_kit', amount: 2 }
+    ],
+    outputs: [{ itemId: 'first_aid_kit', amount: 1 }]
+  },
+  {
+    id: 'recipe_clean_bandage_t2',
+    name: 'Чистый бинт x4 (T2)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'cloth', amount: 5 },
+      { itemId: 'med_reagents', amount: 2 }
+    ],
+    outputs: [{ itemId: 'clean_bandage', amount: 4 }]
+  },
+  {
+    id: 'recipe_med_bandage_t2',
+    name: 'Медицинский бинт x1 (T2)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'clean_bandage', amount: 1 },
+      { itemId: 'med_reagents', amount: 2 }
+    ],
+    outputs: [{ itemId: 'med_bandage', amount: 1 }]
+  },
+  {
+    id: 'recipe_chlorine_t2',
+    name: 'Хлорин x10 (T2)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'med_reagents', amount: 5 },
+      { itemId: 'dirty_water', amount: 1 }
+    ],
+    outputs: [{ itemId: 'chlorine', amount: 10 }]
+  },
+  {
+    id: 'recipe_med_splint_t2',
+    name: 'Медицинская шина x1 (T2)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 2,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 2 },
+      { itemId: 'wood', amount: 3 }
+    ],
+    outputs: [{ itemId: 'med_splint', amount: 1 }]
+  },
+  {
+    id: 'recipe_sal_ammoniac_t2',
+    name: 'Нашатырный спирт x1 (T2)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 2,
+    inputs: [
+      { itemId: 'empty_bottle', amount: 1 },
+      { itemId: 'med_reagents', amount: 3 },
+      { itemId: 'clean_water', amount: 1 }
+    ],
+    outputs: [{ itemId: 'sal_ammoniac', amount: 1 }]
+  },
+  {
+    id: 'recipe_ibuprofen_t2',
+    name: 'Ибупрофен x1 (T2)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'silicate_vessels', amount: 1 },
+      { itemId: 'med_reagents', amount: 2 },
+      { itemId: 'gelatin_capsule_pack', amount: 4 }
+    ],
+    outputs: [{ itemId: 'ibuprofen', amount: 1 }]
+  },
+  {
+    id: 'recipe_vicodin_t2',
+    name: 'Викодин x1 (T2)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 2,
+    inputs: [
+      { itemId: 'silicate_vessels', amount: 1 },
+      { itemId: 'med_reagents', amount: 3 },
+      { itemId: 'gelatin_capsule_pack', amount: 4 }
+    ],
+    outputs: [{ itemId: 'vicodin', amount: 1 }]
+  },
+
+  // --- ТИР 3 МЕДИЦИНА ---
+  {
+    id: 'recipe_medical_kit_t3',
+    name: 'Медицинская аптечка x1 (T3)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 3,
+    craftTimeSec: 20,
+    durabilityCost: 5,
+    inputs: [
+      { itemId: 'med_bandage', amount: 2 },
+      { itemId: 'med_reagents', amount: 15 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'sewing_kit', amount: 10 },
+      { itemId: 'field_surgical_kit', amount: 3 }
+    ],
+    outputs: [{ itemId: 'medical_kit', amount: 1 }]
+  },
+  {
+    id: 'recipe_hemostatic_bandage_t3',
+    name: 'Бинт с гемостатическим порошком x1 (T3)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 3,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'med_bandage', amount: 1 },
+      { itemId: 'chem_stabilizer', amount: 1 },
+      { itemId: 'med_reagents', amount: 5 }
+    ],
+    outputs: [{ itemId: 'hemostatic_bandage', amount: 1 }]
+  },
+  {
+    id: 'recipe_scalpel_t3',
+    name: 'Скальпель x1 (T3)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 3,
+    craftTimeSec: 15,
+    durabilityCost: 5,
+    inputs: [
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'precision_parts', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scalpel', amount: 1 }]
+  },
+  {
+    id: 'recipe_iv_drip_t3',
+    name: 'Капельница x1 (T3)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 3,
+    craftTimeSec: 15,
+    durabilityCost: 5,
+    inputs: [
+      { itemId: 'duct_tape', amount: 1 },
+      { itemId: 'med_reagents', amount: 15 },
+      { itemId: 'plastic', amount: 2 },
+      { itemId: 'sewing_kit', amount: 1 }
+    ],
+    outputs: [{ itemId: 'iv_drip', amount: 1 }]
+  },
+  {
+    id: 'recipe_nurofen_d_t3',
+    name: 'Нейрофен-Д x1 (T3)',
+    workstationId: 'chem_bench',
+    category: 'Медицина',
+    tier: 3,
+    craftTimeSec: 10,
+    durabilityCost: 3,
+    inputs: [
+      { itemId: 'silicate_vessels', amount: 1 },
+      { itemId: 'med_reagents', amount: 4 },
+      { itemId: 'gelatin_capsule_pack', amount: 1 }
+    ],
+    outputs: [{ itemId: 'nurofen_d', amount: 1 }]
+  },
+
   // ==========================================
   // === ХИМИЧЕСКИЙ СТОЛ: Полимеры
   // ==========================================
