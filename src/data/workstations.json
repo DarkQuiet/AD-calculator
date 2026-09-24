@@ -1,0 +1,67 @@
+{
+    "workstations": {
+        "weapons_bench": {
+            "id": "weapons_bench",
+            "name": "Оружейный стол",
+            "max_durability": 1000,
+            "categories": [
+                "Оружейные обвесы",
+                "Оружие",
+                "Патроны"
+            ],
+            "tiers": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        "tech_bench": {
+            "id": "tech_bench",
+            "name": "Технический стол",
+            "max_durability": 1500,
+            "categories": [
+                "Электроника",
+                "Металлолом"
+            ],
+            "tiers": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        "chem_bench": {
+            "id": "chem_bench",
+            "name": "Химический стол",
+            "max_durability": 800,
+            "categories": [
+                "Медицина",
+                "Реагенты и Нефтехимия",
+                "Полимеры"
+            ],
+            "tiers": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        "sewing_bench": {
+            "id": "sewing_bench",
+            "name": "Швейный стол",
+            "max_durability": 1200,
+            "categories": [
+                "Рюкзаки",
+                "Кожа",
+                "Броня"
+            ],
+            "tiers": [
+                1,
+                2,
+                3,
+                4
+            ]
+        }
+    }
+}
