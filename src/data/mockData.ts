@@ -39,7 +39,7 @@ export const ITEMS: Record<string, Item> = {
   // === БАЗОВОЕ СЫРЬЁ И КОМПОНЕНТЫ ===
   silicate_vessels: { id: 'silicate_vessels', name: 'Силикатные сосуды', icon: 'FlaskConical', isBase: false },
   oil_raw: { id: 'oil_raw', name: 'Нефть', icon: 'Droplet', isBase: true },
-  sodium_phosphate: { id: 'sodium_phosphate', name: 'Фосфонат натрия', icon: 'Sparkles', isBase: false},
+  sodium_phosphate: { id: 'sodium_phosphate', name: 'Фосфонат натрия', icon: 'Sparkles', isBase: false },
   ferrocene: { id: 'ferrocene', name: 'Ферроцен', icon: 'Box', isBase: false },
   chem_concentrate_jar: { id: 'chem_concentrate_jar', name: 'Баночка с хим. концентратом', icon: 'FlaskConical', isBase: true },
   oil_bottle: { id: 'oil_bottle', name: 'Бутылка с нефтью', icon: 'Droplet', isBase: true },
@@ -48,6 +48,9 @@ export const ITEMS: Record<string, Item> = {
   scrap_metal: { id: 'scrap_metal', name: 'Металлолом', icon: 'Box', isBase: true },
   gunpowder: { id: 'gunpowder', name: 'Порох', icon: 'Flame', isBase: false },
   carbon_steel: { id: 'carbon_steel', name: 'Углеродная сталь', icon: 'Box', isBase: true },
+  stainless_steel: { id: 'stainless_steel', name: 'Нержавеющая сталь', icon: 'Box', isBase: true },
+  alloy_steel: { id: 'alloy_steel', name: 'Легированная сталь', icon: 'Box', isBase: true },
+  circuit_board: { id: 'circuit_board', name: 'Электронная схема', icon: 'Cpu', isBase: true },
 
   // --- Базовые компоненты для Реагентов, Полимеров и Медицины ---
   hand_sanitizer: { id: 'hand_sanitizer', name: 'Санитайзер для рук', icon: 'FlaskConical', isBase: true },
@@ -57,7 +60,7 @@ export const ITEMS: Record<string, Item> = {
   clean_water: { id: 'clean_water', name: 'Чистая вода', icon: 'Droplet', isBase: true },
   chalk: { id: 'chalk', name: 'Мел', icon: 'Box', isBase: true },
   dirty_cloth: { id: 'dirty_cloth', name: 'Грязная ткань', icon: 'Layers', isBase: true },
-  clean_cloth: { id: 'clean_cloth', name: 'Чистая ткань', icon: 'Layers', isBase: true },
+  clean_cloth: { id: 'clean_cloth', name: 'Чистая ткань', icon: 'Layers', isBase: false },
   dirty_bandage: { id: 'dirty_bandage', name: 'Грязный бинт', icon: 'Layers', isBase: true },
   salt: { id: 'salt', name: 'Соль', icon: 'Sparkles', isBase: true },
   wood: { id: 'wood', name: 'Дерево', icon: 'Box', isBase: true },
@@ -95,7 +98,6 @@ export const ITEMS: Record<string, Item> = {
   saltpeter: { id: 'saltpeter', name: 'Селитра', icon: 'Sparkles', isBase: false },
   acetone: { id: 'acetone', name: 'Ацетон', icon: 'FlaskConical', isBase: false },
   calcium_carbonate: { id: 'calcium_carbonate', name: 'Карбонат кальция', icon: 'Sparkles', isBase: false },
-  cloth: { id: 'cloth', name: 'Ткань', icon: 'Layers', isBase: false },
   durable_cloth: { id: 'durable_cloth', name: 'Прочная ткань', icon: 'Layers', isBase: false },
   chlorine: { id: 'chlorine', name: 'Хлорин', icon: 'FlaskConical', isBase: false },
 
@@ -110,6 +112,14 @@ export const ITEMS: Record<string, Item> = {
   cleaned_hide: { id: 'cleaned_hide', name: 'Очищенная шкура', icon: 'Layers', isBase: false },
   tanned_leather: { id: 'tanned_leather', name: 'Дубленая кожа', icon: 'Layers', isBase: false },
   tattoo_machine_wire_belt: { id: 'tattoo_machine_wire_belt', name: 'Ремень провода тату-машинки', icon: 'Box', isBase: false },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Броня) ===
+  plate_class_1a: { id: 'plate_class_1a', name: 'Пластина класса 1А', icon: 'Shield', isBase: false },
+  body_armor: { id: 'body_armor', name: 'Бронежилет', icon: 'Shield', isBase: false },
+  chest_rig: { id: 'chest_rig', name: 'Разгрузка', icon: 'Shield', isBase: false },
+  radio_body_armor: { id: 'radio_body_armor', name: 'Бронежилет с рацией', icon: 'Shield', isBase: false },
+  plate_class_2a: { id: 'plate_class_2a', name: 'Плита класса 2А', icon: 'Shield', isBase: false },
+  plate_class_3: { id: 'plate_class_3', name: 'Плита класса 3', icon: 'Shield', isBase: false },
 
   // === КРАФТОВЫЕ ПРЕДМЕТЫ (Медицина) ===
   clean_bandage: { id: 'clean_bandage', name: 'Чистый бинт', icon: 'Layers', isBase: false },
@@ -143,6 +153,138 @@ export const ITEMS: Record<string, Item> = {
 };
 
 export const RECIPES: Recipe[] = [
+  // ==========================================
+  // === ШВЕЙНЫЙ СТОЛ: Броня
+  // ==========================================
+
+  // --- ТИР 1 БРОНЯ ---
+  {
+    id: 'recipe_plate_class_1a_t1',
+    name: 'Пластина класса 1А x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Броня',
+    tier: 1,
+    craftTimeSec: 15,
+    durabilityCost: 2,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 5 },
+      { itemId: 'rubber', amount: 10 },
+      { itemId: 'sewing_kit', amount: 5 },
+      { itemId: 'carbon_steel', amount: 3 }
+    ],
+    outputs: [{ itemId: 'plate_class_1a', amount: 1 }]
+  },
+  {
+    id: 'recipe_body_armor_t1',
+    name: 'Бронежилет x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Броня',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 25,
+    inputs: [
+      { itemId: 'durable_cloth', amount: 6 },
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'sewing_kit', amount: 2 },
+      { itemId: 'stainless_steel', amount: 3 }
+    ],
+    outputs: [{ itemId: 'body_armor', amount: 1 }]
+  },
+  {
+    id: 'recipe_chest_rig_t1',
+    name: 'Разгрузка x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Броня',
+    tier: 1,
+    craftTimeSec: 25,
+    durabilityCost: 25,
+    inputs: [
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'sewing_kit', amount: 2 }
+    ],
+    outputs: [{ itemId: 'chest_rig', amount: 1 }]
+  },
+  {
+    id: 'recipe_radio_body_armor_t1',
+    name: 'Бронежилет с рацией x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Броня',
+    tier: 1,
+    craftTimeSec: 35,
+    durabilityCost: 25,
+    inputs: [
+      { itemId: 'circuit_board', amount: 1 },
+      { itemId: 'durable_cloth', amount: 6 },
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'plastic', amount: 1 },
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'rubber', amount: 5 }
+    ],
+    outputs: [{ itemId: 'radio_body_armor', amount: 1 }]
+  },
+
+  // --- ТИР 2 БРОНЯ ---
+  {
+    id: 'recipe_plate_class_1a_t2',
+    name: 'Плита класса 1А x1 (T2)',
+    workstationId: 'sewing_bench',
+    category: 'Броня',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 3 },
+      { itemId: 'rubber', amount: 3 },
+      { itemId: 'sewing_kit', amount: 3 },
+      { itemId: 'carbon_steel', amount: 1 }
+    ],
+    outputs: [{ itemId: 'plate_class_1a', amount: 1 }]
+  },
+
+  // --- ТИР 3 БРОНЯ ---
+  {
+    id: 'recipe_plate_class_2a_t3',
+    name: 'Плита класса 2А x1 (T3)',
+    workstationId: 'sewing_bench',
+    category: 'Броня',
+    tier: 3,
+    craftTimeSec: 20,
+    durabilityCost: 2,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 5 },
+      { itemId: 'tanned_leather', amount: 1 },
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'rubber', amount: 10 },
+      { itemId: 'sewing_kit', amount: 1 },
+      { itemId: 'carbon_steel', amount: 2 }
+    ],
+    outputs: [{ itemId: 'plate_class_2a', amount: 1 }]
+  },
+
+  // --- ТИР 4 БРОНЯ ---
+  {
+    id: 'recipe_plate_class_3_t4',
+    name: 'Плита класса 3 x1 (T4)',
+    workstationId: 'sewing_bench',
+    category: 'Броня',
+    tier: 4,
+    craftTimeSec: 25,
+    durabilityCost: 4,
+    inputs: [
+      { itemId: 'durable_cloth', amount: 4 },
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'sewing_kit', amount: 2 },
+      { itemId: 'alloy_steel', amount: 1 }
+    ],
+    outputs: [{ itemId: 'plate_class_3', amount: 1 }]
+  },
+
   // ==========================================
   // === ШВЕЙНЫЙ СТОЛ: Кожа
   // ==========================================
@@ -294,7 +436,7 @@ export const RECIPES: Recipe[] = [
     craftTimeSec: 10,
     durabilityCost: 1.5,
     inputs: [
-      { itemId: 'cloth', amount: 10 },
+      { itemId: 'clean_cloth', amount: 10 },
       { itemId: 'med_reagents', amount: 3 }
     ],
     outputs: [{ itemId: 'clean_bandage', amount: 4 }]
@@ -400,7 +542,7 @@ export const RECIPES: Recipe[] = [
     craftTimeSec: 10,
     durabilityCost: 1,
     inputs: [
-      { itemId: 'cloth', amount: 5 },
+      { itemId: 'clean_cloth', amount: 5 },
       { itemId: 'med_reagents', amount: 2 }
     ],
     outputs: [{ itemId: 'clean_bandage', amount: 4 }]
@@ -1330,10 +1472,10 @@ export const RECIPES: Recipe[] = [
     outputs: [{ itemId: 'ferrocene', amount: 15 }]
   },
 
-  // --- ТКАНЬ ---
+  // --- ЧИСТАЯ ТКАНЬ ---
   {
-    id: 'recipe_cloth_t1',
-    name: 'Ткань x15 (T1)',
+    id: 'recipe_clean_cloth_t1',
+    name: 'Чистая ткань x15 (T1)',
     workstationId: 'chem_bench',
     category: 'Реагенты и Нефтехимия',
     tier: 1,
@@ -1344,11 +1486,11 @@ export const RECIPES: Recipe[] = [
       { itemId: 'dirty_cloth', amount: 15 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'cloth', amount: 15 }]
+    outputs: [{ itemId: 'clean_cloth', amount: 15 }]
   },
   {
-    id: 'recipe_cloth_t2',
-    name: 'Ткань x20 (T2)',
+    id: 'recipe_clean_cloth_t2',
+    name: 'Чистая ткань x20 (T2)',
     workstationId: 'chem_bench',
     category: 'Реагенты и Нефтехимия',
     tier: 2,
@@ -1359,7 +1501,7 @@ export const RECIPES: Recipe[] = [
       { itemId: 'dirty_cloth', amount: 10 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'cloth', amount: 20 }]
+    outputs: [{ itemId: 'clean_cloth', amount: 20 }]
   },
 
   // --- ПРОЧНАЯ ТКАНЬ ---
