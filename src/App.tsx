@@ -255,9 +255,9 @@ export function App() {
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-wider uppercase text-zinc-100 font-mono">
-              Производство компонентов
+              AD | Calculator
             </h1>
-            <p className="text-xs text-zinc-500">Система расчёта крафта, навыков профессий и износа верстаков</p>
+            <p className="text-xs text-zinc-500"></p>
           </div>
         </div>
 
@@ -278,11 +278,10 @@ export function App() {
           <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-wider font-mono">
             <button
               onClick={() => setActiveTopTab('professions')}
-              className={`flex items-center gap-2 px-3 py-1.5 border transition ${
-                activeTopTab === 'professions'
+              className={`flex items-center gap-2 px-3 py-1.5 border transition ${activeTopTab === 'professions'
                   ? 'bg-orange-600 border-orange-500 text-black font-bold'
                   : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
-              }`}
+                }`}
             >
               <Award className="w-4 h-4" />
               <span>Профессии персонажа (6)</span>
@@ -290,11 +289,10 @@ export function App() {
 
             <button
               onClick={() => setActiveTopTab('bench')}
-              className={`flex items-center gap-2 px-3 py-1.5 border transition ${
-                activeTopTab === 'bench'
+              className={`flex items-center gap-2 px-3 py-1.5 border transition ${activeTopTab === 'bench'
                   ? 'bg-orange-600 border-orange-500 text-black font-bold'
                   : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
-              }`}
+                }`}
             >
               <Sliders className="w-4 h-4" />
               <span>Параметры и тиры верстаков</span>
@@ -339,11 +337,10 @@ export function App() {
                                 <button
                                   key={lvl}
                                   onClick={() => setSkillLevel(s.id, lvl)}
-                                  className={`py-0.5 text-[9px] font-mono transition uppercase ${
-                                    currentLvl === lvl
+                                  className={`py-0.5 text-[9px] font-mono transition uppercase ${currentLvl === lvl
                                       ? 'bg-orange-600 text-black font-bold'
                                       : 'bg-zinc-900 text-zinc-500 hover:bg-zinc-800 border border-zinc-800/60'
-                                  }`}
+                                    }`}
                                 >
                                   {toRoman(lvl)}
                                 </button>
@@ -636,11 +633,10 @@ export function App() {
                     return (
                       <div
                         key={prof.id}
-                        className={`p-2.5 border font-mono flex flex-col justify-between transition ${
-                          xp > 0
+                        className={`p-2.5 border font-mono flex flex-col justify-between transition ${xp > 0
                             ? 'bg-emerald-950/30 border-emerald-600/50 text-emerald-300'
                             : 'bg-[#0a0b0d] border-zinc-800/80 text-zinc-500'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center gap-1.5 mb-1">
                           {getProfessionIcon(prof.id)}
@@ -720,9 +716,9 @@ export function App() {
                   Дерево крафта компонентов
                 </h3>
                 <div className="p-2 bg-[#0a0b0d] border border-zinc-800/80 rounded-xs">
-                  <TreeNodeView 
-                    node={calculation.tree} 
-                    isRoot={true} 
+                  <TreeNodeView
+                    node={calculation.tree}
+                    isRoot={true}
                     onComponentTierChange={handleComponentTierChange}
                   />
                 </div>

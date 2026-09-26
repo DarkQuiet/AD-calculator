@@ -1,10 +1,10 @@
 import type { Item } from '../types/crafting';
 
-export const baseItems: Record<string, Item> = {
+export const ITEMS: Record<string, Item> = {
   // === БАЗОВОЕ СЫРЬЁ И КОМПОНЕНТЫ ===
   silicate_vessels: { id: 'silicate_vessels', name: 'Силикатные сосуды', icon: 'FlaskConical', isBase: false },
   oil_raw: { id: 'oil_raw', name: 'Нефть', icon: 'Droplet', isBase: true },
-  sodium_phosphate: { id: 'sodium_phosphate', name: 'Фосфонат натрия', icon: 'Sparkles', isBase: false },
+  sodium_phosphate: { id: 'sodium_phosphate', name: 'Фоссонати натрия', icon: 'Sparkles', isBase: false },
   ferrocene: { id: 'ferrocene', name: 'Ферроцен', icon: 'Box', isBase: false },
   chem_concentrate_jar: { id: 'chem_concentrate_jar', name: 'Баночка с хим. концентратом', icon: 'FlaskConical', isBase: true },
   oil_bottle: { id: 'oil_bottle', name: 'Бутылка с нефтью', icon: 'Droplet', isBase: true },
@@ -45,4 +45,76 @@ export const baseItems: Record<string, Item> = {
   // --- Базовые компоненты для Кожи ---
   raw_hide: { id: 'raw_hide', name: 'Сырая шкура', icon: 'Layers', isBase: true },
   animal_bones: { id: 'animal_bones', name: 'Кости животного', icon: 'Box', isBase: true },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Нефтехимия и Реагенты) ===
+  tech_oil: { id: 'tech_oil', name: 'Техническое масло', icon: 'Droplet', isBase: false },
+  gun_synth_oil: { id: 'gun_synth_oil', name: 'Оружейное синтетическое масло', icon: 'Droplet', isBase: false },
+  nylon: { id: 'nylon', name: 'Нейлон', icon: 'Layers', isBase: false },
+  rubber: { id: 'rubber', name: 'Резина', icon: 'Square', isBase: false },
+  gasoline_canister: { id: 'gasoline_canister', name: 'Канистра бензина', icon: 'Flame', isBase: false },
+  gas_cutter_canister: { id: 'gas_cutter_canister', name: 'Канистра для бензореза', icon: 'Flame', isBase: false },
+  phenol: { id: 'phenol', name: 'Фенол', icon: 'FlaskConical', isBase: false },
+  glycerin: { id: 'glycerin', name: 'Глицерин', icon: 'FlaskConical', isBase: false },
+  edta: { id: 'edta', name: 'ЭДТА', icon: 'FlaskConical', isBase: false },
+  med_reagents: { id: 'med_reagents', name: 'Медицинские реагенты', icon: 'FlaskConical', isBase: false },
+  ethanol: { id: 'ethanol', name: 'Этанол', icon: 'FlaskConical', isBase: false },
+  tannin: { id: 'tannin', name: 'Танин', icon: 'FlaskConical', isBase: false },
+  sulfur: { id: 'sulfur', name: 'Сера', icon: 'Sparkles', isBase: false },
+  saltpeter: { id: 'saltpeter', name: 'Селитра', icon: 'Sparkles', isBase: false },
+  acetone: { id: 'acetone', name: 'Ацетон', icon: 'FlaskConical', isBase: false },
+  calcium_carbonate: { id: 'calcium_carbonate', name: 'Карбонат кальция', icon: 'Sparkles', isBase: false },
+  durable_cloth: { id: 'durable_cloth', name: 'Прочная ткань', icon: 'Layers', isBase: false },
+  chlorine: { id: 'chlorine', name: 'Хлорин', icon: 'FlaskConical', isBase: false },
+  rocket_flare: { id: 'rocket_flare', name: 'Ракетница', icon: 'FlaskConical', isBase: false },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Полимеры) ===
+  plastic: { id: 'plastic', name: 'Пластик', icon: 'Square', isBase: false },
+  plastic_bottle: { id: 'plastic_bottle', name: 'Пластиковая бутылка', icon: 'Droplet', isBase: false },
+  mpd: { id: 'mpd', name: 'МПД', icon: 'FlaskConical', isBase: false },
+  mini_poly_containers: { id: 'mini_poly_containers', name: 'Миниатюрные полимерные контейнеры', icon: 'Box', isBase: false },
+  polycarbonate: { id: 'polycarbonate', name: 'Поликарбонат', icon: 'Layers', isBase: false },
+  carbon_fiber: { id: 'carbon_fiber', name: 'Углепластик', icon: 'Layers', isBase: false },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Кожа) ===
+  cleaned_hide: { id: 'cleaned_hide', name: 'Очищенная шкура', icon: 'Layers', isBase: false },
+  tanned_leather: { id: 'tanned_leather', name: 'Дубленая кожа', icon: 'Layers', isBase: false },
+  tattoo_machine_wire_belt: { id: 'tattoo_machine_wire_belt', name: 'Ремень провода тату-машинки', icon: 'Box', isBase: false },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Броня) ===
+  plate_class_1a: { id: 'plate_class_1a', name: 'Пластина класса 1А', icon: 'Shield', isBase: false },
+  body_armor: { id: 'body_armor', name: 'Бронежилет', icon: 'Shield', isBase: false },
+  chest_rig: { id: 'chest_rig', name: 'Разгрузка', icon: 'Shield', isBase: false },
+  radio_body_armor: { id: 'radio_body_armor', name: 'Бронежилет с рацией', icon: 'Shield', isBase: false },
+  plate_class_2a: { id: 'plate_class_2a', name: 'Плита класса 2А', icon: 'Shield', isBase: false },
+  plate_class_3: { id: 'plate_class_3', name: 'Плита класса 3', icon: 'Shield', isBase: false },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Медицина) ===
+  clean_bandage: { id: 'clean_bandage', name: 'Чистый бинт', icon: 'Layers', isBase: false },
+  med_bandage: { id: 'med_bandage', name: 'Медицинский бинт', icon: 'Layers', isBase: false },
+  hemostatic_bandage: { id: 'hemostatic_bandage', name: 'Бинт с гемостатическим порошком', icon: 'Layers', isBase: false },
+  empty_blood_bag: { id: 'empty_blood_bag', name: 'Пустой пакет крови', icon: 'Box', isBase: false },
+  med_splint: { id: 'med_splint', name: 'Медицинская шина', icon: 'Box', isBase: false },
+  sal_ammoniac: { id: 'sal_ammoniac', name: 'Нашатырный спирт', icon: 'FlaskConical', isBase: false },
+  ibuprofen: { id: 'ibuprofen', name: 'Ибупрофен', icon: 'FlaskConical', isBase: false },
+  vicodin: { id: 'vicodin', name: 'Викодин', icon: 'FlaskConical', isBase: false },
+  nurofen_d: { id: 'nurofen_d', name: 'Нейрофен-Д', icon: 'FlaskConical', isBase: false },
+  first_aid_kit: { id: 'first_aid_kit', name: 'Набор первой помощи', icon: 'Box', isBase: false },
+  medical_kit: { id: 'medical_kit', name: 'Медицинская аптечка', icon: 'Box', isBase: false },
+  scalpel: { id: 'scalpel', name: 'Скальпель', icon: 'Scissors', isBase: false },
+  iv_drip: { id: 'iv_drip', name: 'Капельница', icon: 'Box', isBase: false },
+
+  // === КРАФТОВЫЕ ПРЕДМЕТЫ (Патроны и Гильзы) ===
+  cartridge_cases: { id: 'cartridge_cases', name: 'Гильзы', icon: 'Box', isBase: false },
+  ammo_12_gauge: { id: 'ammo_12_gauge', name: 'Картечь 12 калибр', icon: 'Crosshair', isBase: false },
+  ammo_12_gauge_express: { id: 'ammo_12_gauge_express', name: 'Картечь 12 калибр EXPRESS', icon: 'Crosshair', isBase: false },
+  ammo_22_lr: { id: 'ammo_22_lr', name: 'Патроны .22 LR', icon: 'Crosshair', isBase: false },
+  ammo_44_40_win: { id: 'ammo_44_40_win', name: 'Патроны .44-40 Winchester', icon: 'Crosshair', isBase: false },
+  ammo_45_acp: { id: 'ammo_45_acp', name: 'Патроны .45 ACP', icon: 'Crosshair', isBase: false },
+  ammo_50_ae: { id: 'ammo_50_ae', name: 'Патроны .50 ACTION EXPRESS', icon: 'Crosshair', isBase: false },
+  ammo_545x39: { id: 'ammo_545x39', name: 'Патроны 5.45x39 ММ', icon: 'Crosshair', isBase: false },
+  ammo_556x45: { id: 'ammo_556x45', name: 'Патроны 5.56x45 ММ', icon: 'Crosshair', isBase: false },
+  ammo_57x28: { id: 'ammo_57x28', name: 'Патроны 5.7x28 ММ', icon: 'Crosshair', isBase: false },
+  ammo_9x19: { id: 'ammo_9x19', name: 'Патроны 9x19 ММ', icon: 'Crosshair', isBase: false },
+  ammo_762x51: { id: 'ammo_762x51', name: 'Патроны 7,62x51 ММ', icon: 'Crosshair', isBase: false },
+  ammo_9x39: { id: 'ammo_9x39', name: 'Патроны 9x39 ММ', icon: 'Crosshair', isBase: false }
 };
