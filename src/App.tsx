@@ -224,7 +224,6 @@ export function App() {
       case 'gunsmith': return <Crosshair className="w-4 h-4 text-red-400" />;
       case 'armorer': return <ShieldAlert className="w-4 h-4 text-amber-400" />;
       case 'metallurgist': return <Anvil className="w-4 h-4 text-orange-400" />;
-      case 'tailor': return <Scissors className="w-4 h-4 text-pink-400" />;
     }
   };
 
@@ -286,7 +285,7 @@ export function App() {
               }`}
             >
               <Award className="w-4 h-4" />
-              <span>Профессии персонажа (7)</span>
+              <span>Профессии персонажа (6)</span>
             </button>
 
             <button
@@ -305,7 +304,7 @@ export function App() {
 
         {/* ВКЛАДКА: ПРОФЕССИИ И НАВЫКИ */}
         {activeTopTab === 'professions' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {PROFESSIONS.map(prof => {
               return (
                 <div key={prof.id} className="p-3 bg-[#0a0b0d] border border-zinc-800/90 rounded space-y-2.5">
@@ -631,7 +630,7 @@ export function App() {
                   <Award className="w-4 h-4 text-emerald-400" />
                   Получаемый опыт по профессиям
                 </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2">
                   {PROFESSIONS.map(prof => {
                     const xp = calculation.expByProfession[prof.id] || 0;
                     return (

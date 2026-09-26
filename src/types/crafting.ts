@@ -8,7 +8,6 @@ export type SewingCategory = 'Рюкзаки' | 'Кожа' | 'Броня';
 export type CraftCategory = WeaponCategory | TechCategory | ChemCategory | SewingCategory;
 export type CraftTier = 1 | 2 | 3 | 4;
 
-// Прокачка уровней теперь привязана прямо к названиям категорий!
 export type UserCategoryTiers = Record<CraftCategory, CraftTier>;
 
 export type ProfessionId =
@@ -17,8 +16,7 @@ export type ProfessionId =
   | 'chemist'
   | 'gunsmith'
   | 'armorer'
-  | 'metallurgist'
-  | 'tailor';
+  | 'metallurgist';
 
 export interface ProfessionSkill {
   id: string;
@@ -92,7 +90,7 @@ export interface TreeNode {
         item: Item;
         amount: number;
         subNode?: TreeNode;
-        availableTiers?: CraftTier[]; // Доступные тиры для крафта этого компонента
+        availableTiers?: CraftTier[];
     }>;
 }
 
@@ -106,10 +104,8 @@ export interface CalculationResult {
     expByProfession: Record<ProfessionId, number>;
 }
 
-// Уровни прокачки прочности верстака
 export const DURABILITY_LEVELS = [100, 150, 200, 250] as const;
 export type DurabilityLevel = (typeof DURABILITY_LEVELS)[number];
 
-// Базовые константы для ремонта: 20 хеликсов восстанавливают 50% от выбранной максимальной прочности
 export const HELIX_PER_REPAIR_STEP = 20;
-export const REPAIR_PERCENT_STEP = 0.5; // 50%
+export const REPAIR_PERCENT_STEP = 0.5;

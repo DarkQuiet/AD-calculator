@@ -60,13 +60,6 @@ export const PROFESSIONS: Profession[] = [
     icon: 'Anvil',
     description: 'Выплавка металлов и сплавов.',
     skills: []
-  },
-  {
-    id: 'tailor',
-    name: 'Портной',
-    icon: 'Scissors',
-    description: 'Пошив элементов экипировки, рюкзаков и разгрузок.',
-    skills: []
   }
 ];
 
@@ -109,7 +102,7 @@ export const ITEMS: Record<string, Item> = {
   // === БАЗОВОЕ СЫРЬЁ И КОМПОНЕНТЫ ===
   silicate_vessels: { id: 'silicate_vessels', name: 'Силикатные сосуды', icon: 'FlaskConical', isBase: false },
   oil_raw: { id: 'oil_raw', name: 'Нефть', icon: 'Droplet', isBase: true },
-  sodium_phosphate: { id: 'sodium_phosphate', name: 'Фосфонат натрия', icon: 'Sparkles', isBase: false },
+  sodium_phosphate: { id: 'sodium_phosphate', name: 'Фоссонати натрия', icon: 'Sparkles', isBase: false },
   ferrocene: { id: 'ferrocene', name: 'Ферроцен', icon: 'Box', isBase: false },
   chem_concentrate_jar: { id: 'chem_concentrate_jar', name: 'Баночка с хим. концентратом', icon: 'FlaskConical', isBase: true },
   oil_bottle: { id: 'oil_bottle', name: 'Бутылка с нефтью', icon: 'Droplet', isBase: true },

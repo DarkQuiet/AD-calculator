@@ -39,7 +39,6 @@ export class CraftingEngine {
       gunsmith: 0,
       armorer: 0,
       metallurgist: 0,
-      tailor: 0,
     };
 
     const buildTree = (recipe: Recipe, requiredAmount: number): TreeNode => {
@@ -55,7 +54,9 @@ export class CraftingEngine {
       // Учет получаемого опыта по профессии
       if (recipe.requiredSkill && recipe.expGiven) {
         const profId = recipe.requiredSkill.professionId;
-        expByProfession[profId] = (expByProfession[profId] || 0) + recipe.expGiven * craftsNeeded;
+        if (expByProfession[profId] !== undefined) {
+          expByProfession[profId] += recipe.expGiven * craftsNeeded;
+        }
       }
 
       const treeInputs = recipe.inputs.map(inp => {
@@ -80,14 +81,24 @@ export class CraftingEngine {
           });
 
           const candidates = unlockedRecipes.length > 0 ? unlockedRecipes : allItemRecipes;
+          candidates.sort((a, b) => a.tier - b.tier);
 
-          availableTiers = Array.from(new Set(candidates.map(r => r.tier))).sort((a, b) => a - b) as CraftTier[];
+          availableTiers = Array.from(new Set(candidates.map(r => r.tier))) as CraftTier[];
 
           if (candidates.length > 0) {
             const chosenTier = customComponentTiers[item.id] ??
               (userCategoryTiers[candidates[0].category] ?? 1);
 
-            const selectedRecipe = candidates.find(r => r.tier === chosenTier) || candidates[0];
+            let selectedRecipe = candidates.find(r => r.tier === chosenTier);
+            if (!selectedRecipe) {
+              const lowerOrEqual = candidates.filter(r => r.tier <= chosenTier);
+              if (lowerOrEqual.length > 0) {
+                selectedRecipe = lowerOrEqual[lowerOrEqual.length - 1];
+              } else {
+                selectedRecipe = candidates[candidates.length - 1];
+              }
+            }
+
             subNode = buildTree(selectedRecipe, totalInputAmount);
           }
         } else {
