@@ -24,6 +24,7 @@ export const TreeNodeView: React.FC<Props> = ({
         }));
     };
 
+    // Попытка извлечь выход с одного крафта из названия (например, "Патроны 5.56 x15" -> 15)
     const matchYield = node.recipeName.match(/x(\d+)/i);
     const baseYieldPerCraft = matchYield ? parseInt(matchYield[1], 10) : 1;
     const nodeCraftsCount = Math.ceil(node.craftedAmount / (baseYieldPerCraft || 1));
@@ -125,7 +126,7 @@ export const TreeNodeView: React.FC<Props> = ({
                                             x{input.amount} шт.
                                         </span>
 
-                                        {/* СЕЛЕКТОР ТИРА ДЛЯ КОМПОНЕНТА */}
+                                        {/* ВЫБОР ТИРА ДЛЯ КОМПОНЕНТА */}
                                         {isCraftable && input.availableTiers && input.availableTiers.length > 1 && (
                                             <div className="flex items-center gap-1 bg-zinc-950 p-0.5 border border-zinc-800 rounded-xs">
                                                 {input.availableTiers.map(t => {

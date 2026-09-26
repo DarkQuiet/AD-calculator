@@ -11,7 +11,7 @@ export class CraftingEngine {
 
   public calculate(
     targetRecipeId: string,
-    targetAmount: number,
+    targetAmount: number, // Желаемое КОНЕЧНОЕ количество предметов (например, 1000 шт)
     userCategoryTiers: UserCategoryTiers,
     customComponentTiers: Record<string, CraftTier> = {}
   ): CalculationResult | null {
@@ -24,6 +24,7 @@ export class CraftingEngine {
 
     const buildTree = (recipe: Recipe, requiredAmount: number): TreeNode => {
       const outputAmount = recipe.outputs[0]?.amount || 1;
+      // Находим, сколько раз нужно запустить крафт для получения requiredAmount
       const craftsNeeded = Math.ceil(requiredAmount / outputAmount);
 
       // Учет износа и времени
@@ -39,20 +40,17 @@ export class CraftingEngine {
         let availableTiers: CraftTier[] | undefined;
 
         if (!item.isBase) {
-          // Ищем все доступные рецепты для этого предмета
           const allItemRecipes = this.recipes.filter(r => r.outputs.some(o => o.itemId === item.id));
           availableTiers = Array.from(new Set(allItemRecipes.map(r => r.tier))).sort((a, b) => a - b) as CraftTier[];
 
           if (allItemRecipes.length > 0) {
-            // Приоритет выбора тира: customComponentTiers -> userCategoryTiers -> минимальный доступный
             const chosenTier = customComponentTiers[item.id] ?? 
-              Math.min(userCategoryTiers[allItemRecipes[0].category] ?? 1, Math.max(...availableTiers));
+              (userCategoryTiers[allItemRecipes[0].category] ?? 1);
 
             const selectedRecipe = allItemRecipes.find(r => r.tier === chosenTier) || allItemRecipes[0];
             subNode = buildTree(selectedRecipe, totalInputAmount);
           }
         } else {
-          // Базовый ресурс
           if (!baseResources[item.id]) {
             baseResources[item.id] = { item, amount: 0 };
           }
@@ -80,7 +78,8 @@ export class CraftingEngine {
       };
     };
 
-    const tree = buildTree(rootRecipe, targetAmount * (rootRecipe.outputs[0]?.amount || 1));
+    // Передаем ровно targetAmount (желаемое число штук)
+    const tree = buildTree(rootRecipe, targetAmount);
 
     return {
       targetRecipe: rootRecipe,
