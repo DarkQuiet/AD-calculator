@@ -45,9 +45,7 @@ export const PROFESSIONS: Profession[] = [
     name: 'Оружейник',
     icon: 'Crosshair',
     description: 'Создание огнестрельного оружия и обвесов.',
-    skills: [{ id: 'reagents_med', name: 'Реагенты: медицина', maxLevel: 3 },
-      
-    ]
+    skills: []
   },
   {
     id: 'armorer',
