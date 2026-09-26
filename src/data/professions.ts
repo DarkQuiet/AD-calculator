@@ -45,20 +45,45 @@ export const PROFESSIONS: Profession[] = [
     name: 'Оружейник',
     icon: 'Crosshair',
     description: 'Создание огнестрельного оружия и обвесов.',
-    skills: []
+    skills: [
+      { id: 'gun_fullsize', name: 'Полноразмерное оружие', maxLevel: 2 },
+      { id: 'gun_compact', name: 'Компактное оружие', maxLevel: 4 },
+      { id: 'gun_subcompact', name: 'Субкомпактное оружие', maxLevel: 4 },
+      { id: 'gun_small', name: 'Малогабаритное оружие', maxLevel: 1 },
+      { id: 'gun_manual_delta', name: 'Мануал Дельта', maxLevel: 3 },
+      { id: 'gun_manual_omega', name: 'Мануал Омега', maxLevel: 3 },
+      { id: 'gun_melee', name: 'Холодное оружие', maxLevel: 4 },
+      { id: 'gun_parts', name: 'Оружейные детали', maxLevel: 3 },
+      { id: 'gun_cleaning', name: 'Набор чистки', maxLevel: 3 },
+      { id: 'gun_tools', name: 'Инструменты', maxLevel: 2 },
+      { id: 'gun_ammo', name: 'Патроны', maxLevel: 3 },
+      { id: 'gun_upgrade', name: 'Улучшение оружия', maxLevel: 4 },
+      { id: 'gun_muzzle_brake', name: 'Модуль: Дульный тормоз', maxLevel: 1 },
+      { id: 'gun_suppressor', name: 'Модуль: Глушитель', maxLevel: 1 },
+      { id: 'gun_scope', name: 'Модуль: Прицел', maxLevel: 1 }
+    ]
   },
   {
     id: 'armorer',
     name: 'Бронник',
     icon: 'Shield',
     description: 'Изготовление бронежилетов и защитных пластин.',
-    skills: []
+    skills: [
+      { id: 'leather_processing', name: 'Обработка кожи', maxLevel: 2 },
+      { id: 'backpacks', name: 'Рюкзаки', maxLevel: 4 },
+      { id: 'armor_plates', name: 'Бронепластины', maxLevel: 3 },
+      { id: 'armor_vests', name: 'Создание бронежилетов', maxLevel: 1 },
+      { id: 'armor_reinforcement', name: 'Армирование бронежилетов', maxLevel: 3 }
+    ]
   },
   {
     id: 'metallurgist',
     name: 'Металлург',
     icon: 'Anvil',
     description: 'Выплавка металлов и сплавов.',
-    skills: []
+    skills: [
+      { id: 'steel_smelting', name: 'Плавка стали', maxLevel: 3 },
+      { id: 'scrap_recycling', name: 'Переработка лома', maxLevel: 3 }
+    ]
   }
 ];

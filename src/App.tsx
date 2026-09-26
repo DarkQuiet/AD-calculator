@@ -174,25 +174,22 @@ export function App() {
     });
   }, [selectedBench, selectedCategory, categoryTiers, userSkillLevels, selectedTierFilter, searchQuery]);
 
-  useEffect(() => {
-    if (filteredRecipes.length > 0) {
-      const isStillAvailable = filteredRecipes.some(r => r.id === selectedRecipeId);
-      if (!isStillAvailable) {
-        setSelectedRecipeId(filteredRecipes[0].id);
-      }
-    }
+  const activeRecipeId = useMemo(() => {
+    if (filteredRecipes.length === 0) return '';
+    const isStillAvailable = filteredRecipes.some(r => r.id === selectedRecipeId);
+    return isStillAvailable ? selectedRecipeId : filteredRecipes[0].id;
   }, [filteredRecipes, selectedRecipeId]);
 
   const calculation = useMemo(() => {
-    if (!selectedRecipeId) return null;
+    if (!activeRecipeId) return null;
     return engine.calculate(
-      selectedRecipeId,
+      activeRecipeId,
       Math.max(1, craftAmount),
       categoryTiers,
       userSkillLevels,
       customComponentTiers
     );
-  }, [selectedRecipeId, craftAmount, categoryTiers, userSkillLevels, customComponentTiers]);
+  }, [activeRecipeId, craftAmount, categoryTiers, userSkillLevels, customComponentTiers]);
 
   const totalHelixCost = useMemo(() => {
     if (!calculation) return 0;
@@ -514,7 +511,7 @@ export function App() {
               <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Категория</label>
               <select
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value as any)}
+                onChange={(e) => setSelectedCategory(e.target.value as CraftCategory | 'all')}
                 className="w-full bg-[#0a0b0d] border border-zinc-800 rounded-xs px-2.5 py-1.5 text-xs text-zinc-300 font-mono uppercase focus:outline-none focus:border-orange-500"
               >
                 <option value="all">ВСЕ КАТЕГОРИИ</option>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { 
   Shield, 
   Wrench, 
@@ -15,13 +15,8 @@ import {
   Plus, 
   Minus, 
   ChevronRight, 
-  Maximize2, 
-  RefreshCw,
   Info,
-  CheckCircle2,
-  AlertTriangle,
-  Flame,
-  Briefcase
+  CheckCircle2
 } from 'lucide-react';
 
 
@@ -519,8 +514,6 @@ function calculateTotalBaseResources(itemId, targetAmount, recipes, items, userI
     });
   }
 
-  // Clone inventory object so we don't mutate original state directly
-  const tempInventory = { ...userInventory };
   traverse(itemId, targetAmount);
 
   return { totals, totalTimeSec };
@@ -541,7 +534,7 @@ export default function App() {
   const [useInventory, setUseInventory] = useState(false);
   
   // Custom mock user inventory
-  const [userInventory, setUserInventory] = useState({
+  const [userInventory] = useState({
     'iron_ore': 20,
     'cloth': 15,
     'copper_ore': 10
