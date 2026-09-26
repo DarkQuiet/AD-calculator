@@ -1,4 +1,74 @@
-import type { Workstation, Item, Recipe } from '../types/crafting';
+import type { Workstation, Item, Recipe, Profession } from '../types/crafting';
+
+export const PROFESSIONS: Profession[] = [
+  {
+    id: 'technician',
+    name: 'Техник',
+    icon: 'Wrench',
+    description: 'Ремонт, сборка устройств и работа с электроникой.',
+    skills: [
+      { id: 'tech_basic', name: 'Базовые навыки', maxLevel: 2 },
+      { id: 'tech_repair', name: 'Ремонт', maxLevel: 2 },
+      { id: 'tech_devices', name: 'Устройства', maxLevel: 2 }
+    ]
+  },
+  {
+    id: 'pharmacist',
+    name: 'Фармацевт',
+    icon: 'Cross',
+    description: 'Изготовление бинтов, медикаментов и таблеток.',
+    skills: [
+      { id: 'bandages', name: 'Перевязочные материалы', maxLevel: 3 },
+      { id: 'basic_meds', name: 'Базовые Медикаменты', maxLevel: 3 },
+      { id: 'pills', name: 'Таблетки', maxLevel: 3 }
+    ]
+  },
+  {
+    id: 'chemist',
+    name: 'Химик',
+    icon: 'FlaskConical',
+    description: 'Синтез реагентов, переработка нефти и полимеров.',
+    skills: [
+      { id: 'reagents_med', name: 'Реагенты: медицина', maxLevel: 3 },
+      { id: 'reagents_gen', name: 'Реагенты: общие', maxLevel: 3 },
+      { id: 'reagents_weapon', name: 'Реагенты: оружие', maxLevel: 3 },
+      { id: 'reagents_plastic', name: 'Реагенты: пластик', maxLevel: 3 },
+      { id: 'cloth_processing', name: 'Обработка ткани', maxLevel: 3 },
+      { id: 'flares', name: 'Сигнальные ракеты', maxLevel: 1 },
+      { id: 'oil_refining', name: 'Переработка нефти', maxLevel: 3 },
+      { id: 'polymers', name: 'Полимеры', maxLevel: 4 },
+      { id: 'glass', name: 'Стекло', maxLevel: 3 }
+    ]
+  },
+  {
+    id: 'gunsmith',
+    name: 'Оружейник',
+    icon: 'Crosshair',
+    description: 'Создание огнестрельного оружия и обвесов.',
+    skills: []
+  },
+  {
+    id: 'armorer',
+    name: 'Бронник',
+    icon: 'Shield',
+    description: 'Изготовление бронежилетов и защитных пластин.',
+    skills: []
+  },
+  {
+    id: 'metallurgist',
+    name: 'Металлург',
+    icon: 'Anvil',
+    description: 'Выплавка металлов и сплавов.',
+    skills: []
+  },
+  {
+    id: 'tailor',
+    name: 'Портной',
+    icon: 'Scissors',
+    description: 'Пошив элементов экипировки, рюкзаков и разгрузок.',
+    skills: []
+  }
+];
 
 export const WORKSTATIONS: Workstation[] = [
   {
@@ -108,6 +178,7 @@ export const ITEMS: Record<string, Item> = {
   mpd: { id: 'mpd', name: 'МПД', icon: 'FlaskConical', isBase: false },
   mini_poly_containers: { id: 'mini_poly_containers', name: 'Миниатюрные полимерные контейнеры', icon: 'Box', isBase: false },
   polycarbonate: { id: 'polycarbonate', name: 'Поликарбонат', icon: 'Layers', isBase: false },
+  carbon_fiber: { id: 'carbon_fiber', name: 'Углепластик', icon: 'Layers', isBase: false },
 
   // === КРАФТОВЫЕ ПРЕДМЕТЫ (Кожа) ===
   cleaned_hide: { id: 'cleaned_hide', name: 'Очищенная шкура', icon: 'Layers', isBase: false },
@@ -440,7 +511,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'clean_cloth', amount: 10 },
       { itemId: 'med_reagents', amount: 3 }
     ],
-    outputs: [{ itemId: 'clean_bandage', amount: 4 }]
+    outputs: [{ itemId: 'clean_bandage', amount: 4 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'bandages', level: 1 },
+    expGiven: 1
   },
   {
     id: 'recipe_chlorine_t1',
@@ -455,7 +528,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'salt', amount: 2 },
       { itemId: 'dirty_water', amount: 1 }
     ],
-    outputs: [{ itemId: 'chlorine', amount: 5 }]
+    outputs: [{ itemId: 'chlorine', amount: 5 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'basic_meds', level: 1 },
+    expGiven: 0.7
   },
   {
     id: 'recipe_empty_blood_bag_t1',
@@ -468,7 +543,9 @@ export const RECIPES: Recipe[] = [
     inputs: [
       { itemId: 'plastic', amount: 5 }
     ],
-    outputs: [{ itemId: 'empty_blood_bag', amount: 10 }]
+    outputs: [{ itemId: 'empty_blood_bag', amount: 10 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'basic_meds', level: 1 },
+    expGiven: 0.5
   },
   {
     id: 'recipe_med_splint_t1',
@@ -482,7 +559,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'dirty_bandage', amount: 3 },
       { itemId: 'wood', amount: 6 }
     ],
-    outputs: [{ itemId: 'med_splint', amount: 1 }]
+    outputs: [{ itemId: 'med_splint', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'basic_meds', level: 1 },
+    expGiven: 1.5
   },
   {
     id: 'recipe_sal_ammoniac_t1',
@@ -498,7 +577,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'saltpeter', amount: 2 },
       { itemId: 'clean_water', amount: 1 }
     ],
-    outputs: [{ itemId: 'sal_ammoniac', amount: 1 }]
+    outputs: [{ itemId: 'sal_ammoniac', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'pills', level: 1 },
+    expGiven: 1
   },
   {
     id: 'recipe_ibuprofen_t1',
@@ -513,7 +594,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'med_reagents', amount: 4 },
       { itemId: 'gelatin_capsule_pack', amount: 4 }
     ],
-    outputs: [{ itemId: 'ibuprofen', amount: 1 }]
+    outputs: [{ itemId: 'ibuprofen', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'pills', level: 1 },
+    expGiven: 1
   },
 
   // --- ТИР 2 МЕДИЦИНА ---
@@ -532,7 +615,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sewing_kit', amount: 10 },
       { itemId: 'field_surgical_kit', amount: 2 }
     ],
-    outputs: [{ itemId: 'first_aid_kit', amount: 1 }]
+    outputs: [{ itemId: 'first_aid_kit', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'basic_meds', level: 2 },
+    expGiven: 10
   },
   {
     id: 'recipe_clean_bandage_t2',
@@ -546,7 +631,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'clean_cloth', amount: 5 },
       { itemId: 'med_reagents', amount: 2 }
     ],
-    outputs: [{ itemId: 'clean_bandage', amount: 4 }]
+    outputs: [{ itemId: 'clean_bandage', amount: 4 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'bandages', level: 2 },
+    expGiven: 2
   },
   {
     id: 'recipe_med_bandage_t2',
@@ -560,7 +647,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'clean_bandage', amount: 1 },
       { itemId: 'med_reagents', amount: 2 }
     ],
-    outputs: [{ itemId: 'med_bandage', amount: 1 }]
+    outputs: [{ itemId: 'med_bandage', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'bandages', level: 2 },
+    expGiven: 3
   },
   {
     id: 'recipe_chlorine_t2',
@@ -574,7 +663,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'med_reagents', amount: 5 },
       { itemId: 'dirty_water', amount: 1 }
     ],
-    outputs: [{ itemId: 'chlorine', amount: 10 }]
+    outputs: [{ itemId: 'chlorine', amount: 10 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'basic_meds', level: 2 },
+    expGiven: 1.5
   },
   {
     id: 'recipe_med_splint_t2',
@@ -588,7 +679,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'clean_cloth', amount: 2 },
       { itemId: 'wood', amount: 3 }
     ],
-    outputs: [{ itemId: 'med_splint', amount: 1 }]
+    outputs: [{ itemId: 'med_splint', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'basic_meds', level: 2 },
+    expGiven: 2
   },
   {
     id: 'recipe_sal_ammoniac_t2',
@@ -603,7 +696,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'med_reagents', amount: 3 },
       { itemId: 'clean_water', amount: 1 }
     ],
-    outputs: [{ itemId: 'sal_ammoniac', amount: 1 }]
+    outputs: [{ itemId: 'sal_ammoniac', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'pills', level: 2 },
+    expGiven: 1
   },
   {
     id: 'recipe_ibuprofen_t2',
@@ -618,7 +713,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'med_reagents', amount: 2 },
       { itemId: 'gelatin_capsule_pack', amount: 4 }
     ],
-    outputs: [{ itemId: 'ibuprofen', amount: 1 }]
+    outputs: [{ itemId: 'ibuprofen', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'pills', level: 2 },
+    expGiven: 2
   },
   {
     id: 'recipe_vicodin_t2',
@@ -633,7 +730,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'med_reagents', amount: 3 },
       { itemId: 'gelatin_capsule_pack', amount: 4 }
     ],
-    outputs: [{ itemId: 'vicodin', amount: 1 }]
+    outputs: [{ itemId: 'vicodin', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'pills', level: 2 },
+    expGiven: 3
   },
 
   // --- ТИР 3 МЕДИЦИНА ---
@@ -652,7 +751,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sewing_kit', amount: 10 },
       { itemId: 'field_surgical_kit', amount: 3 }
     ],
-    outputs: [{ itemId: 'medical_kit', amount: 1 }]
+    outputs: [{ itemId: 'medical_kit', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'basic_meds', level: 3 },
+    expGiven: 15
   },
   {
     id: 'recipe_hemostatic_bandage_t3',
@@ -667,7 +768,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'chem_stabilizer', amount: 1 },
       { itemId: 'med_reagents', amount: 5 }
     ],
-    outputs: [{ itemId: 'hemostatic_bandage', amount: 1 }]
+    outputs: [{ itemId: 'hemostatic_bandage', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'bandages', level: 3 },
+    expGiven: 10
   },
   {
     id: 'recipe_scalpel_t3',
@@ -681,7 +784,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'polycarbonate', amount: 1 },
       { itemId: 'precision_parts', amount: 1 }
     ],
-    outputs: [{ itemId: 'scalpel', amount: 1 }]
+    outputs: [{ itemId: 'scalpel', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'basic_meds', level: 3 },
+    expGiven: 5
   },
   {
     id: 'recipe_iv_drip_t3',
@@ -697,7 +802,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'plastic', amount: 2 },
       { itemId: 'sewing_kit', amount: 1 }
     ],
-    outputs: [{ itemId: 'iv_drip', amount: 1 }]
+    outputs: [{ itemId: 'iv_drip', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'pills', level: 3 },
+    expGiven: 5
   },
   {
     id: 'recipe_nurofen_d_t3',
@@ -712,7 +819,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'med_reagents', amount: 4 },
       { itemId: 'gelatin_capsule_pack', amount: 1 }
     ],
-    outputs: [{ itemId: 'nurofen_d', amount: 1 }]
+    outputs: [{ itemId: 'nurofen_d', amount: 1 }],
+    requiredSkill: { professionId: 'pharmacist', skillId: 'pills', level: 3 },
+    expGiven: 3
   },
 
   // ==========================================
@@ -732,7 +841,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'synthetic_junk', amount: 10 }
     ],
-    outputs: [{ itemId: 'plastic', amount: 10 }]
+    outputs: [{ itemId: 'plastic', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_plastic_bottle_t1',
@@ -745,7 +856,9 @@ export const RECIPES: Recipe[] = [
     inputs: [
       { itemId: 'plastic', amount: 4 }
     ],
-    outputs: [{ itemId: 'plastic_bottle', amount: 10 }]
+    outputs: [{ itemId: 'plastic_bottle', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 1 },
+    expGiven: 0.05
   },
   {
     id: 'recipe_mpd_t1',
@@ -759,7 +872,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'ethanol', amount: 5 },
       { itemId: 'plastic', amount: 10 }
     ],
-    outputs: [{ itemId: 'mpd', amount: 20 }]
+    outputs: [{ itemId: 'mpd', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_mini_poly_containers_t1',
@@ -774,7 +889,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'polycarbonate', amount: 1 },
       { itemId: 'wires', amount: 3 }
     ],
-    outputs: [{ itemId: 'mini_poly_containers', amount: 1 }]
+    outputs: [{ itemId: 'mini_poly_containers', amount: 1 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 1 },
+    expGiven: 0
   },
   {
     id: 'recipe_silicate_vessels_t1',
@@ -789,7 +906,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'glass', amount: 4 },
       { itemId: 'coal', amount: 3 }
     ],
-    outputs: [{ itemId: 'silicate_vessels', amount: 15 }]
+    outputs: [{ itemId: 'silicate_vessels', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'glass', level: 1 },
+    expGiven: 0.3
   },
 
   // --- ТИР 2 ПОЛИМЕРЫ ---
@@ -805,7 +924,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 4 },
       { itemId: 'synthetic_junk', amount: 10 }
     ],
-    outputs: [{ itemId: 'plastic', amount: 15 }]
+    outputs: [{ itemId: 'plastic', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_polycarbonate_t2',
@@ -822,7 +943,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'plastic', amount: 15 }
     ],
-    outputs: [{ itemId: 'polycarbonate', amount: 10 }]
+    outputs: [{ itemId: 'polycarbonate', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 2 },
+    expGiven: 1.5
   },
   {
     id: 'recipe_mpd_t2',
@@ -836,7 +959,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'ethanol', amount: 5 },
       { itemId: 'plastic', amount: 10 }
     ],
-    outputs: [{ itemId: 'mpd', amount: 30 }]
+    outputs: [{ itemId: 'mpd', amount: 30 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_silicate_vessels_t2',
@@ -851,7 +976,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'glass', amount: 4 },
       { itemId: 'coal', amount: 3 }
     ],
-    outputs: [{ itemId: 'silicate_vessels', amount: 20 }]
+    outputs: [{ itemId: 'silicate_vessels', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'glass', level: 2 },
+    expGiven: 0.2
   },
 
   // --- ТИР 3 ПОЛИМЕРЫ ---
@@ -869,7 +996,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'nylon', amount: 15 },
       { itemId: 'coal', amount: 5 }
     ],
-    outputs: [{ itemId: 'polycarbonate', amount: 15 }]
+    outputs: [{ itemId: 'polycarbonate', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 3 },
+    expGiven: 1.5
   },
   {
     id: 'recipe_mpd_t3',
@@ -883,7 +1012,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'ethanol', amount: 5 },
       { itemId: 'plastic', amount: 10 }
     ],
-    outputs: [{ itemId: 'mpd', amount: 50 }]
+    outputs: [{ itemId: 'mpd', amount: 50 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 3 },
+    expGiven: 0.15
   },
   {
     id: 'recipe_silicate_vessels_t3',
@@ -898,7 +1029,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'glass', amount: 3 },
       { itemId: 'coal', amount: 3 }
     ],
-    outputs: [{ itemId: 'silicate_vessels', amount: 25 }]
+    outputs: [{ itemId: 'silicate_vessels', amount: 25 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'glass', level: 3 },
+    expGiven: 0.15
   },
 
   // --- ТИР 4 ПОЛИМЕРЫ ---
@@ -916,7 +1049,25 @@ export const RECIPES: Recipe[] = [
       { itemId: 'nylon', amount: 10 },
       { itemId: 'coal', amount: 5 }
     ],
-    outputs: [{ itemId: 'polycarbonate', amount: 20 }]
+    outputs: [{ itemId: 'polycarbonate', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 4 },
+    expGiven: 2
+  },
+  {
+    id: 'recipe_carbon_fiber_t4',
+    name: 'Углепластик x1 (T4)',
+    workstationId: 'chem_bench',
+    category: 'Полимеры',
+    tier: 4,
+    craftTimeSec: 20,
+    durabilityCost: 2,
+    inputs: [
+      { itemId: 'polycarbonate', amount: 2 },
+      { itemId: 'coal', amount: 10 }
+    ],
+    outputs: [{ itemId: 'carbon_fiber', amount: 1 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'polymers', level: 4 },
+    expGiven: 2
   },
 
   // ==========================================
@@ -933,7 +1084,9 @@ export const RECIPES: Recipe[] = [
     craftTimeSec: 10,
     durabilityCost: 1,
     inputs: [{ itemId: 'sodium_phosphate', amount: 10 }],
-    outputs: [{ itemId: 'phenol', amount: 5 }]
+    outputs: [{ itemId: 'phenol', amount: 5 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_phenol_t2',
@@ -944,7 +1097,9 @@ export const RECIPES: Recipe[] = [
     craftTimeSec: 10,
     durabilityCost: 1,
     inputs: [{ itemId: 'sodium_phosphate', amount: 10 }],
-    outputs: [{ itemId: 'phenol', amount: 10 }]
+    outputs: [{ itemId: 'phenol', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 2 },
+    expGiven: 0.2
   },
 
   // --- ГЛИЦЕРИН ---
@@ -960,7 +1115,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 1 },
       { itemId: 'hand_sanitizer', amount: 5 }
     ],
-    outputs: [{ itemId: 'glycerin', amount: 10 }]
+    outputs: [{ itemId: 'glycerin', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_glycerin_t2',
@@ -974,7 +1131,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 1 },
       { itemId: 'hand_sanitizer', amount: 5 }
     ],
-    outputs: [{ itemId: 'glycerin', amount: 15 }]
+    outputs: [{ itemId: 'glycerin', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_glycerin_t3',
@@ -988,7 +1147,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 1 },
       { itemId: 'hand_sanitizer', amount: 5 }
     ],
-    outputs: [{ itemId: 'glycerin', amount: 25 }]
+    outputs: [{ itemId: 'glycerin', amount: 25 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 3 },
+    expGiven: 0.15
   },
 
   // --- ЭДТА ---
@@ -1004,7 +1165,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'med_reagents', amount: 5 },
       { itemId: 'reagent_jars', amount: 1 }
     ],
-    outputs: [{ itemId: 'edta', amount: 10 }]
+    outputs: [{ itemId: 'edta', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_edta_t2',
@@ -1018,7 +1181,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'med_reagents', amount: 5 },
       { itemId: 'reagent_jars', amount: 1 }
     ],
-    outputs: [{ itemId: 'edta', amount: 15 }]
+    outputs: [{ itemId: 'edta', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 2 },
+    expGiven: 0.2
   },
 
   // --- МЕДИЦИНСКИЕ РЕАГЕНТЫ ---
@@ -1034,7 +1199,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 2 },
       { itemId: 'reagent_jars', amount: 15 }
     ],
-    outputs: [{ itemId: 'med_reagents', amount: 5 }]
+    outputs: [{ itemId: 'med_reagents', amount: 5 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_med_reagents_t2',
@@ -1048,7 +1215,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'phenol', amount: 10 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'med_reagents', amount: 10 }]
+    outputs: [{ itemId: 'med_reagents', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_med_reagents_t3',
@@ -1062,7 +1231,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'phenol', amount: 10 },
       { itemId: 'glycerin', amount: 3 }
     ],
-    outputs: [{ itemId: 'med_reagents', amount: 10 }]
+    outputs: [{ itemId: 'med_reagents', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_med', level: 3 },
+    expGiven: 0.15
   },
 
   // --- ЭТАНОЛ ---
@@ -1075,7 +1246,9 @@ export const RECIPES: Recipe[] = [
     craftTimeSec: 10,
     durabilityCost: 1,
     inputs: [{ itemId: 'hand_sanitizer', amount: 10 }],
-    outputs: [{ itemId: 'ethanol', amount: 10 }]
+    outputs: [{ itemId: 'ethanol', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_ethanol_t2',
@@ -1089,7 +1262,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'methanol', amount: 7 },
       { itemId: 'reagent_jars', amount: 2 }
     ],
-    outputs: [{ itemId: 'ethanol', amount: 12 }]
+    outputs: [{ itemId: 'ethanol', amount: 12 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_ethanol_t3',
@@ -1104,13 +1279,15 @@ export const RECIPES: Recipe[] = [
       { itemId: 'reagent_jars', amount: 3 },
       { itemId: 'hand_sanitizer', amount: 5 }
     ],
-    outputs: [{ itemId: 'ethanol', amount: 25 }]
+    outputs: [{ itemId: 'ethanol', amount: 25 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 3 },
+    expGiven: 0.15
   },
 
   // --- ФОСФОНАТ НАТРИЯ ---
   {
     id: 'recipe_sodium_phosphate_t1',
-    name: 'Фосфонат натрия x7 (T1)',
+    name: 'Фоссонати натрия x7 (T1)',
     workstationId: 'chem_bench',
     category: 'Реагенты и Нефтехимия',
     tier: 1,
@@ -1120,11 +1297,13 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 2 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'sodium_phosphate', amount: 7 }]
+    outputs: [{ itemId: 'sodium_phosphate', amount: 7 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_sodium_phosphate_t2',
-    name: 'Фосфонат натрия x10 (T2)',
+    name: 'Фоссонати натрия x10 (T2)',
     workstationId: 'chem_bench',
     category: 'Реагенты и Нефтехимия',
     tier: 2,
@@ -1134,11 +1313,13 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 2 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'sodium_phosphate', amount: 10 }]
+    outputs: [{ itemId: 'sodium_phosphate', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_sodium_phosphate_t3',
-    name: 'Фосфонат натрия x15 (T3)',
+    name: 'Фоссонати натрия x15 (T3)',
     workstationId: 'chem_bench',
     category: 'Реагенты и Нефтехимия',
     tier: 3,
@@ -1148,7 +1329,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 2 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'sodium_phosphate', amount: 15 }]
+    outputs: [{ itemId: 'sodium_phosphate', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 3 },
+    expGiven: 0.15
   },
 
   // --- ТАНИН ---
@@ -1164,7 +1347,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'reagent_jars', amount: 2 },
       { itemId: 'wood_bark', amount: 7 }
     ],
-    outputs: [{ itemId: 'tannin', amount: 10 }]
+    outputs: [{ itemId: 'tannin', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_tannin_t2',
@@ -1178,7 +1363,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'reagent_jars', amount: 2 },
       { itemId: 'wood_bark', amount: 5 }
     ],
-    outputs: [{ itemId: 'tannin', amount: 15 }]
+    outputs: [{ itemId: 'tannin', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_tannin_t3',
@@ -1192,7 +1379,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'reagent_jars', amount: 2 },
       { itemId: 'wood_bark', amount: 5 }
     ],
-    outputs: [{ itemId: 'tannin', amount: 20 }]
+    outputs: [{ itemId: 'tannin', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 3 },
+    expGiven: 0.15
   },
 
   // --- СЕРА ---
@@ -1208,7 +1397,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 2 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'sulfur', amount: 10 }]
+    outputs: [{ itemId: 'sulfur', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_sulfur_t2',
@@ -1223,7 +1414,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sulfur_ore', amount: 4 },
       { itemId: 'reagent_jars', amount: 4 }
     ],
-    outputs: [{ itemId: 'sulfur', amount: 20 }]
+    outputs: [{ itemId: 'sulfur', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_sulfur_t3',
@@ -1238,7 +1431,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sulfur_ore', amount: 3 },
       { itemId: 'reagent_jars', amount: 3 }
     ],
-    outputs: [{ itemId: 'sulfur', amount: 25 }]
+    outputs: [{ itemId: 'sulfur', amount: 25 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_gen', level: 3 },
+    expGiven: 0.15
   },
 
   // --- СЕЛИТРА ---
@@ -1254,7 +1449,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 2 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'saltpeter', amount: 10 }]
+    outputs: [{ itemId: 'saltpeter', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_weapon', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_saltpeter_t2',
@@ -1268,7 +1465,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 2 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'saltpeter', amount: 15 }]
+    outputs: [{ itemId: 'saltpeter', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_weapon', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_saltpeter_t3',
@@ -1282,7 +1481,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 5 },
       { itemId: 'reagent_jars', amount: 10 }
     ],
-    outputs: [{ itemId: 'saltpeter', amount: 25 }]
+    outputs: [{ itemId: 'saltpeter', amount: 25 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_weapon', level: 3 },
+    expGiven: 0.15
   },
 
   // --- ПОРОХ ---
@@ -1299,7 +1500,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'sulfur', amount: 5 }
     ],
-    outputs: [{ itemId: 'gunpowder', amount: 12 }]
+    outputs: [{ itemId: 'gunpowder', amount: 12 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_weapon', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_gunpowder_t2',
@@ -1314,7 +1517,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'sulfur', amount: 5 }
     ],
-    outputs: [{ itemId: 'gunpowder', amount: 20 }]
+    outputs: [{ itemId: 'gunpowder', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_weapon', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_gunpowder_t3',
@@ -1329,7 +1534,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'sulfur', amount: 5 }
     ],
-    outputs: [{ itemId: 'gunpowder', amount: 25 }]
+    outputs: [{ itemId: 'gunpowder', amount: 25 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_weapon', level: 3 },
+    expGiven: 0.15
   },
 
   // --- АЦЕТОН ---
@@ -1347,9 +1554,10 @@ export const RECIPES: Recipe[] = [
       { itemId: 'reagent_jars', amount: 5 },
       { itemId: 'dirty_water', amount: 5 }
     ],
-    outputs: [{ itemId: 'acetone', amount: 10 }]
+    outputs: [{ itemId: 'acetone', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 1 },
+    expGiven: 0.3
   },
-  // СЮДА
   {
     id: 'recipe_rocket_flare_t1',
     name: 'Ракетница x3 (T1)',
@@ -1364,7 +1572,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'cartridge_cases', amount: 1 },
       { itemId: 'gunpowder', amount: 2 }
     ],
-    outputs: [{ itemId: 'rocket_flare', amount: 3 }]
+    outputs: [{ itemId: 'rocket_flare', amount: 3 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'flares', level: 1 },
+    expGiven: 0.4
   },
   {
     id: 'recipe_acetone_t2',
@@ -1380,7 +1590,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'reagent_jars', amount: 5 },
       { itemId: 'dirty_water', amount: 4 }
     ],
-    outputs: [{ itemId: 'acetone', amount: 15 }]
+    outputs: [{ itemId: 'acetone', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_acetone_t3',
@@ -1396,7 +1608,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'reagent_jars', amount: 5 },
       { itemId: 'dirty_water', amount: 3 }
     ],
-    outputs: [{ itemId: 'acetone', amount: 20 }]
+    outputs: [{ itemId: 'acetone', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 3 },
+    expGiven: 0.15
   },
 
   // --- КАРБОНАТ КАЛЬЦИЯ ---
@@ -1413,7 +1627,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'reagent_jars', amount: 10 }
     ],
-    outputs: [{ itemId: 'calcium_carbonate', amount: 10 }]
+    outputs: [{ itemId: 'calcium_carbonate', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_calcium_carbonate_t2',
@@ -1428,7 +1644,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'reagent_jars', amount: 4 }
     ],
-    outputs: [{ itemId: 'calcium_carbonate', amount: 20 }]
+    outputs: [{ itemId: 'calcium_carbonate', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_calcium_carbonate_t3',
@@ -1443,7 +1661,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'reagent_jars', amount: 3 }
     ],
-    outputs: [{ itemId: 'calcium_carbonate', amount: 25 }]
+    outputs: [{ itemId: 'calcium_carbonate', amount: 25 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 3 },
+    expGiven: 0.15
   },
 
   // --- ФЕРРОЦЕН ---
@@ -1459,7 +1679,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 5 },
       { itemId: 'reagent_jars', amount: 15 }
     ],
-    outputs: [{ itemId: 'ferrocene', amount: 10 }]
+    outputs: [{ itemId: 'ferrocene', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_ferrocene_t2',
@@ -1473,7 +1695,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 5 },
       { itemId: 'reagent_jars', amount: 10 }
     ],
-    outputs: [{ itemId: 'ferrocene', amount: 10 }]
+    outputs: [{ itemId: 'ferrocene', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_ferrocene_t3',
@@ -1487,7 +1711,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'silicate_vessels', amount: 4 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'ferrocene', amount: 15 }]
+    outputs: [{ itemId: 'ferrocene', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'reagents_plastic', level: 3 },
+    expGiven: 0.15
   },
 
   // --- ЧИСТАЯ ТКАНЬ ---
@@ -1504,7 +1730,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'dirty_cloth', amount: 15 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'clean_cloth', amount: 15 }]
+    outputs: [{ itemId: 'clean_cloth', amount: 15 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'cloth_processing', level: 1 },
+    expGiven: 0.25
   },
   {
     id: 'recipe_clean_cloth_t2',
@@ -1519,7 +1747,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'dirty_cloth', amount: 10 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'clean_cloth', amount: 20 }]
+    outputs: [{ itemId: 'clean_cloth', amount: 20 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'cloth_processing', level: 2 },
+    expGiven: 0.15
   },
 
   // --- ПРОЧНАЯ ТКАНЬ ---
@@ -1536,7 +1766,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'polycarbonate', amount: 2 },
       { itemId: 'reagent_jars', amount: 3 }
     ],
-    outputs: [{ itemId: 'durable_cloth', amount: 4 }]
+    outputs: [{ itemId: 'durable_cloth', amount: 4 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'cloth_processing', level: 2 },
+    expGiven: 0.5
   },
   {
     id: 'recipe_durable_cloth_t3',
@@ -1551,7 +1783,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'polycarbonate', amount: 3 },
       { itemId: 'chem_concentrate_jar', amount: 3 }
     ],
-    outputs: [{ itemId: 'durable_cloth', amount: 10 }]
+    outputs: [{ itemId: 'durable_cloth', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'cloth_processing', level: 3 },
+    expGiven: 0.25
   },
 
   // --- ТЕХНИЧЕСКОЕ МАСЛО ---
@@ -1568,7 +1802,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'oil_raw', amount: 15 },
       { itemId: 'sodium_phosphate', amount: 10 }
     ],
-    outputs: [{ itemId: 'tech_oil', amount: 10 }]
+    outputs: [{ itemId: 'tech_oil', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 1 },
+    expGiven: 1
   },
   {
     id: 'recipe_tech_oil_t2',
@@ -1583,7 +1819,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'oil_raw', amount: 10 },
       { itemId: 'sodium_phosphate', amount: 5 }
     ],
-    outputs: [{ itemId: 'tech_oil', amount: 10 }]
+    outputs: [{ itemId: 'tech_oil', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 2 },
+    expGiven: 0.5
   },
 
   // --- ОРУЖЕЙНОЕ СИНТЕТИЧЕСКОЕ МАСЛО ---
@@ -1602,7 +1840,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'tech_oil', amount: 3 },
       { itemId: 'chem_concentrate_jar', amount: 2 }
     ],
-    outputs: [{ itemId: 'gun_synth_oil', amount: 10 }]
+    outputs: [{ itemId: 'gun_synth_oil', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 3 },
+    expGiven: 0.5
   },
 
   // --- НЕФТЬ ---
@@ -1632,7 +1872,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'nylon', amount: 5 }]
+    outputs: [{ itemId: 'nylon', amount: 5 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 2 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_nylon_t3',
@@ -1647,7 +1889,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 5 },
       { itemId: 'reagent_jars', amount: 5 }
     ],
-    outputs: [{ itemId: 'nylon', amount: 5 }]
+    outputs: [{ itemId: 'nylon', amount: 5 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 3 },
+    expGiven: 0.2
   },
 
   // --- РЕЗИНА ---
@@ -1664,7 +1908,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 1 },
       { itemId: 'reagent_jars', amount: 1 }
     ],
-    outputs: [{ itemId: 'rubber', amount: 10 }]
+    outputs: [{ itemId: 'rubber', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_rubber_t2',
@@ -1679,7 +1925,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'coal', amount: 1 },
       { itemId: 'reagent_jars', amount: 1 }
     ],
-    outputs: [{ itemId: 'rubber', amount: 10 }]
+    outputs: [{ itemId: 'rubber', amount: 10 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 2 },
+    expGiven: 0.2
   },
 
   // --- КАНИСТРА БЕНЗИНА ---
@@ -1697,7 +1945,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 25 },
       { itemId: 'coal', amount: 10 }
     ],
-    outputs: [{ itemId: 'gasoline_canister', amount: 1 }]
+    outputs: [{ itemId: 'gasoline_canister', amount: 1 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 1 },
+    expGiven: 2
   },
   {
     id: 'recipe_gasoline_canister_t2',
@@ -1713,7 +1963,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 25 },
       { itemId: 'coal', amount: 10 }
     ],
-    outputs: [{ itemId: 'gasoline_canister', amount: 1 }]
+    outputs: [{ itemId: 'gasoline_canister', amount: 1 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 2 },
+    expGiven: 1
   },
 
   // --- КАНИСТРА ДЛЯ БЕНЗОРЕЗА ---
@@ -1731,7 +1983,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'coal', amount: 2 }
     ],
-    outputs: [{ itemId: 'gas_cutter_canister', amount: 1 }]
+    outputs: [{ itemId: 'gas_cutter_canister', amount: 1 }],
+    requiredSkill: { professionId: 'chemist', skillId: 'oil_refining', level: 2 },
+    expGiven: 2
   },
 
   // ==========================================

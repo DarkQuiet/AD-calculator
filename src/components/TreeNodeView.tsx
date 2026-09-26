@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { TreeNode, CraftTier } from '../types/crafting';
-import { Clock, ShieldAlert, ChevronRight, ChevronDown, Box, Wrench, Flame, RefreshCw } from 'lucide-react';
+import { Clock, ShieldAlert, ChevronRight, ChevronDown, Box, Wrench, Flame, RefreshCw, Award } from 'lucide-react';
 
 interface Props {
     node: TreeNode;
@@ -28,6 +28,8 @@ export const TreeNodeView: React.FC<Props> = ({
     const matchYield = node.recipeName.match(/x(\d+)/i);
     const baseYieldPerCraft = matchYield ? parseInt(matchYield[1], 10) : 1;
     const nodeCraftsCount = Math.ceil(node.craftedAmount / (baseYieldPerCraft || 1));
+
+    const totalNodeExp = node.expGiven ? Math.round(node.expGiven * nodeCraftsCount * 100) / 100 : 0;
 
     return (
         <div className={`my-2 font-mono border rounded-none text-xs transition-all ${isRoot
@@ -63,6 +65,13 @@ export const TreeNodeView: React.FC<Props> = ({
                     <span className="text-[9px] px-1.5 py-0.2 font-bold bg-zinc-900/90 text-amber-500/90 border border-amber-600/30">
                         T{node.tier}
                     </span>
+
+                    {totalNodeExp > 0 && (
+                        <span className="text-[10px] px-1.5 py-0.2 font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-600/50 flex items-center gap-1 font-mono">
+                            <Award className="w-2.5 h-2.5 text-emerald-400" />
+                            +{totalNodeExp} XP
+                        </span>
+                    )}
                 </div>
 
                 <div className="flex items-center gap-3 text-zinc-400 text-[10px] flex-shrink-0">
