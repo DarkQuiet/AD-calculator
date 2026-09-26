@@ -274,7 +274,7 @@ export function App() {
       </header>
 
       {/* ЭРГОНОМИЧНАЯ ПАНЕЛЬ НАСТРОЕК (ВЕРСТАКИ И ПРОФЕССИИ) */}
-      <section className="max-w-7xl mx-auto mb-6 bg-[#121418]/95 border border-zinc-800/90 rounded-sm shadow-2xl backdrop-blur-md overflow-hidden">
+      <section className="max-w-7xl mx-auto mb-6 bg-[#121418]/95 border border-zinc-800/90 rounded-sm shadow-2xl shadow-orange-950/10 backdrop-blur-md overflow-hidden">
         {/* Шапка секции и кнопки управления режимами */}
         <div className="flex flex-wrap items-center justify-between px-4 py-3 bg-[#16181d] border-b border-zinc-800 gap-3">
           <div className="flex items-center gap-3">
@@ -477,7 +477,7 @@ export function App() {
                               return (
                                 <div
                                   key={s.id}
-                                  className="p-1.5 bg-[#121418] border border-zinc-800/60 rounded-xs flex items-center justify-between gap-2 font-mono"
+                                  className="p-1.5 bg-[#121418] hover:bg-[#16181f] border border-zinc-800/60 hover:border-orange-500/30 rounded-xs flex items-center justify-between gap-2 font-mono transition-all duration-150"
                                 >
                                   <span className="text-[11px] text-zinc-300 font-medium truncate" title={s.name}>
                                     {s.name}
@@ -620,9 +620,9 @@ export function App() {
                     <button
                       key={recipe.id}
                       onClick={() => setSelectedRecipeId(recipe.id)}
-                      className={`w-full p-2 text-left flex items-center justify-between transition border rounded-xs ${selectedRecipeId === recipe.id
-                        ? 'bg-orange-600/20 border-orange-500 text-orange-300 font-bold'
-                        : 'bg-[#121418] border-zinc-800/60 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                        className={`w-full p-2 text-left flex items-center justify-between transition-all duration-150 border rounded-xs ${selectedRecipeId === recipe.id
+                          ? 'bg-orange-600/20 border-orange-500 text-orange-300 font-bold shadow-sm shadow-orange-950/50'
+                          : 'bg-[#121418] border-zinc-800/60 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 hover:bg-[#161920]'
                         }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
