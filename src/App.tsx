@@ -348,13 +348,13 @@ export function App() {
                     </div>
 
                     {prof.skills.length > 0 ? (
-                      <div className="space-y-1 max-h-72 overflow-y-auto pr-1">
+                      <div className="grid grid-cols-1 xl:grid-cols-2 gap-1 h-44 overflow-y-auto pr-1">
                         {prof.skills.map(s => {
                           const currentLvl = userSkillLevels[s.id] ?? s.maxLevel;
                           return (
-                            <div key={s.id} className="flex items-center justify-between gap-2 py-1 px-2 bg-zinc-900/60 border border-zinc-800/60 rounded-xs hover:border-zinc-700 transition">
-                              <div className="flex items-center gap-1.5 min-w-0">
-                                <span className="text-[10px] text-zinc-300 font-mono uppercase truncate">{s.name}</span>
+                            <div key={s.id} className="flex items-center justify-between gap-1 py-0.5 px-1.5 bg-zinc-900/60 border border-zinc-800/60 rounded-xs hover:border-zinc-700 transition">
+                              <div className="flex items-center gap-1 min-w-0">
+                                <span className="text-[9px] text-zinc-300 font-mono uppercase truncate" title={s.name}>{s.name}</span>
                                 <span className="text-[9px] text-orange-400 font-bold font-mono">({toRoman(currentLvl)})</span>
                               </div>
                               <div className="flex items-center gap-0.5 flex-shrink-0 font-mono">
@@ -362,7 +362,7 @@ export function App() {
                                   <button
                                     key={lvl}
                                     onClick={() => setSkillLevel(s.id, lvl)}
-                                    className={`px-1.5 py-0.5 text-[9px] transition uppercase border ${currentLvl === lvl
+                                    className={`px-1 py-0.2 text-[8px] transition uppercase border ${currentLvl === lvl
                                       ? 'bg-orange-600 border-orange-500 text-black font-bold'
                                       : 'bg-[#0a0b0d] border-zinc-800 text-zinc-500 hover:text-zinc-300'
                                       }`}
