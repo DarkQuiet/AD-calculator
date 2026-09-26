@@ -300,13 +300,13 @@ export function App() {
 
         {/* ВКЛАДКА: ПРОФЕССИИ И НАВЫКИ */}
         {activeTopTab === 'professions' && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {/* Переключатель конкретной профессии */}
-            <div className="flex flex-wrap gap-1.5 border-b border-zinc-800 pb-2">
+            <div className="flex flex-wrap gap-2 border-b border-zinc-800 pb-3">
               <button
                 onClick={() => setSelectedProfTab('all')}
-                className={`px-2.5 py-1 text-[10px] font-mono uppercase transition border ${selectedProfTab === 'all'
-                  ? 'bg-orange-600 border-orange-500 text-black font-bold'
+                className={`px-3 py-1.5 text-xs font-mono uppercase transition border rounded-xs ${selectedProfTab === 'all'
+                  ? 'bg-orange-600 border-orange-500 text-black font-bold shadow-md shadow-orange-950/40'
                   : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
                   }`}
               >
@@ -316,8 +316,8 @@ export function App() {
                 <button
                   key={p.id}
                   onClick={() => setSelectedProfTab(p.id)}
-                  className={`px-2.5 py-1 text-[10px] font-mono uppercase flex items-center gap-1.5 transition border ${selectedProfTab === p.id
-                    ? 'bg-orange-600 border-orange-500 text-black font-bold'
+                  className={`px-3 py-1.5 text-xs font-mono uppercase flex items-center gap-2 transition border rounded-xs ${selectedProfTab === p.id
+                    ? 'bg-orange-600 border-orange-500 text-black font-bold shadow-md shadow-orange-950/40'
                     : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
                     }`}
                 >
@@ -327,63 +327,104 @@ export function App() {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {PROFESSIONS.filter(p => selectedProfTab === 'all' || p.id === selectedProfTab).map(prof => {
+            {/* РЕЖИМ 1: Выбрана конкретная профессия - развернутый, максимально удобный вид */}
+            {selectedProfTab !== 'all' ? (
+              (() => {
+                const prof = PROFESSIONS.find(p => p.id === selectedProfTab);
+                if (!prof) return null;
                 return (
-                  <div key={prof.id} className="p-2.5 bg-[#0a0b0d] border border-zinc-800/90 rounded space-y-2">
-                    <div className="flex items-center justify-between border-b border-zinc-800/80 pb-1.5">
-                      <div className="flex items-center gap-2 text-xs text-zinc-200 font-bold uppercase tracking-wide font-mono">
-                        {getProfessionIcon(prof.id)}
-                        <span>{prof.name}</span>
+                  <div className="p-4 bg-[#0a0b0d] border border-zinc-800/90 rounded space-y-4 shadow-xl">
+                    <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-orange-950/40 border border-orange-600/40 rounded">
+                          {getProfessionIcon(prof.id)}
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-bold uppercase tracking-wide font-mono text-zinc-100">
+                            {prof.name}
+                          </h3>
+                          <p className="text-xs text-zinc-500">{prof.description}</p>
+                        </div>
                       </div>
-                      {prof.skills.length > 0 ? (
-                        <span className="text-[9px] bg-emerald-950/80 text-emerald-400 border border-emerald-600/40 px-1.5 py-0.2 font-mono">
-                          {prof.skills.length} {prof.skills.length === 1 ? 'навык' : prof.skills.length < 5 ? 'навыка' : 'навыков'}
-                        </span>
-                      ) : (
-                        <span className="text-[9px] bg-zinc-900 text-zinc-500 border border-zinc-800 px-1.5 py-0.2 font-mono">
-                          Скоро
-                        </span>
-                      )}
+                      <span className="text-xs font-mono bg-emerald-950/80 text-emerald-400 border border-emerald-600/40 px-2 py-0.5 font-bold">
+                        {prof.skills.length} {prof.skills.length === 1 ? 'навык' : prof.skills.length < 5 ? 'навыка' : 'навыков'}
+                      </span>
                     </div>
 
-                    {prof.skills.length > 0 ? (
-                      <div className="grid grid-cols-1 xl:grid-cols-2 gap-1 h-44 overflow-y-auto pr-1">
-                        {prof.skills.map(s => {
-                          const currentLvl = userSkillLevels[s.id] ?? s.maxLevel;
-                          return (
-                            <div key={s.id} className="flex items-center justify-between gap-1 py-0.5 px-1.5 bg-zinc-900/60 border border-zinc-800/60 rounded-xs hover:border-zinc-700 transition">
-                              <div className="flex items-center gap-1 min-w-0">
-                                <span className="text-[9px] text-zinc-300 font-mono uppercase truncate" title={s.name}>{s.name}</span>
-                                <span className="text-[9px] text-orange-400 font-bold font-mono">({toRoman(currentLvl)})</span>
-                              </div>
-                              <div className="flex items-center gap-0.5 flex-shrink-0 font-mono">
-                                {Array.from({ length: s.maxLevel + 1 }, (_, lvl) => (
-                                  <button
-                                    key={lvl}
-                                    onClick={() => setSkillLevel(s.id, lvl)}
-                                    className={`px-1 py-0.2 text-[8px] transition uppercase border ${currentLvl === lvl
-                                      ? 'bg-orange-600 border-orange-500 text-black font-bold'
-                                      : 'bg-[#0a0b0d] border-zinc-800 text-zinc-500 hover:text-zinc-300'
-                                      }`}
-                                  >
-                                    {toRoman(lvl)}
-                                  </button>
-                                ))}
-                              </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5">
+                      {prof.skills.map(s => {
+                        const currentLvl = userSkillLevels[s.id] ?? s.maxLevel;
+                        return (
+                          <div key={s.id} className="p-2.5 bg-[#121418] border border-zinc-800 rounded-xs flex items-center justify-between gap-3 hover:border-zinc-700 transition">
+                            <div className="space-y-0.5 min-w-0">
+                              <span className="text-xs text-zinc-200 font-mono font-bold uppercase block truncate">{s.name}</span>
+                              <span className="text-[10px] text-orange-400 font-mono">Текущий уровень: {toRoman(currentLvl)}</span>
                             </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <div className="text-[10px] text-zinc-600 font-mono uppercase italic py-2 text-center">
-                        Навыки профессии будут добавлены позже
-                      </div>
-                    )}
+                            <div className="flex items-center gap-1 flex-shrink-0 font-mono">
+                              {Array.from({ length: s.maxLevel + 1 }, (_, lvl) => (
+                                <button
+                                  key={lvl}
+                                  onClick={() => setSkillLevel(s.id, lvl)}
+                                  className={`px-2 py-1 text-xs font-bold transition uppercase border rounded-xs ${currentLvl === lvl
+                                    ? 'bg-orange-600 border-orange-500 text-black shadow'
+                                    : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
+                                    }`}
+                                >
+                                  {toRoman(lvl)}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 );
-              })}
-            </div>
+              })()
+            ) : (
+              /* РЕЖИМ 2: Все профессии - аккордеоны с крупным четким текстом */
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {PROFESSIONS.map(prof => (
+                  <div key={prof.id} className="bg-[#0a0b0d] border border-zinc-800/90 rounded flex flex-col justify-between">
+                    <div className="p-3 border-b border-zinc-800/80 flex items-center justify-between bg-[#121418]/50">
+                      <div className="flex items-center gap-2.5">
+                        {getProfessionIcon(prof.id)}
+                        <div>
+                          <span className="text-xs font-bold uppercase font-mono text-zinc-100 block">{prof.name}</span>
+                          <span className="text-[10px] text-zinc-500 font-mono">{prof.skills.length} навыков</span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setSelectedProfTab(prof.id)}
+                        className="px-2.5 py-1 text-xs font-mono uppercase bg-orange-950/40 border border-orange-600/50 text-orange-400 hover:bg-orange-600 hover:text-black font-bold transition rounded-xs"
+                      >
+                        Настроить
+                      </button>
+                    </div>
+
+                    <div className="p-3 space-y-1.5 max-h-48 overflow-y-auto">
+                      {prof.skills.slice(0, 5).map(s => {
+                        const currentLvl = userSkillLevels[s.id] ?? s.maxLevel;
+                        return (
+                          <div key={s.id} className="flex items-center justify-between text-xs font-mono py-1 px-2 bg-[#121418] border border-zinc-800/60 rounded-xs">
+                            <span className="text-zinc-300 truncate">{s.name}</span>
+                            <span className="text-orange-400 font-bold ml-2">{toRoman(currentLvl)}</span>
+                          </div>
+                        );
+                      })}
+                      {prof.skills.length > 5 && (
+                        <div
+                          onClick={() => setSelectedProfTab(prof.id)}
+                          className="text-center text-[11px] font-mono uppercase text-zinc-500 hover:text-orange-400 cursor-pointer pt-1 border-t border-zinc-900"
+                        >
+                          + еще {prof.skills.length - 5} навыков (нажмите для настройки)
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
