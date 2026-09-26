@@ -84,7 +84,6 @@ export function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedRecipeId, setSelectedRecipeId] = useState<string>(RECIPES[0]?.id || '');
   const [craftAmount, setCraftAmount] = useState<number>(1);
-  const [activeTopTab, setActiveTopTab] = useState<'bench' | 'professions'>('professions');
   const [selectedProfTab, setSelectedProfTab] = useState<ProfessionId | 'all'>('all');
 
   // Кастомные выбранные тиры для подкомпонентов дерева
@@ -270,174 +269,62 @@ export function App() {
         </div>
       </header>
 
-      {/* ПАНЕЛЬ НАСТРОЙКИ ВЕРСТАКОВ И ПРОФЕССИЙ */}
+      {/* ЕДИНАЯ ОБЪЕДИНЕННАЯ ПАНЕЛЬ: ВЕРСТАКИ И ПРОФЕССИИ */}
       <section className="max-w-7xl mx-auto mb-6 bg-[#121418]/90 border border-zinc-800 rounded p-4 shadow-2xl backdrop-blur-sm space-y-4">
-        <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-          <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-wider font-mono">
-            <button
-              onClick={() => setActiveTopTab('professions')}
-              className={`flex items-center gap-2 px-3 py-1.5 border transition ${activeTopTab === 'professions'
-                  ? 'bg-orange-600 border-orange-500 text-black font-bold'
-                  : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
-                }`}
-            >
-              <Award className="w-4 h-4" />
-              <span>Профессии персонажа (6)</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTopTab('bench')}
-              className={`flex items-center gap-2 px-3 py-1.5 border transition ${activeTopTab === 'bench'
-                  ? 'bg-orange-600 border-orange-500 text-black font-bold'
-                  : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
-                }`}
-            >
-              <Sliders className="w-4 h-4" />
-              <span>Параметры и тиры верстаков</span>
-            </button>
+        <div className="flex flex-wrap items-center justify-between border-b border-zinc-800 pb-3 gap-2">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider font-mono text-orange-500">
+            <Sliders className="w-4 h-4" />
+            <span>Верстаки, Категории и Профессии</span>
           </div>
-        </div>
 
-        {/* ВКЛАДКА: ПРОФЕССИИ И НАВЫКИ */}
-        {activeTopTab === 'professions' && (
-          <div className="space-y-4">
-            {/* Переключатель конкретной профессии */}
-            <div className="flex flex-wrap gap-2 border-b border-zinc-800 pb-3">
+          {/* Фильтр отображения профессии */}
+          <div className="flex flex-wrap gap-1.5 font-mono">
+            <button
+              onClick={() => setSelectedProfTab('all')}
+              className={`px-2.5 py-1 text-[11px] uppercase transition border rounded-xs ${selectedProfTab === 'all'
+                ? 'bg-orange-600 border-orange-500 text-black font-bold'
+                : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
+                }`}
+            >
+              Все
+            </button>
+            {PROFESSIONS.map(p => (
               <button
-                onClick={() => setSelectedProfTab('all')}
-                className={`px-3 py-1.5 text-xs font-mono uppercase transition border rounded-xs ${selectedProfTab === 'all'
-                  ? 'bg-orange-600 border-orange-500 text-black font-bold shadow-md shadow-orange-950/40'
+                key={p.id}
+                onClick={() => setSelectedProfTab(p.id)}
+                className={`px-2.5 py-1 text-[11px] uppercase flex items-center gap-1.5 transition border rounded-xs ${selectedProfTab === p.id
+                  ? 'bg-orange-600 border-orange-500 text-black font-bold'
                   : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
                   }`}
               >
-                Все профессии
+                {getProfessionIcon(p.id)}
+                <span>{p.name}</span>
               </button>
-              {PROFESSIONS.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => setSelectedProfTab(p.id)}
-                  className={`px-3 py-1.5 text-xs font-mono uppercase flex items-center gap-2 transition border rounded-xs ${selectedProfTab === p.id
-                    ? 'bg-orange-600 border-orange-500 text-black font-bold shadow-md shadow-orange-950/40'
-                    : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
-                    }`}
-                >
-                  {getProfessionIcon(p.id)}
-                  <span>{p.name}</span>
-                </button>
-              ))}
-            </div>
-
-            {/* РЕЖИМ 1: Выбрана конкретная профессия - развернутый, максимально удобный вид */}
-            {selectedProfTab !== 'all' ? (
-              (() => {
-                const prof = PROFESSIONS.find(p => p.id === selectedProfTab);
-                if (!prof) return null;
-                return (
-                  <div className="p-4 bg-[#0a0b0d] border border-zinc-800/90 rounded space-y-4 shadow-xl">
-                    <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-orange-950/40 border border-orange-600/40 rounded">
-                          {getProfessionIcon(prof.id)}
-                        </div>
-                        <div>
-                          <h3 className="text-sm font-bold uppercase tracking-wide font-mono text-zinc-100">
-                            {prof.name}
-                          </h3>
-                          <p className="text-xs text-zinc-500">{prof.description}</p>
-                        </div>
-                      </div>
-                      <span className="text-xs font-mono bg-emerald-950/80 text-emerald-400 border border-emerald-600/40 px-2 py-0.5 font-bold">
-                        {prof.skills.length} {prof.skills.length === 1 ? 'навык' : prof.skills.length < 5 ? 'навыка' : 'навыков'}
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5">
-                      {prof.skills.map(s => {
-                        const currentLvl = userSkillLevels[s.id] ?? s.maxLevel;
-                        return (
-                          <div key={s.id} className="p-2.5 bg-[#121418] border border-zinc-800 rounded-xs flex items-center justify-between gap-3 hover:border-zinc-700 transition">
-                            <div className="space-y-0.5 min-w-0">
-                              <span className="text-xs text-zinc-200 font-mono font-bold uppercase block truncate">{s.name}</span>
-                              <span className="text-[10px] text-orange-400 font-mono">Текущий уровень: {toRoman(currentLvl)}</span>
-                            </div>
-                            <div className="flex items-center gap-1 flex-shrink-0 font-mono">
-                              {Array.from({ length: s.maxLevel + 1 }, (_, lvl) => (
-                                <button
-                                  key={lvl}
-                                  onClick={() => setSkillLevel(s.id, lvl)}
-                                  className={`px-2 py-1 text-xs font-bold transition uppercase border rounded-xs ${currentLvl === lvl
-                                    ? 'bg-orange-600 border-orange-500 text-black shadow'
-                                    : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:text-zinc-200'
-                                    }`}
-                                >
-                                  {toRoman(lvl)}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })()
-            ) : (
-              /* РЕЖИМ 2: Все профессии - аккордеоны с крупным четким текстом */
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {PROFESSIONS.map(prof => (
-                  <div key={prof.id} className="bg-[#0a0b0d] border border-zinc-800/90 rounded flex flex-col justify-between">
-                    <div className="p-3 border-b border-zinc-800/80 flex items-center justify-between bg-[#121418]/50">
-                      <div className="flex items-center gap-2.5">
-                        {getProfessionIcon(prof.id)}
-                        <div>
-                          <span className="text-xs font-bold uppercase font-mono text-zinc-100 block">{prof.name}</span>
-                          <span className="text-[10px] text-zinc-500 font-mono">{prof.skills.length} навыков</span>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => setSelectedProfTab(prof.id)}
-                        className="px-2.5 py-1 text-xs font-mono uppercase bg-orange-950/40 border border-orange-600/50 text-orange-400 hover:bg-orange-600 hover:text-black font-bold transition rounded-xs"
-                      >
-                        Настроить
-                      </button>
-                    </div>
-
-                    <div className="p-3 space-y-1.5 max-h-48 overflow-y-auto">
-                      {prof.skills.slice(0, 5).map(s => {
-                        const currentLvl = userSkillLevels[s.id] ?? s.maxLevel;
-                        return (
-                          <div key={s.id} className="flex items-center justify-between text-xs font-mono py-1 px-2 bg-[#121418] border border-zinc-800/60 rounded-xs">
-                            <span className="text-zinc-300 truncate">{s.name}</span>
-                            <span className="text-orange-400 font-bold ml-2">{toRoman(currentLvl)}</span>
-                          </div>
-                        );
-                      })}
-                      {prof.skills.length > 5 && (
-                        <div
-                          onClick={() => setSelectedProfTab(prof.id)}
-                          className="text-center text-[11px] font-mono uppercase text-zinc-500 hover:text-orange-400 cursor-pointer pt-1 border-t border-zinc-900"
-                        >
-                          + еще {prof.skills.length - 5} навыков (нажмите для настройки)
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            ))}
           </div>
-        )}
+        </div>
 
-        {/* ВКЛАДКА: ВЕРСТАКИ И ТИРЫ КАТЕГОРИЙ */}
-        {activeTopTab === 'bench' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-            {WORKSTATIONS.map(bench => {
-              const currentDur = workstationDurability[bench.id];
+        {/* КАРТОЧКИ ВЕРСТАКОВ С ОБЪЕДИНЕННЫМИ НАВЫКАМИ СООТВЕТСТВУЮЩИХ ПРОФЕССИЙ */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3">
+          {WORKSTATIONS.map(bench => {
+            const currentDur = workstationDurability[bench.id];
 
-              return (
-                <div key={bench.id} className="p-3 bg-[#0a0b0d] border border-zinc-800/90 rounded space-y-3">
-                  <div className="flex items-center justify-between border-b border-zinc-800 pb-1.5">
-                    <div className="flex items-center gap-2 text-xs text-zinc-200 font-bold uppercase tracking-wide">
+            // Связанные профессии для данного верстака
+            const relatedProfessions = PROFESSIONS.filter(p => {
+              if (selectedProfTab !== 'all' && p.id !== selectedProfTab) return false;
+              if (bench.id === 'weapons_bench') return p.id === 'gunsmith';
+              if (bench.id === 'tech_bench') return p.id === 'technician' || p.id === 'metallurgist';
+              if (bench.id === 'chem_bench') return p.id === 'chemist' || p.id === 'pharmacist';
+              if (bench.id === 'sewing_bench') return p.id === 'armorer';
+              return true;
+            });
+
+            return (
+              <div key={bench.id} className="p-3 bg-[#0a0b0d] border border-zinc-800/90 rounded space-y-3 flex flex-col justify-between">
+                <div className="space-y-3">
+                  {/* Шапка верстака */}
+                  <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                    <div className="flex items-center gap-2 text-xs text-zinc-200 font-bold uppercase font-mono">
                       {getBenchIcon(bench.id)}
                       <span>{bench.name}</span>
                     </div>
@@ -446,15 +333,16 @@ export function App() {
                     </span>
                   </div>
 
+                  {/* Настройка прочности верстака */}
                   <div className="space-y-1">
-                    <span className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">Макс. прочность:</span>
-                    <div className="grid grid-cols-4 gap-1">
+                    <span className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider block">Прочность:</span>
+                    <div className="grid grid-cols-4 gap-1 font-mono">
                       {DURABILITY_LEVELS.map(level => (
                         <button
                           key={level}
                           onClick={() => handleDurabilityChange(bench.id, level)}
-                          className={`py-1 text-[10px] font-mono transition uppercase rounded-xs ${currentDur === level
-                            ? 'bg-orange-600 text-black font-bold shadow'
+                          className={`py-0.5 text-[10px] font-bold transition uppercase rounded-xs ${currentDur === level
+                            ? 'bg-orange-600 text-black'
                             : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800 border border-zinc-800'
                             }`}
                         >
@@ -464,20 +352,22 @@ export function App() {
                     </div>
                   </div>
 
-                  <div className="space-y-2 pt-1 border-t border-zinc-900">
+                  {/* Разблокированные тиры категорий */}
+                  <div className="space-y-1.5 pt-1 border-t border-zinc-900">
+                    <span className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider block">Категории крафта:</span>
                     {bench.categories.map(cat => (
-                      <div key={cat} className="space-y-1">
-                        <div className="flex justify-between items-center text-[10px] text-zinc-400 font-mono">
+                      <div key={cat} className="space-y-0.5">
+                        <div className="flex justify-between items-center text-[10px] text-zinc-300 font-mono">
                           <span className="truncate uppercase">{cat}</span>
                           <span className="text-orange-400 font-bold">T{categoryTiers[cat] ?? 1}</span>
                         </div>
-                        <div className="grid grid-cols-4 gap-1">
+                        <div className="grid grid-cols-4 gap-1 font-mono">
                           {([1, 2, 3, 4] as CraftTier[]).map(t => (
                             <button
                               key={t}
                               onClick={() => setCategoryTier(cat, t)}
-                              className={`py-0.5 text-[10px] font-mono transition uppercase ${(categoryTiers[cat] ?? 1) === t
-                                ? 'bg-orange-600 text-black font-bold'
+                              className={`py-0.5 text-[9px] font-bold transition uppercase rounded-xs ${(categoryTiers[cat] ?? 1) === t
+                                ? 'bg-orange-600 text-black'
                                 : 'bg-zinc-900 text-zinc-500 hover:bg-zinc-800 border border-zinc-800/60'
                                 }`}
                             >
@@ -488,11 +378,58 @@ export function App() {
                       </div>
                     ))}
                   </div>
+
+                  {/* Связанные навыки профессий */}
+                  {relatedProfessions.length > 0 && (
+                    <div className="space-y-2 pt-2 border-t border-zinc-900">
+                      <span className="text-[10px] text-orange-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1">
+                        <Award className="w-3 h-3" />
+                        <span>Навыки профессий</span>
+                      </span>
+
+                      {relatedProfessions.map(prof => (
+                        <div key={prof.id} className="space-y-1.5 bg-[#121418] p-2 border border-zinc-800/80 rounded-xs">
+                          <div className="flex items-center justify-between text-xs font-mono font-bold uppercase text-zinc-200 border-b border-zinc-800/60 pb-1">
+                            <div className="flex items-center gap-1.5">
+                              {getProfessionIcon(prof.id)}
+                              <span>{prof.name}</span>
+                            </div>
+                            <span className="text-[9px] text-zinc-500 font-normal">({prof.skills.length})</span>
+                          </div>
+
+                          <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
+                            {prof.skills.map(s => {
+                              const currentLvl = userSkillLevels[s.id] ?? s.maxLevel;
+                              return (
+                                <div key={s.id} className="flex items-center justify-between gap-1 py-1 px-1.5 bg-[#0a0b0d] border border-zinc-800/60 rounded-xs font-mono">
+                                  <span className="text-[10px] text-zinc-300 truncate" title={s.name}>{s.name}</span>
+                                  <div className="flex items-center gap-0.5 flex-shrink-0">
+                                    {Array.from({ length: s.maxLevel + 1 }, (_, lvl) => (
+                                      <button
+                                        key={lvl}
+                                        onClick={() => setSkillLevel(s.id, lvl)}
+                                        className={`px-1 py-0.2 text-[9px] font-bold transition uppercase border rounded-xs ${currentLvl === lvl
+                                          ? 'bg-orange-600 border-orange-500 text-black'
+                                          : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-zinc-300'
+                                          }`}
+                                      >
+                                        {toRoman(lvl)}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       {/* ОСНОВНОЙ КОНТЕНТ */}
