@@ -1,107 +1,94 @@
-import type { Recipe, Item, CalculationResult, TreeNode, WorkstationId, UserCategoryTiers } from '../types/crafting';
+import type { Recipe, Item, TreeNode, CalculationResult, UserCategoryTiers, CraftTier } from '../types/crafting';
 
 export class CraftingEngine {
-  private recipesMap: Map<string, Recipe> = new Map();
-  private itemsMap: Map<string, Item> = new Map();
+  private recipes: Recipe[];
+  private items: Record<string, Item>;
 
   constructor(recipes: Recipe[], items: Record<string, Item>) {
-    recipes.forEach(r => this.recipesMap.set(r.id, r));
-    Object.values(items).forEach(i => this.itemsMap.set(i.id, i));
+    this.recipes = recipes;
+    this.items = items;
   }
 
   public calculate(
-    targetRecipeId: string, 
-    targetAmount: number = 1,
-    categoryTiers: UserCategoryTiers
+    targetRecipeId: string,
+    targetAmount: number,
+    userCategoryTiers: UserCategoryTiers,
+    customComponentTiers: Record<string, CraftTier> = {}
   ): CalculationResult | null {
-    const targetRecipe = this.recipesMap.get(targetRecipeId);
-    if (!targetRecipe) return null;
+    const rootRecipe = this.recipes.find(r => r.id === targetRecipeId);
+    if (!rootRecipe) return null;
 
-    let totalTimeSec = 0;
-    const durabilityCostByBench: Record<WorkstationId, number> = {
-      weapons_bench: 0,
-      tech_bench: 0,
-      chem_bench: 0,
-      sewing_bench: 0
-    };
     const baseResources: Record<string, { item: Item; amount: number }> = {};
+    const durabilityCostByBench: Record<string, number> = {};
+    let totalTimeSec = 0;
 
-    // Выбор лучшего рецепта с учетом прокачки КАТЕГОРИИ
-    const findBestAvailableRecipe = (itemId: string): Recipe | null => {
-      const candidates = Array.from(this.recipesMap.values()).filter(r => {
-        const producesItem = r.outputs.some(out => out.itemId === itemId);
-        // Проверка: уровень рецепта должен быть <= уровня прокачки ЭТОЙ категории
-        const isTierUnlocked = r.tier <= categoryTiers[r.category];
-        return producesItem && isTierUnlocked;
-      });
+    const buildTree = (recipe: Recipe, requiredAmount: number): TreeNode => {
+      const outputAmount = recipe.outputs[0]?.amount || 1;
+      const craftsNeeded = Math.ceil(requiredAmount / outputAmount);
 
-      if (candidates.length === 0) return null;
+      // Учет износа и времени
+      durabilityCostByBench[recipe.workstationId] =
+        (durabilityCostByBench[recipe.workstationId] || 0) + recipe.durabilityCost * craftsNeeded;
+      totalTimeSec += recipe.craftTimeSec * craftsNeeded;
 
-      // Сортируем: выбираем максимальный доступный тир рецепта
-      candidates.sort((a, b) => b.tier - a.tier);
-      return candidates[0];
-    };
+      const treeInputs = recipe.inputs.map(inp => {
+        const item = this.items[inp.itemId] || { id: inp.itemId, name: inp.itemId, isBase: true };
+        const totalInputAmount = inp.amount * craftsNeeded;
 
-    const buildTreeNode = (recipe: Recipe, amountNeeded: number): TreeNode => {
-      const outputAmountPerCraft = recipe.outputs[0]?.amount || 1;
-      const craftRuns = Math.ceil(amountNeeded / outputAmountPerCraft);
+        let subNode: TreeNode | undefined;
+        let availableTiers: CraftTier[] | undefined;
 
-      const nodeTime = recipe.craftTimeSec * craftRuns;
-      const nodeDurability = recipe.durabilityCost * craftRuns;
+        if (!item.isBase) {
+          // Ищем все доступные рецепты для этого предмета
+          const allItemRecipes = this.recipes.filter(r => r.outputs.some(o => o.itemId === item.id));
+          availableTiers = Array.from(new Set(allItemRecipes.map(r => r.tier))).sort((a, b) => a - b) as CraftTier[];
 
-      totalTimeSec += nodeTime;
-      durabilityCostByBench[recipe.workstationId] += nodeDurability;
+          if (allItemRecipes.length > 0) {
+            // Приоритет выбора тира: customComponentTiers -> userCategoryTiers -> минимальный доступный
+            const chosenTier = customComponentTiers[item.id] ?? 
+              Math.min(userCategoryTiers[allItemRecipes[0].category] ?? 1, Math.max(...availableTiers));
 
-      const inputs = recipe.inputs.map(input => {
-        const item = this.itemsMap.get(input.itemId)!;
-        const totalInputNeeded = input.amount * craftRuns;
-
-        if (item.isBase) {
+            const selectedRecipe = allItemRecipes.find(r => r.tier === chosenTier) || allItemRecipes[0];
+            subNode = buildTree(selectedRecipe, totalInputAmount);
+          }
+        } else {
+          // Базовый ресурс
           if (!baseResources[item.id]) {
             baseResources[item.id] = { item, amount: 0 };
           }
-          baseResources[item.id].amount += totalInputNeeded;
-
-          return { item, amount: totalInputNeeded };
-        } else {
-          const subRecipe = findBestAvailableRecipe(item.id);
-
-          if (subRecipe) {
-            const subNode = buildTreeNode(subRecipe, totalInputNeeded);
-            return { item, amount: totalInputNeeded, subNode };
-          } else {
-            if (!baseResources[item.id]) {
-              baseResources[item.id] = { item, amount: 0 };
-            }
-            baseResources[item.id].amount += totalInputNeeded;
-            return { item, amount: totalInputNeeded };
-          }
+          baseResources[item.id].amount += totalInputAmount;
         }
+
+        return {
+          item,
+          amount: totalInputAmount,
+          subNode,
+          availableTiers
+        };
       });
 
       return {
-        id: `${recipe.id}-${Math.random().toString(36).substring(2, 7)}`,
         recipeId: recipe.id,
         recipeName: recipe.name,
         workstationId: recipe.workstationId,
         category: recipe.category,
         tier: recipe.tier,
-        craftedAmount: craftRuns * outputAmountPerCraft,
-        timeSec: nodeTime,
-        durabilityCost: nodeDurability,
-        inputs
+        timeSec: recipe.craftTimeSec * craftsNeeded,
+        durabilityCost: recipe.durabilityCost * craftsNeeded,
+        craftedAmount: requiredAmount,
+        inputs: treeInputs
       };
     };
 
-    const tree = buildTreeNode(targetRecipe, targetAmount);
+    const tree = buildTree(rootRecipe, targetAmount * (rootRecipe.outputs[0]?.amount || 1));
 
     return {
-      targetRecipe,
+      targetRecipe: rootRecipe,
       targetAmount,
-      totalTimeSec,
-      durabilityCostByBench,
+      tree,
       baseResources,
-      tree
+      durabilityCostByBench: durabilityCostByBench as any,
+      totalTimeSec
     };
   }
 }

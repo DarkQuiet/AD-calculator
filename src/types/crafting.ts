@@ -45,20 +45,20 @@ export interface Recipe {
 }
 
 export interface TreeNode {
-    id: string;
     recipeId: string;
     recipeName: string;
     workstationId: WorkstationId;
     category: CraftCategory;
     tier: CraftTier;
-    craftedAmount: number;
     timeSec: number;
     durabilityCost: number;
-    inputs: {
+    craftedAmount: number;
+    inputs: Array<{
         item: Item;
         amount: number;
         subNode?: TreeNode;
-    }[];
+        availableTiers?: CraftTier[]; // Доступные тиры для крафта этого компонента
+    }>;
 }
 
 export interface CalculationResult {

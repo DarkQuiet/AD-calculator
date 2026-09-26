@@ -12,11 +12,9 @@ import {
 
 const engine = new CraftingEngine(RECIPES, ITEMS);
 
-// Ключи для сохранения в LocalStorage
 const STORAGE_KEY_TIERS = 'crafting_category_tiers';
 const STORAGE_KEY_DURABILITY = 'crafting_workstation_durability';
 
-// Значения по умолчанию для ПЕРВОГО захода: везде 1 тир
 const defaultCategoryTiers: UserCategoryTiers = {
   'Оружейные обвесы': 1,
   'Оружие': 1,
@@ -39,7 +37,6 @@ const defaultWorkstationDurability: Record<WorkstationId, DurabilityLevel> = {
 };
 
 export function App() {
-  // Инициализация тиров категорий из localStorage
   const [categoryTiers, setCategoryTiers] = useState<UserCategoryTiers>(() => {
     const saved = localStorage.getItem(STORAGE_KEY_TIERS);
     if (saved) {
@@ -52,13 +49,16 @@ export function App() {
     return defaultCategoryTiers;
   });
 
+  const [selectedTierFilter, setSelectedTierFilter] = useState<CraftTier | 'all'>('all');
   const [selectedBench, setSelectedBench] = useState<WorkstationId | 'all'>('all');
   const [selectedCategory, setSelectedCategory] = useState<CraftCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedRecipeId, setSelectedRecipeId] = useState<string>(RECIPES[0]?.id || '');
   const [craftAmount, setCraftAmount] = useState<number>(1);
 
-  // Инициализация прочности верстаков из localStorage
+  // Кастомные выбранные тиры для подкомпонентов дерева
+  const [customComponentTiers, setCustomComponentTiers] = useState<Record<string, CraftTier>>({});
+
   const [workstationDurability, setWorkstationDurability] = useState<Record<WorkstationId, DurabilityLevel>>(() => {
     const saved = localStorage.getItem(STORAGE_KEY_DURABILITY);
     if (saved) {
@@ -71,12 +71,10 @@ export function App() {
     return defaultWorkstationDurability;
   });
 
-  // Автоматическое сохранение тиров
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY_TIERS, JSON.stringify(categoryTiers));
   }, [categoryTiers]);
 
-  // Автоматическое сохранение прочности
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY_DURABILITY, JSON.stringify(workstationDurability));
   }, [workstationDurability]);
@@ -93,14 +91,24 @@ export function App() {
     setWorkstationDurability(prev => ({ ...prev, [benchId]: level }));
   };
 
-  // Фильтрация рецептов
+  const handleComponentTierChange = (itemId: string, tier: CraftTier) => {
+    setCustomComponentTiers(prev => ({
+      ...prev,
+      [itemId]: tier
+    }));
+  };
+
   const filteredRecipes = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 
     return RECIPES.filter(r => {
       if (selectedBench !== 'all' && r.workstationId !== selectedBench) return false;
       if (selectedCategory !== 'all' && r.category !== selectedCategory) return false;
-      if (r.tier > (categoryTiers[r.category] ?? 1)) return false;
+
+      const unlockedTier = categoryTiers[r.category] ?? 1;
+      if (r.tier > unlockedTier) return false;
+
+      if (selectedTierFilter !== 'all' && r.tier !== selectedTierFilter) return false;
 
       if (query) {
         const matchesName = r.name.toLowerCase().includes(query);
@@ -118,13 +126,27 @@ export function App() {
 
       return true;
     });
-  }, [selectedBench, selectedCategory, categoryTiers, searchQuery]);
+  }, [selectedBench, selectedCategory, categoryTiers, selectedTierFilter, searchQuery]);
+
+  useEffect(() => {
+    if (filteredRecipes.length > 0) {
+      const isStillAvailable = filteredRecipes.some(r => r.id === selectedRecipeId);
+      if (!isStillAvailable) {
+        setSelectedRecipeId(filteredRecipes[0].id);
+      }
+    }
+  }, [filteredRecipes, selectedRecipeId]);
 
   const calculation = useMemo(() => {
-    return engine.calculate(selectedRecipeId, Math.max(1, craftAmount), categoryTiers);
-  }, [selectedRecipeId, craftAmount, categoryTiers]);
+    if (!selectedRecipeId) return null;
+    return engine.calculate(
+      selectedRecipeId, 
+      Math.max(1, craftAmount), 
+      categoryTiers,
+      customComponentTiers
+    );
+  }, [selectedRecipeId, craftAmount, categoryTiers, customComponentTiers]);
 
-  // Расчет итоговой стоимости ремонта в Хеликсах
   const totalHelixCost = useMemo(() => {
     if (!calculation) return 0;
     return (Object.keys(calculation.durabilityCostByBench) as WorkstationId[]).reduce((sum, benchId) => {
@@ -170,7 +192,6 @@ export function App() {
           </div>
         </div>
 
-        {/* Индикатор в стиле "РЕСУРС СТОЛА" */}
         <div className="flex items-center gap-3">
           <div className="text-right font-mono text-xs">
             <span className="text-zinc-500 uppercase tracking-widest block text-[10px]">Суммарный ремонт</span>
@@ -182,7 +203,7 @@ export function App() {
         </div>
       </header>
 
-      {/* ПАНЕЛЬ НАСТРОЙКИ ВЕРСТАКОВ И УРОВНЕЙ (НАСТРОЙКИ) */}
+      {/* ПАНЕЛЬ НАСТРОЙКИ ВЕРСТАКОВ И УРОВНЕЙ */}
       <section className="max-w-7xl mx-auto mb-6 bg-[#121418]/90 border border-zinc-800 rounded p-4 shadow-2xl backdrop-blur-sm space-y-4">
         <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-500 font-mono">
@@ -207,7 +228,6 @@ export function App() {
                   </span>
                 </div>
 
-                {/* Выбор макс. прочности верстака */}
                 <div className="space-y-1">
                   <span className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">Макс. прочность:</span>
                   <div className="grid grid-cols-4 gap-1">
@@ -226,7 +246,6 @@ export function App() {
                   </div>
                 </div>
 
-                {/* Выбор тира по категориям */}
                 <div className="space-y-2 pt-1 border-t border-zinc-900">
                   {bench.categories.map(cat => (
                     <div key={cat} className="space-y-1">
@@ -260,7 +279,7 @@ export function App() {
       {/* ОСНОВНОЙ КОНТЕНТ */}
       <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        {/* ЛЕВАЯ КОЛОНКА: ФИЛЬТРЫ И СПИСОК РЕЦЕПТОВ */}
+        {/* ЛЕВАЯ КОЛОНКА */}
         <section className="lg:col-span-5 space-y-4">
           <div className="bg-[#121418]/90 border border-zinc-800 rounded p-4 space-y-4 shadow-xl backdrop-blur-sm">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-500 font-mono border-b border-zinc-800 pb-2">
@@ -268,7 +287,6 @@ export function App() {
               <span>Выбор категории и рецепта</span>
             </div>
 
-            {/* ПОИСК */}
             <div className="relative">
               <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
@@ -280,7 +298,38 @@ export function App() {
               />
             </div>
 
-            {/* ВЕРСТАКИ */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono flex justify-between">
+                <span>Фильтр рецептов по Тиру</span>
+                <span className="text-orange-400 font-bold">
+                  {selectedTierFilter === 'all' ? 'ВСЕ ДОСТУПНЫЕ' : `ТОЛЬКО T${selectedTierFilter}`}
+                </span>
+              </label>
+              <div className="grid grid-cols-5 gap-1">
+                <button
+                  onClick={() => setSelectedTierFilter('all')}
+                  className={`py-1.5 text-[11px] font-mono font-bold uppercase transition border ${selectedTierFilter === 'all'
+                    ? 'bg-orange-600 border-orange-500 text-black shadow-lg shadow-orange-950/40'
+                    : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                    }`}
+                >
+                  ВСЕ
+                </button>
+                {([1, 2, 3, 4] as CraftTier[]).map(t => (
+                  <button
+                    key={t}
+                    onClick={() => setSelectedTierFilter(t)}
+                    className={`py-1.5 text-[11px] font-mono font-bold uppercase transition border ${selectedTierFilter === t
+                      ? 'bg-orange-600 border-orange-500 text-black shadow-lg shadow-orange-950/40'
+                      : 'bg-[#0a0b0d] border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                      }`}
+                  >
+                    T{t}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="space-y-1.5">
               <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Верстак</label>
               <div className="grid grid-cols-2 gap-1.5">
@@ -309,7 +358,6 @@ export function App() {
               </div>
             </div>
 
-            {/* КАТЕГОРИИ */}
             <div className="space-y-1.5">
               <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Категория</label>
               <select
@@ -324,7 +372,6 @@ export function App() {
               </select>
             </div>
 
-            {/* СПИСОК РЕЦЕПТОВ */}
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
                 <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">
@@ -360,7 +407,6 @@ export function App() {
               </div>
             </div>
 
-            {/* КОЛИЧЕСТВО */}
             <div className="space-y-1.5 pt-2 border-t border-zinc-800">
               <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Количество</label>
               <input
@@ -374,11 +420,10 @@ export function App() {
           </div>
         </section>
 
-        {/* ПРАВАЯ КОЛОНКА: СТАТИСТИКА И ДЕРЕВО КРАФТА */}
+        {/* ПРАВАЯ КОЛОНКА */}
         <section className="lg:col-span-7 space-y-4">
-          {calculation && (
+          {calculation ? (
             <>
-              {/* СВОДКА (Время, Износ, Хеликсы) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="bg-[#121418]/90 border border-zinc-800 p-3 flex items-center gap-3">
                   <div className="p-2 bg-blue-950/30 border border-blue-600/40 text-blue-400">
@@ -442,7 +487,6 @@ export function App() {
                           </span>
                         </div>
 
-                        {/* Полоса износа в стиле игры */}
                         <div className="w-full bg-zinc-900 h-1.5 rounded-none overflow-hidden border border-zinc-800">
                           <div
                             className="bg-orange-600 h-full transition-all duration-300"
@@ -477,16 +521,24 @@ export function App() {
                 </div>
               </div>
 
-              {/* ГРАФ КРАФТА */}
+              {/* ДЕРЕВО КРАФТА С ИНТЕРАКТИВНЫМ ВЫБОРОМ ТИРОВ ПОДКОМПОНЕНТОВ */}
               <div className="bg-[#121418]/90 border border-zinc-800 rounded p-4 space-y-3 shadow-xl backdrop-blur-sm">
                 <h3 className="text-xs font-bold uppercase font-mono tracking-wider text-zinc-400 border-b border-zinc-800 pb-2">
                   Дерево крафта компонентов
                 </h3>
                 <div className="p-2 bg-[#0a0b0d] border border-zinc-800/80 rounded-xs">
-                  <TreeNodeView node={calculation.tree} isRoot={true} />
+                  <TreeNodeView 
+                    node={calculation.tree} 
+                    isRoot={true} 
+                    onComponentTierChange={handleComponentTierChange}
+                  />
                 </div>
               </div>
             </>
+          ) : (
+            <div className="bg-[#121418]/90 border border-zinc-800 rounded p-8 text-center text-zinc-500 font-mono uppercase text-xs">
+              Выберите рецепт для расчёта
+            </div>
           )}
         </section>
       </main>

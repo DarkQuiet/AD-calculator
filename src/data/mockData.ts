@@ -100,6 +100,7 @@ export const ITEMS: Record<string, Item> = {
   calcium_carbonate: { id: 'calcium_carbonate', name: 'Карбонат кальция', icon: 'Sparkles', isBase: false },
   durable_cloth: { id: 'durable_cloth', name: 'Прочная ткань', icon: 'Layers', isBase: false },
   chlorine: { id: 'chlorine', name: 'Хлорин', icon: 'FlaskConical', isBase: false },
+  rocket_flare: { id: 'rocket_flare', name: 'Ракетница', icon: 'FlaskConical', isBase: false },
 
   // === КРАФТОВЫЕ ПРЕДМЕТЫ (Полимеры) ===
   plastic: { id: 'plastic', name: 'Пластик', icon: 'Square', isBase: false },
@@ -1347,6 +1348,23 @@ export const RECIPES: Recipe[] = [
       { itemId: 'dirty_water', amount: 5 }
     ],
     outputs: [{ itemId: 'acetone', amount: 10 }]
+  },
+  // СЮДА
+  {
+    id: 'recipe_rocket_flare_t1',
+    name: 'Ракетница x3 (T1)',
+    workstationId: 'chem_bench',
+    category: 'Реагенты и Нефтехимия',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 0.5,
+    inputs: [
+      { itemId: 'coal', amount: 1 },
+      { itemId: 'plastic', amount: 5 },
+      { itemId: 'cartridge_cases', amount: 1 },
+      { itemId: 'gunpowder', amount: 2 }
+    ],
+    outputs: [{ itemId: 'rocket_flare', amount: 3 }]
   },
   {
     id: 'recipe_acetone_t2',
