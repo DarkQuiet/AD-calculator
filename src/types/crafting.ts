@@ -11,6 +11,37 @@ export type CraftTier = 1 | 2 | 3 | 4;
 // Прокачка уровней теперь привязана прямо к названиям категорий!
 export type UserCategoryTiers = Record<CraftCategory, CraftTier>;
 
+export type ProfessionId =
+  | 'technician'
+  | 'pharmacist'
+  | 'chemist'
+  | 'gunsmith'
+  | 'armorer'
+  | 'metallurgist'
+  | 'tailor';
+
+export interface ProfessionSkill {
+  id: string;
+  name: string;
+  maxLevel: number;
+}
+
+export interface Profession {
+  id: ProfessionId;
+  name: string;
+  icon: string;
+  skills: ProfessionSkill[];
+  description?: string;
+}
+
+export interface SkillRequirement {
+  professionId: ProfessionId;
+  skillId: string;
+  level: number;
+}
+
+export type UserSkillLevels = Record<string, number>;
+
 export interface Workstation {
     id: WorkstationId;
     name: string;
@@ -42,6 +73,8 @@ export interface Recipe {
     durabilityCost: number;
     inputs: Ingredient[];
     outputs: Ingredient[];
+    requiredSkill?: SkillRequirement;
+    expGiven?: number;
 }
 
 export interface TreeNode {
@@ -53,6 +86,8 @@ export interface TreeNode {
     timeSec: number;
     durabilityCost: number;
     craftedAmount: number;
+    requiredSkill?: SkillRequirement;
+    expGiven?: number;
     inputs: Array<{
         item: Item;
         amount: number;
@@ -68,7 +103,9 @@ export interface CalculationResult {
     durabilityCostByBench: Record<WorkstationId, number>;
     baseResources: Record<string, { item: Item; amount: number }>;
     tree: TreeNode;
+    expByProfession: Record<ProfessionId, number>;
 }
+
 // Уровни прокачки прочности верстака
 export const DURABILITY_LEVELS = [100, 150, 200, 250] as const;
 export type DurabilityLevel = (typeof DURABILITY_LEVELS)[number];
