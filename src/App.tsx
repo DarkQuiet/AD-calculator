@@ -49,7 +49,7 @@ const defaultWorkstationDurability: Record<WorkstationId, DurabilityLevel> = {
 const defaultSkillLevels: UserSkillLevels = {};
 PROFESSIONS.forEach(p => {
   p.skills.forEach(s => {
-    defaultSkillLevels[s.id] = s.maxLevel;
+    defaultSkillLevels[s.id] = Math.min(1, s.maxLevel);
   });
 });
 
@@ -473,7 +473,7 @@ export function App() {
 
                           <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
                             {prof.skills.map(s => {
-                              const currentLvl = userSkillLevels[s.id] ?? s.maxLevel;
+                              const currentLvl = userSkillLevels[s.id] ?? Math.min(1, s.maxLevel);
                               return (
                                 <div
                                   key={s.id}
