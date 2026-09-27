@@ -166,12 +166,8 @@ export function App() {
           const item = ITEMS[out.itemId];
           return item && item.name.toLowerCase().includes(query);
         });
-        const matchesInputs = r.inputs.some(inp => {
-          const item = ITEMS[inp.itemId];
-          return item && item.name.toLowerCase().includes(query);
-        });
 
-        return matchesName || matchesOutputs || matchesInputs;
+        return matchesName || matchesOutputs;
       }
 
       return true;
