@@ -84,7 +84,7 @@ export function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedRecipeId, setSelectedRecipeId] = useState<string>(RECIPES[0]?.id || '');
   const [craftAmount, setCraftAmount] = useState<number>(1);
-  
+
   // Верхняя панель: режим отображения и свернута/развернута
   const [topPanelTab, setTopPanelTab] = useState<'all' | 'benches' | 'professions'>('all');
   const [isTopPanelOpen, setIsTopPanelOpen] = useState<boolean>(true);
@@ -616,9 +616,9 @@ export function App() {
                     <button
                       key={recipe.id}
                       onClick={() => setSelectedRecipeId(recipe.id)}
-                        className={`w-full p-2 text-left flex items-center justify-between transition-all duration-150 border rounded-xs ${selectedRecipeId === recipe.id
-                          ? 'bg-orange-600/20 border-orange-500 text-orange-300 font-bold shadow-sm shadow-orange-950/50'
-                          : 'bg-[#121418] border-zinc-800/60 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 hover:bg-[#161920]'
+                      className={`w-full p-2 text-left flex items-center justify-between transition-all duration-150 border rounded-xs ${selectedRecipeId === recipe.id
+                        ? 'bg-orange-600/20 border-orange-500 text-orange-300 font-bold shadow-sm shadow-orange-950/50'
+                        : 'bg-[#121418] border-zinc-800/60 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 hover:bg-[#161920]'
                         }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
@@ -714,8 +714,8 @@ export function App() {
                       <div
                         key={prof.id}
                         className={`p-2.5 border font-mono flex flex-col justify-between transition rounded-xs ${xp > 0
-                            ? 'bg-emerald-950/30 border-emerald-600/50 text-emerald-300 shadow-sm'
-                            : 'bg-[#0a0b0d] border-zinc-800/80 text-zinc-500'
+                          ? 'bg-emerald-950/30 border-emerald-600/50 text-emerald-300 shadow-sm'
+                          : 'bg-[#0a0b0d] border-zinc-800/80 text-zinc-500'
                           }`}
                       >
                         <div className="flex items-center gap-1.5 mb-1">
@@ -728,6 +728,19 @@ export function App() {
                       </div>
                     );
                   })}
+                </div>
+              </div>
+              {/* ДЕРЕВО КРАФТА С ИНТЕРАКТИВНЫМ ВЫБОРОМ ТИРОВ ПОДКОМПОНЕНТОВ */}
+              <div className="bg-[#121418]/90 border border-zinc-800/90 rounded-sm p-4 space-y-3 shadow-xl backdrop-blur-sm">
+                <h3 className="text-xs font-bold uppercase font-mono tracking-wider text-zinc-300 border-b border-zinc-800 pb-2">
+                  Дерево крафта компонентов
+                </h3>
+                <div className="p-2 bg-[#0a0b0d] border border-zinc-800/80 rounded-xs">
+                  <TreeNodeView
+                    node={calculation.tree}
+                    isRoot={true}
+                    onComponentTierChange={handleComponentTierChange}
+                  />
                 </div>
               </div>
 
@@ -790,19 +803,7 @@ export function App() {
                 </div>
               </div>
 
-              {/* ДЕРЕВО КРАФТА С ИНТЕРАКТИВНЫМ ВЫБОРОМ ТИРОВ ПОДКОМПОНЕНТОВ */}
-              <div className="bg-[#121418]/90 border border-zinc-800/90 rounded-sm p-4 space-y-3 shadow-xl backdrop-blur-sm">
-                <h3 className="text-xs font-bold uppercase font-mono tracking-wider text-zinc-300 border-b border-zinc-800 pb-2">
-                  Дерево крафта компонентов
-                </h3>
-                <div className="p-2 bg-[#0a0b0d] border border-zinc-800/80 rounded-xs">
-                  <TreeNodeView
-                    node={calculation.tree}
-                    isRoot={true}
-                    onComponentTierChange={handleComponentTierChange}
-                  />
-                </div>
-              </div>
+
             </>
           ) : (
             <div className="bg-[#121418]/90 border border-zinc-800/90 rounded-sm p-8 text-center text-zinc-500 font-mono uppercase text-xs">
