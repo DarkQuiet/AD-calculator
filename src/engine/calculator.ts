@@ -6,7 +6,8 @@ import type {
   UserCategoryTiers,
   UserSkillLevels,
   CraftTier,
-  ProfessionId
+  ProfessionId,
+  WorkstationId
 } from '../types/crafting';
 
 export class CraftingEngine {
@@ -144,7 +145,7 @@ export class CraftingEngine {
       targetAmount,
       tree,
       baseResources,
-      durabilityCostByBench: durabilityCostByBench as any,
+      durabilityCostByBench: durabilityCostByBench as Record<WorkstationId, number>,
       totalTimeSec,
       expByProfession
     };

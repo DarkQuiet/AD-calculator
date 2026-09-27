@@ -20,7 +20,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sewing_kit', amount: 5 },
       { itemId: 'carbon_steel', amount: 3 }
     ],
-    outputs: [{ itemId: 'plate_class_1a', amount: 1 }]
+    outputs: [{ itemId: 'plate_class_1a', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'armor_plates', level: 1 },
+    expGiven: 2
   },
   {
     id: 'recipe_body_armor_t1',
@@ -38,7 +40,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sewing_kit', amount: 2 },
       { itemId: 'stainless_steel', amount: 3 }
     ],
-    outputs: [{ itemId: 'body_armor', amount: 1 }]
+    outputs: [{ itemId: 'body_armor', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'armor_vests', level: 1 },
+    expGiven: 15
   },
   {
     id: 'recipe_chest_rig_t1',
@@ -54,7 +58,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'rubber', amount: 5 },
       { itemId: 'sewing_kit', amount: 2 }
     ],
-    outputs: [{ itemId: 'chest_rig', amount: 1 }]
+    outputs: [{ itemId: 'chest_rig', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'armor_vests', level: 1 },
+    expGiven: 3
   },
   {
     id: 'recipe_radio_body_armor_t1',
@@ -72,7 +78,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'polycarbonate', amount: 1 },
       { itemId: 'rubber', amount: 5 }
     ],
-    outputs: [{ itemId: 'radio_body_armor', amount: 1 }]
+    outputs: [{ itemId: 'radio_body_armor', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'armor_vests', level: 1 },
+    expGiven: 15
   },
 
   // --- ТИР 2 БРОНЯ ---
@@ -90,7 +98,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sewing_kit', amount: 3 },
       { itemId: 'carbon_steel', amount: 1 }
     ],
-    outputs: [{ itemId: 'plate_class_1a', amount: 1 }]
+    outputs: [{ itemId: 'plate_class_1a', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'armor_plates', level: 1 },
+    expGiven: 2
   },
 
   // --- ТИР 3 БРОНЯ ---
@@ -110,7 +120,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sewing_kit', amount: 1 },
       { itemId: 'carbon_steel', amount: 2 }
     ],
-    outputs: [{ itemId: 'plate_class_2a', amount: 1 }]
+    outputs: [{ itemId: 'plate_class_2a', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'armor_plates', level: 2 },
+    expGiven: 3
   },
 
   // --- ТИР 4 БРОНЯ ---
@@ -130,7 +142,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'sewing_kit', amount: 2 },
       { itemId: 'alloy_steel', amount: 1 }
     ],
-    outputs: [{ itemId: 'plate_class_3', amount: 1 }]
+    outputs: [{ itemId: 'plate_class_3', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'armor_plates', level: 3 },
+    expGiven: 5
   },
 
   // ==========================================
@@ -152,7 +166,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'salt', amount: 5 },
       { itemId: 'dirty_water', amount: 5 }
     ],
-    outputs: [{ itemId: 'cleaned_hide', amount: 10 }]
+    outputs: [{ itemId: 'cleaned_hide', amount: 10 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 1 },
+    expGiven: 0.5
   },
   {
     id: 'recipe_tanned_leather_t1',
@@ -167,7 +183,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'wood_bark', amount: 15 },
       { itemId: 'dirty_water', amount: 5 }
     ],
-    outputs: [{ itemId: 'tanned_leather', amount: 5 }]
+    outputs: [{ itemId: 'tanned_leather', amount: 5 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 1 },
+    expGiven: 1.2
   },
   {
     id: 'recipe_gelatin_capsule_pack_t1',
@@ -180,7 +198,9 @@ export const RECIPES: Recipe[] = [
     inputs: [
       { itemId: 'animal_bones', amount: 5 }
     ],
-    outputs: [{ itemId: 'gelatin_capsule_pack', amount: 10 }]
+    outputs: [{ itemId: 'gelatin_capsule_pack', amount: 10 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 1 },
+    expGiven: 0.025
   },
   {
     id: 'recipe_sewing_kit_t1',
@@ -194,7 +214,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 7 },
       { itemId: 'plastic', amount: 10 }
     ],
-    outputs: [{ itemId: 'sewing_kit', amount: 6 }]
+    outputs: [{ itemId: 'sewing_kit', amount: 6 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 1 },
+    expGiven: 0.05
   },
 
   // --- ТИР 2 КОЖА ---
@@ -211,7 +233,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'raw_hide', amount: 5 },
       { itemId: 'dirty_water', amount: 1 }
     ],
-    outputs: [{ itemId: 'cleaned_hide', amount: 10 }]
+    outputs: [{ itemId: 'cleaned_hide', amount: 10 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 2 },
+    expGiven: 0.5
   },
   {
     id: 'recipe_tanned_leather_t2',
@@ -226,7 +250,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'cleaned_hide', amount: 10 },
       { itemId: 'dirty_water', amount: 1 }
     ],
-    outputs: [{ itemId: 'tanned_leather', amount: 5 }]
+    outputs: [{ itemId: 'tanned_leather', amount: 5 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 2 },
+    expGiven: 1.2
   },
   {
     id: 'recipe_gelatin_capsule_pack_t2',
@@ -239,7 +265,9 @@ export const RECIPES: Recipe[] = [
     inputs: [
       { itemId: 'animal_bones', amount: 5 }
     ],
-    outputs: [{ itemId: 'gelatin_capsule_pack', amount: 20 }]
+    outputs: [{ itemId: 'gelatin_capsule_pack', amount: 20 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 2 },
+    expGiven: 0.025
   },
   {
     id: 'recipe_sewing_kit_t2',
@@ -253,7 +281,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 5 },
       { itemId: 'plastic', amount: 7 }
     ],
-    outputs: [{ itemId: 'sewing_kit', amount: 10 }]
+    outputs: [{ itemId: 'sewing_kit', amount: 10 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 2 },
+    expGiven: 0.05
   },
   {
     id: 'recipe_tattoo_machine_wire_belt_t2',
@@ -267,7 +297,175 @@ export const RECIPES: Recipe[] = [
       { itemId: 'tanned_leather', amount: 2 },
       { itemId: 'rubber', amount: 5 }
     ],
-    outputs: [{ itemId: 'tattoo_machine_wire_belt', amount: 1 }]
+    outputs: [{ itemId: 'tattoo_machine_wire_belt', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'leather_processing', level: 2 },
+    expGiven: 1
+  },
+
+  // ==========================================
+  // === ШВЕЙНЫЙ СТОЛ: Рюкзаки
+  // ==========================================
+
+  // --- ТИР 1 РЮКЗАКИ ---
+  {
+    id: 'recipe_custom_backpack_s_t1',
+    name: 'Нестандартный рюкзак S x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Рюкзаки',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 15,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 5 },
+      { itemId: 'durable_cloth', amount: 2 },
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'polycarbonate', amount: 2 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'sewing_kit', amount: 2 }
+    ],
+    outputs: [{ itemId: 'custom_backpack_s', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'backpacks', level: 1 },
+    expGiven: 4
+  },
+  {
+    id: 'recipe_cantare_f_bag_t1',
+    name: 'Сумка фирмы CANTARE F x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Рюкзаки',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 15,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 1 },
+      { itemId: 'durable_cloth', amount: 1 },
+      { itemId: 'tanned_leather', amount: 1 },
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'rubber', amount: 1 },
+      { itemId: 'sewing_kit', amount: 1 }
+    ],
+    outputs: [{ itemId: 'cantare_f_bag', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'backpacks', level: 1 },
+    expGiven: 4
+  },
+  {
+    id: 'recipe_sports_backpack_f_t1',
+    name: 'Спортивный рюкзак F x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Рюкзаки',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 15,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 5 },
+      { itemId: 'durable_cloth', amount: 2 },
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'polycarbonate', amount: 2 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'sewing_kit', amount: 2 }
+    ],
+    outputs: [{ itemId: 'sports_backpack_f', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'backpacks', level: 1 },
+    expGiven: 4
+  },
+  {
+    id: 'recipe_school_backpack_f_t1',
+    name: 'Школьный рюкзак F x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Рюкзаки',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 15,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 5 },
+      { itemId: 'durable_cloth', amount: 2 },
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'polycarbonate', amount: 2 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'sewing_kit', amount: 2 }
+    ],
+    outputs: [{ itemId: 'school_backpack_f', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'backpacks', level: 1 },
+    expGiven: 4
+  },
+  {
+    id: 'recipe_black_backpack_f_t1',
+    name: 'Черный рюкзак F x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Рюкзаки',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 15,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 10 },
+      { itemId: 'durable_cloth', amount: 2 },
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'polycarbonate', amount: 3 },
+      { itemId: 'rubber', amount: 6 },
+      { itemId: 'sewing_kit', amount: 2 }
+    ],
+    outputs: [{ itemId: 'black_backpack_f', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'backpacks', level: 1 },
+    expGiven: 4
+  },
+  {
+    id: 'recipe_small_survivor_backpack_f_t1',
+    name: 'Маленький рюкзак выжившего F x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Рюкзаки',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 15,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 2 },
+      { itemId: 'durable_cloth', amount: 1 },
+      { itemId: 'tanned_leather', amount: 1 },
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'rubber', amount: 2 },
+      { itemId: 'sewing_kit', amount: 1 }
+    ],
+    outputs: [{ itemId: 'small_survivor_backpack_f', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'backpacks', level: 1 },
+    expGiven: 4
+  },
+  {
+    id: 'recipe_stylish_backpack_f_t1',
+    name: 'Стильный рюкзак F x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Рюкзаки',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 15,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 2 },
+      { itemId: 'durable_cloth', amount: 1 },
+      { itemId: 'tanned_leather', amount: 1 },
+      { itemId: 'polycarbonate', amount: 1 },
+      { itemId: 'rubber', amount: 2 },
+      { itemId: 'sewing_kit', amount: 1 }
+    ],
+    outputs: [{ itemId: 'stylish_backpack_f', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'backpacks', level: 1 },
+    expGiven: 4
+  },
+  {
+    id: 'recipe_cute_toy_backpack_f_t1',
+    name: 'Милый рюкзак с игрушкой F x1 (T1)',
+    workstationId: 'sewing_bench',
+    category: 'Рюкзаки',
+    tier: 1,
+    craftTimeSec: 30,
+    durabilityCost: 15,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 5 },
+      { itemId: 'durable_cloth', amount: 2 },
+      { itemId: 'tanned_leather', amount: 2 },
+      { itemId: 'polycarbonate', amount: 2 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'sewing_kit', amount: 2 }
+    ],
+    outputs: [{ itemId: 'cute_toy_backpack_f', amount: 1 }],
+    requiredSkill: { professionId: 'armorer', skillId: 'backpacks', level: 1 },
+    expGiven: 4
   },
 
   // ==========================================
@@ -1782,7 +1980,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'tech_oil', amount: 4 },
       { itemId: 'carbon_steel', amount: 1 }
     ],
-    outputs: [{ itemId: 'cartridge_cases', amount: 50 }]
+    outputs: [{ itemId: 'cartridge_cases', amount: 50 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 1 },
+    expGiven: 0.15
   },
   {
     id: 'recipe_cartridge_cases_t2',
@@ -1796,7 +1996,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 25 },
       { itemId: 'tech_oil', amount: 5 }
     ],
-    outputs: [{ itemId: 'cartridge_cases', amount: 50 }]
+    outputs: [{ itemId: 'cartridge_cases', amount: 50 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.15
   },
 
   // --- 1 ТИР ПАТРОНЫ ---
@@ -1813,7 +2015,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 12 }
     ],
-    outputs: [{ itemId: 'ammo_12_gauge', amount: 8 }]
+    outputs: [{ itemId: 'ammo_12_gauge', amount: 8 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 1 },
+    expGiven: 0.22
   },
   {
     id: 'recipe_ammo_22_lr_t1',
@@ -1828,7 +2032,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 10 }
     ],
-    outputs: [{ itemId: 'ammo_22_lr', amount: 25 }]
+    outputs: [{ itemId: 'ammo_22_lr', amount: 25 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 1 },
+    expGiven: 0.15
   },
   {
     id: 'recipe_ammo_44_40_win_t1',
@@ -1843,7 +2049,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 25 },
       { itemId: 'gunpowder', amount: 25 }
     ],
-    outputs: [{ itemId: 'ammo_44_40_win', amount: 7 }]
+    outputs: [{ itemId: 'ammo_44_40_win', amount: 7 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 1 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_ammo_45_acp_t1',
@@ -1858,7 +2066,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 15 }
     ],
-    outputs: [{ itemId: 'ammo_45_acp', amount: 20 }]
+    outputs: [{ itemId: 'ammo_45_acp', amount: 20 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 1 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_ammo_545x39_t1',
@@ -1873,7 +2083,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 20 }
     ],
-    outputs: [{ itemId: 'ammo_545x39', amount: 15 }]
+    outputs: [{ itemId: 'ammo_545x39', amount: 15 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 1 },
+    expGiven: 0.27
   },
   {
     id: 'recipe_ammo_556x45_t1',
@@ -1888,7 +2100,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 20 }
     ],
-    outputs: [{ itemId: 'ammo_556x45', amount: 15 }]
+    outputs: [{ itemId: 'ammo_556x45', amount: 15 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 1 },
+    expGiven: 0.27
   },
   {
     id: 'recipe_ammo_9x19_t1',
@@ -1903,7 +2117,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 10 }
     ],
-    outputs: [{ itemId: 'ammo_9x19', amount: 20 }]
+    outputs: [{ itemId: 'ammo_9x19', amount: 20 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 1 },
+    expGiven: 0.17
   },
 
   // --- 2 ТИР ПАТРОНЫ ---
@@ -1920,7 +2136,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 12 }
     ],
-    outputs: [{ itemId: 'ammo_12_gauge', amount: 12 }]
+    outputs: [{ itemId: 'ammo_12_gauge', amount: 12 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.22
   },
   {
     id: 'recipe_ammo_22_lr_t2',
@@ -1935,7 +2153,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 10 }
     ],
-    outputs: [{ itemId: 'ammo_22_lr', amount: 35 }]
+    outputs: [{ itemId: 'ammo_22_lr', amount: 35 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.11
   },
   {
     id: 'recipe_ammo_44_40_win_t2',
@@ -1950,7 +2170,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 25 },
       { itemId: 'gunpowder', amount: 25 }
     ],
-    outputs: [{ itemId: 'ammo_44_40_win', amount: 12 }]
+    outputs: [{ itemId: 'ammo_44_40_win', amount: 12 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_ammo_45_acp_t2',
@@ -1965,7 +2187,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 15 }
     ],
-    outputs: [{ itemId: 'ammo_45_acp', amount: 30 }]
+    outputs: [{ itemId: 'ammo_45_acp', amount: 30 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.15
   },
   {
     id: 'recipe_ammo_545x39_t2',
@@ -1980,7 +2204,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 20 }
     ],
-    outputs: [{ itemId: 'ammo_545x39', amount: 20 }]
+    outputs: [{ itemId: 'ammo_545x39', amount: 20 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.17
   },
   {
     id: 'recipe_ammo_556x45_t2',
@@ -1995,7 +2221,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 20 }
     ],
-    outputs: [{ itemId: 'ammo_556x45', amount: 20 }]
+    outputs: [{ itemId: 'ammo_556x45', amount: 20 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.17
   },
   {
     id: 'recipe_ammo_9x19_t2',
@@ -2010,7 +2238,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 10 }
     ],
-    outputs: [{ itemId: 'ammo_9x19', amount: 30 }]
+    outputs: [{ itemId: 'ammo_9x19', amount: 30 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.1
   },
   {
     id: 'recipe_ammo_762x51_t2',
@@ -2025,7 +2255,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 30 },
       { itemId: 'gunpowder', amount: 30 }
     ],
-    outputs: [{ itemId: 'ammo_762x51', amount: 15 }]
+    outputs: [{ itemId: 'ammo_762x51', amount: 15 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 2 },
+    expGiven: 0.3
   },
 
   // --- 3 ТИР ПАТРОНЫ ---
@@ -2042,7 +2274,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 12 }
     ],
-    outputs: [{ itemId: 'ammo_12_gauge', amount: 15 }]
+    outputs: [{ itemId: 'ammo_12_gauge', amount: 15 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.12
   },
   {
     id: 'recipe_ammo_12_gauge_express_t3',
@@ -2057,7 +2291,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 25 }
     ],
-    outputs: [{ itemId: 'ammo_12_gauge_express', amount: 15 }]
+    outputs: [{ itemId: 'ammo_12_gauge_express', amount: 15 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_ammo_22_lr_t3',
@@ -2072,7 +2308,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 10 }
     ],
-    outputs: [{ itemId: 'ammo_22_lr', amount: 50 }]
+    outputs: [{ itemId: 'ammo_22_lr', amount: 50 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.1
   },
   {
     id: 'recipe_ammo_44_40_win_t3',
@@ -2087,7 +2325,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 25 },
       { itemId: 'gunpowder', amount: 25 }
     ],
-    outputs: [{ itemId: 'ammo_44_40_win', amount: 20 }]
+    outputs: [{ itemId: 'ammo_44_40_win', amount: 20 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.2
   },
   {
     id: 'recipe_ammo_45_acp_t3',
@@ -2102,7 +2342,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 15 }
     ],
-    outputs: [{ itemId: 'ammo_45_acp', amount: 50 }]
+    outputs: [{ itemId: 'ammo_45_acp', amount: 50 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.15
   },
   {
     id: 'recipe_ammo_50_ae_t3',
@@ -2117,7 +2359,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 15 }
     ],
-    outputs: [{ itemId: 'ammo_50_ae', amount: 20 }]
+    outputs: [{ itemId: 'ammo_50_ae', amount: 20 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.17
   },
   {
     id: 'recipe_ammo_545x39_t3',
@@ -2132,7 +2376,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 20 }
     ],
-    outputs: [{ itemId: 'ammo_545x39', amount: 25 }]
+    outputs: [{ itemId: 'ammo_545x39', amount: 25 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.17
   },
   {
     id: 'recipe_ammo_556x45_t3',
@@ -2147,7 +2393,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 15 },
       { itemId: 'gunpowder', amount: 20 }
     ],
-    outputs: [{ itemId: 'ammo_556x45', amount: 25 }]
+    outputs: [{ itemId: 'ammo_556x45', amount: 25 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.17
   },
   {
     id: 'recipe_ammo_57x28_t3',
@@ -2162,7 +2410,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 25 },
       { itemId: 'gunpowder', amount: 25 }
     ],
-    outputs: [{ itemId: 'ammo_57x28', amount: 30 }]
+    outputs: [{ itemId: 'ammo_57x28', amount: 30 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.17
   },
   {
     id: 'recipe_ammo_9x19_t3',
@@ -2177,7 +2427,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 10 },
       { itemId: 'gunpowder', amount: 10 }
     ],
-    outputs: [{ itemId: 'ammo_9x19', amount: 50 }]
+    outputs: [{ itemId: 'ammo_9x19', amount: 50 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.1
   },
   {
     id: 'recipe_ammo_762x51_t3',
@@ -2192,7 +2444,9 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 30 },
       { itemId: 'gunpowder', amount: 30 }
     ],
-    outputs: [{ itemId: 'ammo_762x51', amount: 20 }]
+    outputs: [{ itemId: 'ammo_762x51', amount: 20 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.3
   },
   {
     id: 'recipe_ammo_9x39_t3',
@@ -2207,6 +2461,671 @@ export const RECIPES: Recipe[] = [
       { itemId: 'scrap_metal', amount: 20 },
       { itemId: 'gunpowder', amount: 20 }
     ],
-    outputs: [{ itemId: 'ammo_9x39', amount: 20 }]
+    outputs: [{ itemId: 'ammo_9x39', amount: 20 }],
+    requiredSkill: { professionId: 'gunsmith', skillId: 'gun_ammo', level: 3 },
+    expGiven: 0.17
+  },
+
+  // ==========================================
+  // === ТЕХНИЧЕСКИЙ СТОЛ: Металлолом (Металлург)
+  // ==========================================
+
+  // --- Переработка лома I ---
+  {
+    id: 'recipe_mechanical_device_t1',
+    name: 'Механическое устройство x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 1,
+    craftTimeSec: 15,
+    durabilityCost: 3,
+    inputs: [
+      { itemId: 'scrap_metal', amount: 100 },
+      { itemId: 'tech_oil', amount: 2 },
+      { itemId: 'rubber', amount: 5 }
+    ],
+    outputs: [{ itemId: 'mechanical_device', amount: 1 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 1 },
+    expGiven: 2
+  },
+  {
+    id: 'recipe_abrasive_paper_t1',
+    name: 'Абразивная бумага x10 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 0.5,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 5 },
+      { itemId: 'glue', amount: 1 },
+      { itemId: 'scrap_metal', amount: 5 },
+      { itemId: 'paper', amount: 5 }
+    ],
+    outputs: [{ itemId: 'abrasive_paper', amount: 10 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 1 },
+    expGiven: 0.5
+  },
+  {
+    id: 'recipe_nails_t1',
+    name: 'Гвозди x12 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 1,
+    craftTimeSec: 5,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'ethanol', amount: 5 },
+      { itemId: 'scrap_metal', amount: 10 }
+    ],
+    outputs: [{ itemId: 'nails', amount: 12 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 1 },
+    expGiven: 0.15
+  },
+  {
+    id: 'recipe_spring_t1',
+    name: 'Пружина x2 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 5,
+    inputs: [
+      { itemId: 'scrap_metal', amount: 10 },
+      { itemId: 'tech_oil', amount: 5 },
+      { itemId: 'stainless_steel', amount: 1 }
+    ],
+    outputs: [{ itemId: 'spring', amount: 2 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 1 },
+    expGiven: 5
+  },
+  {
+    id: 'recipe_scrap_from_bumper_t2',
+    name: 'Металлолом из бампера x15 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'edta', amount: 4 },
+      { itemId: 'coal', amount: 4 },
+      { itemId: 'rusty_bumper', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scrap_from_bumper', amount: 15 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 1 },
+    expGiven: 0.9
+  },
+  {
+    id: 'recipe_scrap_from_door_t2',
+    name: 'Металлолом из двери x22 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'edta', amount: 4 },
+      { itemId: 'coal', amount: 5 },
+      { itemId: 'rusty_door', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scrap_from_door', amount: 22 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 1 },
+    expGiven: 1
+  },
+  {
+    id: 'recipe_scrap_from_radiator_t2',
+    name: 'Металлолом из радиатора x15 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'edta', amount: 4 },
+      { itemId: 'coal', amount: 5 },
+      { itemId: 'rusty_radiator', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scrap_from_radiator', amount: 15 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 1 },
+    expGiven: 0.8
+  },
+  {
+    id: 'recipe_scrap_from_pipe_t2',
+    name: 'Металлолом из трубы x10 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'edta', amount: 2 },
+      { itemId: 'coal', amount: 5 },
+      { itemId: 'rusty_pipe', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scrap_from_pipe', amount: 10 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 1 },
+    expGiven: 0.8
+  },
+
+  // --- Переработка лома II ---
+  {
+    id: 'recipe_scrap_from_bumper_t2_lvl2',
+    name: 'Металлолом из бампера x20 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'edta', amount: 3 },
+      { itemId: 'coal', amount: 3 },
+      { itemId: 'rusty_bumper', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scrap_from_bumper', amount: 20 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 2 },
+    expGiven: 0.7
+  },
+  {
+    id: 'recipe_scrap_from_door_t2_lvl2',
+    name: 'Металлолом из двери x30 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'edta', amount: 4 },
+      { itemId: 'coal', amount: 4 },
+      { itemId: 'rusty_door', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scrap_from_door', amount: 30 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 2 },
+    expGiven: 0.7
+  },
+  {
+    id: 'recipe_scrap_from_radiator_t2_lvl2',
+    name: 'Металлолом из радиатора x20 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'edta', amount: 3 },
+      { itemId: 'coal', amount: 3 },
+      { itemId: 'rusty_radiator', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scrap_from_radiator', amount: 20 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 2 },
+    expGiven: 0.6
+  },
+  {
+    id: 'recipe_scrap_from_pipe_t2_lvl2',
+    name: 'Металлолом из трубы x12 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 0.45,
+    inputs: [
+      { itemId: 'edta', amount: 2 },
+      { itemId: 'coal', amount: 3 },
+      { itemId: 'rusty_pipe', amount: 1 }
+    ],
+    outputs: [{ itemId: 'scrap_from_pipe', amount: 12 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 2 },
+    expGiven: 0.6
+  },
+  {
+    id: 'recipe_nails_t2',
+    name: 'Гвозди x20 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 5,
+    durabilityCost: 0.25,
+    inputs: [
+      { itemId: 'ethanol', amount: 5 },
+      { itemId: 'scrap_metal', amount: 10 }
+    ],
+    outputs: [{ itemId: 'nails', amount: 20 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 2 },
+    expGiven: 0.15
+  },
+  {
+    id: 'recipe_hardened_spring_t2',
+    name: 'Закаленная пружина x1 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 7,
+    inputs: [
+      { itemId: 'spring', amount: 1 },
+      { itemId: 'tech_oil', amount: 5 },
+      { itemId: 'stainless_steel', amount: 1 },
+      { itemId: 'alloy_steel', amount: 1 }
+    ],
+    outputs: [{ itemId: 'hardened_spring', amount: 1 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 2 },
+    expGiven: 10
+  },
+
+  // --- Переработка лома III ---
+  {
+    id: 'recipe_heavy_duty_spring_t3',
+    name: 'Высокоресурсная пружина x1 (T3)',
+    workstationId: 'tech_bench',
+    category: 'Металлолом',
+    tier: 3,
+    craftTimeSec: 20,
+    durabilityCost: 10,
+    inputs: [
+      { itemId: 'gun_synth_oil', amount: 1 },
+      { itemId: 'hardened_spring', amount: 1 },
+      { itemId: 'heavy_alloy', amount: 1 }
+    ],
+    outputs: [{ itemId: 'heavy_duty_spring', amount: 1 }],
+    requiredSkill: { professionId: 'metallurgist', skillId: 'scrap_recycling', level: 3 },
+    expGiven: 15
+  },
+
+  // ==========================================
+  // === ТЕХНИЧЕСКИЙ СТОЛ: Электроника (Техник)
+  // ==========================================
+
+  // --- Базовые навыки I ---
+  {
+    id: 'recipe_battery_t1',
+    name: 'Батарейка x10 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 5,
+    durabilityCost: 0.5,
+    inputs: [
+      { itemId: 'broken_phone', amount: 10 }
+    ],
+    outputs: [{ itemId: 'battery', amount: 10 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_basic', level: 1 },
+    expGiven: 0.2
+  },
+  {
+    id: 'recipe_board_t1',
+    name: 'Плата x2 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 5,
+    durabilityCost: 0.5,
+    inputs: [
+      { itemId: 'broken_hard_drive', amount: 1 }
+    ],
+    outputs: [{ itemId: 'board', amount: 2 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_basic', level: 1 },
+    expGiven: 0.2
+  },
+  {
+    id: 'recipe_synthetic_junk_t1',
+    name: 'Синтетический мусор x5 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 5,
+    durabilityCost: 0.5,
+    inputs: [
+      { itemId: 'broken_router', amount: 1 }
+    ],
+    outputs: [{ itemId: 'synthetic_junk', amount: 5 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_basic', level: 1 },
+    expGiven: 0.2
+  },
+  {
+    id: 'recipe_wires_t1',
+    name: 'Провода x5 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 5,
+    durabilityCost: 0.5,
+    inputs: [
+      { itemId: 'broken_router', amount: 1 }
+    ],
+    outputs: [{ itemId: 'wires', amount: 5 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_basic', level: 1 },
+    expGiven: 0.2
+  },
+  {
+    id: 'recipe_circuit_board_t1',
+    name: 'Электронная схема x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'capacitor', amount: 3 },
+      { itemId: 'glue', amount: 3 },
+      { itemId: 'duct_tape', amount: 3 },
+      { itemId: 'board', amount: 1 },
+      { itemId: 'resistor', amount: 3 },
+      { itemId: 'wires', amount: 3 }
+    ],
+    outputs: [{ itemId: 'circuit_board', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_basic', level: 1 },
+    expGiven: 0.5
+  },
+  {
+    id: 'recipe_duct_tape_t1',
+    name: 'Изолента x10 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 5,
+    durabilityCost: 0.4,
+    inputs: [
+      { itemId: 'clean_cloth', amount: 3 },
+      { itemId: 'glue', amount: 3 },
+      { itemId: 'rubber', amount: 3 }
+    ],
+    outputs: [{ itemId: 'duct_tape', amount: 10 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_basic', level: 1 },
+    expGiven: 0.15
+  },
+
+  // --- Базовые навыки II ---
+  {
+    id: 'recipe_circuit_board_t2',
+    name: 'Электронная схема x2 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'capacitor', amount: 3 },
+      { itemId: 'glue', amount: 2 },
+      { itemId: 'duct_tape', amount: 3 },
+      { itemId: 'board', amount: 2 },
+      { itemId: 'resistor', amount: 3 },
+      { itemId: 'wires', amount: 3 }
+    ],
+    outputs: [{ itemId: 'circuit_board', amount: 2 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_basic', level: 2 },
+    expGiven: 0.5
+  },
+  {
+    id: 'recipe_advanced_circuit_t2',
+    name: 'Продвинутая схема x1 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'capacitor', amount: 3 },
+      { itemId: 'glue', amount: 2 },
+      { itemId: 'duct_tape', amount: 3 },
+      { itemId: 'circuit_board', amount: 1 },
+      { itemId: 'resistor', amount: 3 },
+      { itemId: 'wires', amount: 3 }
+    ],
+    outputs: [{ itemId: 'advanced_circuit', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_basic', level: 2 },
+    expGiven: 3
+  },
+
+  // --- Ремонт I ---
+  {
+    id: 'recipe_repair_kit_safe_t1',
+    name: 'Ремонтный набор: сейф x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'circuit_board', amount: 4 },
+      { itemId: 'precision_parts', amount: 2 },
+      { itemId: 'scrap_metal', amount: 10 },
+      { itemId: 'tech_oil', amount: 3 }
+    ],
+    outputs: [{ itemId: 'repair_kit_safe', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_repair', level: 1 },
+    expGiven: 0.7
+  },
+  {
+    id: 'recipe_repair_kit_fridge_t1',
+    name: 'Ремонтный набор: холодильник x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'circuit_board', amount: 4 },
+      { itemId: 'precision_parts', amount: 2 },
+      { itemId: 'scrap_metal', amount: 10 },
+      { itemId: 'tech_oil', amount: 3 }
+    ],
+    outputs: [{ itemId: 'repair_kit_fridge', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_repair', level: 1 },
+    expGiven: 0.7
+  },
+  {
+    id: 'recipe_repair_kit_gun_safe_t1',
+    name: 'Ремонтный набор: оружейный сейф x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'circuit_board', amount: 4 },
+      { itemId: 'precision_parts', amount: 2 },
+      { itemId: 'scrap_metal', amount: 10 },
+      { itemId: 'tech_oil', amount: 3 }
+    ],
+    outputs: [{ itemId: 'repair_kit_gun_safe', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_repair', level: 1 },
+    expGiven: 0.7
+  },
+  {
+    id: 'recipe_repair_kit_antenna_t1',
+    name: 'Ремкомплект для антенны x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 20,
+    durabilityCost: 5,
+    inputs: [
+      { itemId: 'scrap_metal', amount: 25 },
+      { itemId: 'precision_parts', amount: 5 },
+      { itemId: 'mpd', amount: 25 },
+      { itemId: 'rubber', amount: 30 },
+      { itemId: 'stainless_steel', amount: 2 },
+      { itemId: 'wires', amount: 4 }
+    ],
+    outputs: [{ itemId: 'repair_kit_antenna', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_repair', level: 1 },
+    expGiven: 5
+  },
+
+  // --- Ремонт II ---
+  {
+    id: 'recipe_repair_kit_safe_t2',
+    name: 'Ремонтный набор: сейф x1 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'circuit_board', amount: 2 },
+      { itemId: 'precision_parts', amount: 2 },
+      { itemId: 'scrap_metal', amount: 7 },
+      { itemId: 'tech_oil', amount: 2 }
+    ],
+    outputs: [{ itemId: 'repair_kit_safe', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_repair', level: 2 },
+    expGiven: 0.5
+  },
+  {
+    id: 'recipe_repair_kit_fridge_t2',
+    name: 'Ремонтный набор: холодильник x1 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'circuit_board', amount: 2 },
+      { itemId: 'precision_parts', amount: 2 },
+      { itemId: 'scrap_metal', amount: 7 },
+      { itemId: 'tech_oil', amount: 2 }
+    ],
+    outputs: [{ itemId: 'repair_kit_fridge', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_repair', level: 2 },
+    expGiven: 0.5
+  },
+  {
+    id: 'recipe_repair_kit_gun_safe_t2',
+    name: 'Ремонтный набор: оружейный сейф x1 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 2,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'circuit_board', amount: 2 },
+      { itemId: 'precision_parts', amount: 2 },
+      { itemId: 'scrap_metal', amount: 7 },
+      { itemId: 'tech_oil', amount: 2 }
+    ],
+    outputs: [{ itemId: 'repair_kit_gun_safe', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_repair', level: 2 },
+    expGiven: 0.5
+  },
+  {
+    id: 'recipe_repair_kit_antenna_t2',
+    name: 'Ремкомплект для антенны x1 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'scrap_metal', amount: 25 },
+      { itemId: 'precision_parts', amount: 4 },
+      { itemId: 'mpd', amount: 25 },
+      { itemId: 'rubber', amount: 20 },
+      { itemId: 'stainless_steel', amount: 1 },
+      { itemId: 'wires', amount: 2 }
+    ],
+    outputs: [{ itemId: 'repair_kit_antenna', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_repair', level: 2 },
+    expGiven: 5
+  },
+
+  // --- Устройства I ---
+  {
+    id: 'recipe_tape_recorder_t1',
+    name: 'Магнитофон x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 15,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'battery', amount: 5 },
+      { itemId: 'circuit_board', amount: 3 },
+      { itemId: 'glass', amount: 1 },
+      { itemId: 'duct_tape', amount: 5 },
+      { itemId: 'plastic', amount: 2 },
+      { itemId: 'wires', amount: 2 }
+    ],
+    outputs: [{ itemId: 'tape_recorder', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_devices', level: 1 },
+    expGiven: 0
+  },
+  {
+    id: 'recipe_microphone_t1',
+    name: 'Микрофон x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 10,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'battery', amount: 1 },
+      { itemId: 'duct_tape', amount: 1 },
+      { itemId: 'plastic', amount: 2 },
+      { itemId: 'board', amount: 1 },
+      { itemId: 'wires', amount: 1 }
+    ],
+    outputs: [{ itemId: 'microphone', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_devices', level: 1 },
+    expGiven: 0
+  },
+  {
+    id: 'recipe_doorbell_t1',
+    name: 'Дверной звонок x1 (T1)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 1,
+    craftTimeSec: 15,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'battery', amount: 10 },
+      { itemId: 'circuit_board', amount: 5 },
+      { itemId: 'duct_tape', amount: 5 },
+      { itemId: 'precision_parts', amount: 1 },
+      { itemId: 'plastic', amount: 5 },
+      { itemId: 'rubber', amount: 5 }
+    ],
+    outputs: [{ itemId: 'doorbell', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_devices', level: 1 },
+    expGiven: 0
+  },
+
+  // --- Устройства II ---
+  {
+    id: 'recipe_walkie_talkie_t2',
+    name: 'Рация x1 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'battery', amount: 10 },
+      { itemId: 'circuit_board', amount: 5 },
+      { itemId: 'duct_tape', amount: 5 },
+      { itemId: 'plastic', amount: 5 },
+      { itemId: 'rubber', amount: 5 },
+      { itemId: 'broken_phone', amount: 2 }
+    ],
+    outputs: [{ itemId: 'walkie_talkie', amount: 1 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_devices', level: 2 },
+    expGiven: 0
+  },
+  {
+    id: 'recipe_drill_battery_t2',
+    name: 'Батарея для бура x2 (T2)',
+    workstationId: 'tech_bench',
+    category: 'Электроника',
+    tier: 2,
+    craftTimeSec: 15,
+    durabilityCost: 1,
+    inputs: [
+      { itemId: 'battery', amount: 15 },
+      { itemId: 'plastic', amount: 5 },
+      { itemId: 'carbon_steel', amount: 1 },
+      { itemId: 'wires', amount: 3 }
+    ],
+    outputs: [{ itemId: 'drill_battery', amount: 2 }],
+    requiredSkill: { professionId: 'technician', skillId: 'tech_devices', level: 2 },
+    expGiven: 0
   }
 ];

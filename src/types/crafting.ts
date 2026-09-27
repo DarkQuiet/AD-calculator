@@ -11,31 +11,31 @@ export type CraftTier = 1 | 2 | 3 | 4;
 export type UserCategoryTiers = Record<CraftCategory, CraftTier>;
 
 export type ProfessionId =
-  | 'technician'
-  | 'pharmacist'
-  | 'chemist'
-  | 'gunsmith'
-  | 'armorer'
-  | 'metallurgist';
+    | 'technician'
+    | 'pharmacist'
+    | 'chemist'
+    | 'gunsmith'
+    | 'armorer'
+    | 'metallurgist';
 
 export interface ProfessionSkill {
-  id: string;
-  name: string;
-  maxLevel: number;
+    id: string;
+    name: string;
+    maxLevel: number;
 }
 
 export interface Profession {
-  id: ProfessionId;
-  name: string;
-  icon: string;
-  skills: ProfessionSkill[];
-  description?: string;
+    id: ProfessionId;
+    name: string;
+    icon: string;
+    skills: ProfessionSkill[];
+    description?: string;
 }
 
 export interface SkillRequirement {
-  professionId: ProfessionId;
-  skillId: string;
-  level: number;
+    professionId: ProfessionId;
+    skillId: string;
+    level: number;
 }
 
 export type UserSkillLevels = Record<string, number>;

@@ -15,7 +15,7 @@ export const ITEMS: Record<string, Item> = {
   carbon_steel: { id: 'carbon_steel', name: 'Углеродная сталь', icon: 'Box', isBase: true },
   stainless_steel: { id: 'stainless_steel', name: 'Нержавеющая сталь', icon: 'Box', isBase: true },
   alloy_steel: { id: 'alloy_steel', name: 'Легированная сталь', icon: 'Box', isBase: true },
-  circuit_board: { id: 'circuit_board', name: 'Электронная схема', icon: 'Cpu', isBase: true },
+  circuit_board: { id: 'circuit_board', name: 'Электронная схема', icon: 'Cpu', isBase: false },
 
   // --- Базовые компоненты для Реагентов, Полимеров и Медицины ---
   hand_sanitizer: { id: 'hand_sanitizer', name: 'Санитайзер для рук', icon: 'FlaskConical', isBase: true },
@@ -35,11 +35,11 @@ export const ITEMS: Record<string, Item> = {
   field_surgical_kit: { id: 'field_surgical_kit', name: 'Полевой хирургический набор', icon: 'Box', isBase: true },
   chem_stabilizer: { id: 'chem_stabilizer', name: 'Химический стабилизатор', icon: 'FlaskConical', isBase: true },
   precision_parts: { id: 'precision_parts', name: 'Высокоточные детали', icon: 'Cpu', isBase: true },
-  duct_tape: { id: 'duct_tape', name: 'Изолента', icon: 'Box', isBase: true },
+  duct_tape: { id: 'duct_tape', name: 'Изолента', icon: 'Box', isBase: false },
   sulfur_ore: { id: 'sulfur_ore', name: 'Серная руда', icon: 'Box', isBase: true },
   methanol: { id: 'methanol', name: 'Метанол', icon: 'FlaskConical', isBase: true },
-  synthetic_junk: { id: 'synthetic_junk', name: 'Синтетический мусор', icon: 'Box', isBase: true },
-  wires: { id: 'wires', name: 'Провода', icon: 'Cpu', isBase: true },
+  synthetic_junk: { id: 'synthetic_junk', name: 'Синтетический мусор', icon: 'Box', isBase: false },
+  wires: { id: 'wires', name: 'Провода', icon: 'Cpu', isBase: false },
   glass: { id: 'glass', name: 'Стекло', icon: 'Box', isBase: true },
 
   // --- Базовые компоненты для Кожи ---
@@ -116,5 +116,53 @@ export const ITEMS: Record<string, Item> = {
   ammo_57x28: { id: 'ammo_57x28', name: 'Патроны 5.7x28 ММ', icon: 'Crosshair', isBase: false },
   ammo_9x19: { id: 'ammo_9x19', name: 'Патроны 9x19 ММ', icon: 'Crosshair', isBase: false },
   ammo_762x51: { id: 'ammo_762x51', name: 'Патроны 7,62x51 ММ', icon: 'Crosshair', isBase: false },
-  ammo_9x39: { id: 'ammo_9x39', name: 'Патроны 9x39 ММ', icon: 'Crosshair', isBase: false }
+  ammo_9x39: { id: 'ammo_9x39', name: 'Патроны 9x39 ММ', icon: 'Crosshair', isBase: false },
+
+  // === КРАФТОВЫЕ И БАЗОВЫЕ ПРЕДМЕТЫ (Рюкзаки) ===
+  custom_backpack_s: { id: 'custom_backpack_s', name: 'Нестандартный рюкзак S', icon: 'Box', isBase: false },
+  cantare_f_bag: { id: 'cantare_f_bag', name: 'Сумка фирмы CANTARE F', icon: 'Box', isBase: false },
+  sports_backpack_f: { id: 'sports_backpack_f', name: 'Спортивный рюкзак F', icon: 'Box', isBase: false },
+  school_backpack_f: { id: 'school_backpack_f', name: 'Школьный рюкзак F', icon: 'Box', isBase: false },
+  black_backpack_f: { id: 'black_backpack_f', name: 'Черный рюкзак F', icon: 'Box', isBase: false },
+  small_survivor_backpack_f: { id: 'small_survivor_backpack_f', name: 'Маленький рюкзак выжившего F', icon: 'Box', isBase: false },
+  stylish_backpack_f: { id: 'stylish_backpack_f', name: 'Стильный рюкзак F', icon: 'Box', isBase: false },
+  cute_toy_backpack_f: { id: 'cute_toy_backpack_f', name: 'Милый рюкзак с игрушкой F', icon: 'Box', isBase: false },
+
+  // === КРАФТОВЫЕ И БАЗОВЫЕ ПРЕДМЕТЫ (Металлолом и Лом) ===
+  mechanical_device: { id: 'mechanical_device', name: 'Механическое устройство', icon: 'Wrench', isBase: false },
+  abrasive_paper: { id: 'abrasive_paper', name: 'Абразивная бумага', icon: 'Layers', isBase: false },
+  glue: { id: 'glue', name: 'Клей', icon: 'Sparkles', isBase: true },
+  paper: { id: 'paper', name: 'Бумага', icon: 'Layers', isBase: true },
+  nails: { id: 'nails', name: 'Гвозди', icon: 'Box', isBase: false },
+  spring: { id: 'spring', name: 'Пружина', icon: 'Box', isBase: false },
+  rusty_bumper: { id: 'rusty_bumper', name: 'Ржавый бампер', icon: 'Box', isBase: true },
+  scrap_from_bumper: { id: 'scrap_from_bumper', name: 'Металлолом из бампера', icon: 'Box', isBase: false },
+  rusty_door: { id: 'rusty_door', name: 'Ржавая дверь', icon: 'Box', isBase: true },
+  scrap_from_door: { id: 'scrap_from_door', name: 'Металлолом из двери', icon: 'Box', isBase: false },
+  rusty_radiator: { id: 'rusty_radiator', name: 'Ржавый радиатор', icon: 'Box', isBase: true },
+  scrap_from_radiator: { id: 'scrap_from_radiator', name: 'Металлолом из радиатора', icon: 'Box', isBase: false },
+  rusty_pipe: { id: 'rusty_pipe', name: 'Ржавая труба', icon: 'Box', isBase: true },
+  scrap_from_pipe: { id: 'scrap_from_pipe', name: 'Металлолом из трубы', icon: 'Box', isBase: false },
+  hardened_spring: { id: 'hardened_spring', name: 'Закаленная пружина', icon: 'Box', isBase: false },
+  heavy_duty_spring: { id: 'heavy_duty_spring', name: 'Высокоресурсная пружина', icon: 'Box', isBase: false },
+  heavy_alloy: { id: 'heavy_alloy', name: 'Тяжелый сплав', icon: 'Box', isBase: true },
+
+  // === КРАФТОВЫЕ И БАЗОВЫЕ ПРЕДМЕТЫ (Электроника, Устройства и Ремкомплекты) ===
+  broken_phone: { id: 'broken_phone', name: 'Сломаный телефон', icon: 'Box', isBase: true },
+  battery: { id: 'battery', name: 'Батарейка', icon: 'Box', isBase: false },
+  broken_hard_drive: { id: 'broken_hard_drive', name: 'Сломаный жесткий диск', icon: 'Box', isBase: true },
+  board: { id: 'board', name: 'Плата', icon: 'Cpu', isBase: false },
+  broken_router: { id: 'broken_router', name: 'Сломанный роутер', icon: 'Box', isBase: true },
+  capacitor: { id: 'capacitor', name: 'Конденсатор', icon: 'Cpu', isBase: true },
+  resistor: { id: 'resistor', name: 'Резистор', icon: 'Cpu', isBase: true },
+  advanced_circuit: { id: 'advanced_circuit', name: 'Продвинутая схема', icon: 'Cpu', isBase: false },
+  repair_kit_safe: { id: 'repair_kit_safe', name: 'Ремонтный набор: сейф', icon: 'Wrench', isBase: false },
+  repair_kit_fridge: { id: 'repair_kit_fridge', name: 'Ремонтный набор: холодильник', icon: 'Wrench', isBase: false },
+  repair_kit_gun_safe: { id: 'repair_kit_gun_safe', name: 'Ремонтный набор: оружейный сейф', icon: 'Wrench', isBase: false },
+  repair_kit_antenna: { id: 'repair_kit_antenna', name: 'Ремкомплект для антенны', icon: 'Wrench', isBase: false },
+  tape_recorder: { id: 'tape_recorder', name: 'Магнитофон', icon: 'Box', isBase: false },
+  microphone: { id: 'microphone', name: 'Микрофон', icon: 'Box', isBase: false },
+  doorbell: { id: 'doorbell', name: 'Дверной звонок', icon: 'Box', isBase: false },
+  walkie_talkie: { id: 'walkie_talkie', name: 'Рация', icon: 'Box', isBase: false },
+  drill_battery: { id: 'drill_battery', name: 'Батарея для бура', icon: 'Box', isBase: false }
 };
