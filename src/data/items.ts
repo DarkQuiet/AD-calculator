@@ -164,5 +164,5 @@ export const ITEMS: Record<string, Item> = {
   microphone: { id: 'microphone', name: 'Микрофон', icon: 'Box', isBase: false },
   doorbell: { id: 'doorbell', name: 'Дверной звонок', icon: 'Box', isBase: false },
   walkie_talkie: { id: 'walkie_talkie', name: 'Рация', icon: 'Box', isBase: false },
-  drill_battery: { id: 'drill_battery', name: 'Батарея для бура', icon: 'Box', isBase: false }
+  drill_battery: { id: 'drill_battery', name: 'Батарея для бура', icon: 'Box', isBase: false },
 };
