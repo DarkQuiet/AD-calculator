@@ -173,7 +173,19 @@ export class CraftingEngine {
             const isExcluded = Boolean(excludedCraftedItemIds[item.id]);
             if (!isExcluded) {
               subNode = buildTree(selectedRecipe, totalInputAmount);
+            } else {
+              // Если крафтовый предмет исключен, он рассматривается как готовое сырье
+              if (!baseResources[item.id]) {
+                baseResources[item.id] = { item, amount: 0 };
+              }
+              baseResources[item.id].amount += totalInputAmount;
             }
+          } else {
+            // Если рецептов для крафта нет, считаем как базовый ресурс
+            if (!baseResources[item.id]) {
+              baseResources[item.id] = { item, amount: 0 };
+            }
+            baseResources[item.id].amount += totalInputAmount;
           }
         } else {
           if (!baseResources[item.id]) {
