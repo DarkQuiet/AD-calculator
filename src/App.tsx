@@ -200,9 +200,11 @@ export function App() {
       Math.max(1, craftAmount),
       categoryTiers,
       userSkillLevels,
-      customComponentTiers
+      customComponentTiers,
+      showAllRecipes,
+      excludedItemIds
     );
-  }, [activeRecipeId, craftAmount, categoryTiers, userSkillLevels, customComponentTiers]);
+  }, [activeRecipeId, craftAmount, categoryTiers, userSkillLevels, customComponentTiers, showAllRecipes, excludedItemIds]);
 
   const totalHelixCost = useMemo(() => {
     if (!calculation) return 0;
@@ -874,42 +876,23 @@ export function App() {
                     Итого требуемого сырья
                   </h3>
                   <span className="text-[10px] font-mono text-zinc-500">
-                    Учтено: {Object.values(calculation.baseResources).filter(({ item }) => !excludedItemIds[item.id]).length} из {Object.keys(calculation.baseResources).length}
+                    Всего видов: {Object.keys(calculation.baseResources).length}
                   </span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                  {Object.values(calculation.baseResources).map(({ item, amount }) => {
-                    const isIncluded = !excludedItemIds[item.id];
-                    return (
-                      <div
-                        key={item.id}
-                        className={`p-2 border rounded-xs flex items-center justify-between transition-colors ${
-                          isIncluded
-                            ? 'bg-[#0a0b0d] border-zinc-800/80'
-                            : 'bg-zinc-950/50 border-zinc-900 opacity-60'
-                        }`}
-                      >
-                        <label className="flex items-center gap-2 min-w-0 cursor-pointer select-none flex-1 pr-2">
-                          <input
-                            type="checkbox"
-                            checked={isIncluded}
-                            onChange={() => toggleItemExclusion(item.id)}
-                            className="w-3.5 h-3.5 accent-orange-600 rounded cursor-pointer flex-shrink-0"
-                          />
-                          <span className={`text-xs font-mono uppercase truncate ${
-                            isIncluded ? 'text-zinc-300' : 'text-zinc-500 line-through'
-                          }`} title={item.name}>
-                            {item.name}
-                          </span>
-                        </label>
-                        <span className={`text-xs font-mono font-bold flex-shrink-0 ${
-                          isIncluded ? 'text-orange-400' : 'text-zinc-600'
-                        }`}>
-                          x{amount}
-                        </span>
-                      </div>
-                    );
-                  })}
+                  {Object.values(calculation.baseResources).map(({ item, amount }) => (
+                    <div
+                      key={item.id}
+                      className="p-2 border rounded-xs flex items-center justify-between bg-[#0a0b0d] border-zinc-800/80"
+                    >
+                      <span className="text-xs font-mono uppercase truncate text-zinc-300 pr-2" title={item.name}>
+                        {item.name}
+                      </span>
+                      <span className="text-xs font-mono font-bold text-orange-400 flex-shrink-0">
+                        x{amount}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 

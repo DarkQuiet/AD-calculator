@@ -24,7 +24,9 @@ export class CraftingEngine {
     targetAmount: number, // Желаемое КОНЕЧНОЕ количество предметов (например, 1000 шт)
     userCategoryTiers: UserCategoryTiers,
     userSkillLevels: UserSkillLevels = {},
-    customComponentTiers: Record<string, CraftTier> = {}
+    customComponentTiers: Record<string, CraftTier> = {},
+    showAllRecipes: boolean = false,
+    excludedCraftedItemIds: Record<string, boolean> = {}
   ): CalculationResult | null {
     const rootRecipe = this.recipes.find(r => r.id === targetRecipeId);
     if (!rootRecipe) return null;
@@ -42,6 +44,62 @@ export class CraftingEngine {
       armorer: 0,
       metallurgist: 0,
     };
+
+    // Сначала проходим всё дерево без исключений, чтобы собрать полный список требуемых крафтовых предметов
+    const collectAllCraftedItems = (recipe: Recipe, requiredAmount: number) => {
+      const outputAmount = recipe.outputs[0]?.amount || 1;
+      const craftsNeeded = Math.ceil(requiredAmount / outputAmount);
+
+      recipe.inputs.forEach(inp => {
+        const item = this.items[inp.itemId] || { id: inp.itemId, name: inp.itemId, isBase: true };
+        const totalInputAmount = inp.amount * craftsNeeded;
+
+        if (!item.isBase) {
+          if (!craftedResources[item.id]) {
+            craftedResources[item.id] = { item, amount: 0 };
+          }
+          craftedResources[item.id].amount += totalInputAmount;
+
+          const allItemRecipes = this.recipes.filter(r => r.outputs.some(o => o.itemId === item.id));
+          const unlockedRecipes = showAllRecipes
+            ? allItemRecipes
+            : allItemRecipes.filter(r => {
+                const catTier = userCategoryTiers[r.category] ?? 1;
+                if (r.tier > catTier) return false;
+                if (r.requiredSkill) {
+                  const currentSkillLevel = userSkillLevels[r.requiredSkill.skillId] ?? 0;
+                  if (currentSkillLevel < r.requiredSkill.level) return false;
+                }
+                return true;
+              });
+
+          const candidates = unlockedRecipes.length > 0 ? unlockedRecipes : allItemRecipes;
+          candidates.sort((a, b) => a.tier - b.tier);
+
+          if (candidates.length > 0) {
+            let defaultTier: CraftTier;
+            if (showAllRecipes) {
+              defaultTier = Math.max(...candidates.map(r => r.tier)) as CraftTier;
+            } else {
+              defaultTier = userCategoryTiers[candidates[0].category] ?? 1;
+            }
+            const chosenTier = customComponentTiers[item.id] ?? defaultTier;
+
+            let selectedRecipe = candidates.find(r => r.tier === chosenTier);
+            if (!selectedRecipe) {
+              const lowerOrEqual = candidates.filter(r => r.tier <= chosenTier);
+              selectedRecipe = lowerOrEqual.length > 0
+                ? lowerOrEqual[lowerOrEqual.length - 1]
+                : candidates[candidates.length - 1];
+            }
+
+            collectAllCraftedItems(selectedRecipe, totalInputAmount);
+          }
+        }
+      });
+    };
+
+    collectAllCraftedItems(rootRecipe, targetAmount);
 
     const buildTree = (recipe: Recipe, requiredAmount: number): TreeNode => {
       const outputAmount = recipe.outputs[0]?.amount || 1;
@@ -69,32 +127,37 @@ export class CraftingEngine {
         let availableTiers: CraftTier[] | undefined;
 
         if (!item.isBase) {
-          if (!craftedResources[item.id]) {
-            craftedResources[item.id] = { item, amount: 0 };
-          }
-          craftedResources[item.id].amount += totalInputAmount;
-
           const allItemRecipes = this.recipes.filter(r => r.outputs.some(o => o.itemId === item.id));
 
-          // Находим доступные тиры рецептов с учетом уровня верстака и навыка
-          const unlockedRecipes = allItemRecipes.filter(r => {
-            const catTier = userCategoryTiers[r.category] ?? 1;
-            if (r.tier > catTier) return false;
-            if (r.requiredSkill) {
-              const currentSkillLevel = userSkillLevels[r.requiredSkill.skillId] ?? 0;
-              if (currentSkillLevel < r.requiredSkill.level) return false;
-            }
-            return true;
-          });
+          // Находим доступные тиры рецептов с учетом уровня верстака и навыка (или всех, если showAllRecipes)
+          const unlockedRecipes = showAllRecipes
+            ? allItemRecipes
+            : allItemRecipes.filter(r => {
+                const catTier = userCategoryTiers[r.category] ?? 1;
+                if (r.tier > catTier) return false;
+                if (r.requiredSkill) {
+                  const currentSkillLevel = userSkillLevels[r.requiredSkill.skillId] ?? 0;
+                  if (currentSkillLevel < r.requiredSkill.level) return false;
+                }
+                return true;
+              });
 
           const candidates = unlockedRecipes.length > 0 ? unlockedRecipes : allItemRecipes;
           candidates.sort((a, b) => a.tier - b.tier);
 
+          // Доступные для выбора тиры
           availableTiers = Array.from(new Set(candidates.map(r => r.tier))) as CraftTier[];
 
           if (candidates.length > 0) {
-            const chosenTier = customComponentTiers[item.id] ??
-              (userCategoryTiers[candidates[0].category] ?? 1);
+            // Если включены все рецепты, дефолтный тир - максимальный доступный
+            let defaultTier: CraftTier;
+            if (showAllRecipes) {
+              defaultTier = Math.max(...candidates.map(r => r.tier)) as CraftTier;
+            } else {
+              defaultTier = userCategoryTiers[candidates[0].category] ?? 1;
+            }
+
+            const chosenTier = customComponentTiers[item.id] ?? defaultTier;
 
             let selectedRecipe = candidates.find(r => r.tier === chosenTier);
             if (!selectedRecipe) {
@@ -106,7 +169,11 @@ export class CraftingEngine {
               }
             }
 
-            subNode = buildTree(selectedRecipe, totalInputAmount);
+            // Если крафтовый предмет не исключен пользователем, углубляемся в крафт
+            const isExcluded = Boolean(excludedCraftedItemIds[item.id]);
+            if (!isExcluded) {
+              subNode = buildTree(selectedRecipe, totalInputAmount);
+            }
           }
         } else {
           if (!baseResources[item.id]) {
