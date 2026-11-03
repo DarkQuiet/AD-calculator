@@ -30,6 +30,7 @@ export class CraftingEngine {
     if (!rootRecipe) return null;
 
     const baseResources: Record<string, { item: Item; amount: number }> = {};
+    const craftedResources: Record<string, { item: Item; amount: number }> = {};
     const durabilityCostByBench: Record<string, number> = {};
     let totalTimeSec = 0;
 
@@ -68,6 +69,11 @@ export class CraftingEngine {
         let availableTiers: CraftTier[] | undefined;
 
         if (!item.isBase) {
+          if (!craftedResources[item.id]) {
+            craftedResources[item.id] = { item, amount: 0 };
+          }
+          craftedResources[item.id].amount += totalInputAmount;
+
           const allItemRecipes = this.recipes.filter(r => r.outputs.some(o => o.itemId === item.id));
 
           // Находим доступные тиры рецептов с учетом уровня верстака и навыка
@@ -145,6 +151,7 @@ export class CraftingEngine {
       targetAmount,
       tree,
       baseResources,
+      craftedResources,
       durabilityCostByBench: durabilityCostByBench as Record<WorkstationId, number>,
       totalTimeSec,
       expByProfession

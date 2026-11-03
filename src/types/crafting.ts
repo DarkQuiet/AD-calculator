@@ -100,6 +100,7 @@ export interface CalculationResult {
     totalTimeSec: number;
     durabilityCostByBench: Record<WorkstationId, number>;
     baseResources: Record<string, { item: Item; amount: number }>;
+    craftedResources: Record<string, { item: Item; amount: number }>;
     tree: TreeNode;
     expByProfession: Record<ProfessionId, number>;
 }
