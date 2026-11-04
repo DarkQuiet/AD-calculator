@@ -94,12 +94,20 @@ export interface TreeNode {
     }>;
 }
 
+export interface CraftedTreeNode {
+    item: Item;
+    amount: number;
+    children: CraftedTreeNode[];
+}
+
 export interface CalculationResult {
     targetRecipe: Recipe;
     targetAmount: number;
     totalTimeSec: number;
     durabilityCostByBench: Record<WorkstationId, number>;
     baseResources: Record<string, { item: Item; amount: number }>;
+    craftedResources: Record<string, { item: Item; amount: number }>;
+    craftedTree: CraftedTreeNode[];
     tree: TreeNode;
     expByProfession: Record<ProfessionId, number>;
 }

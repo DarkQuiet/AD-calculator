@@ -8,11 +8,13 @@ import type {
   UserCategoryTiers,
   DurabilityLevel,
   UserSkillLevels,
-  ProfessionId
+  ProfessionId,
+  CraftedTreeNode
 } from './types/crafting';
 import { DURABILITY_LEVELS } from './types/crafting';
 import { calculateHelixCost } from './utils/repairCalculator';
 import { TreeNodeView } from './components/TreeNodeView';
+import { CraftedTreeItemView } from './components/CraftedTreeItemView';
 import {
   Hammer, Clock, ShieldAlert, Layers, Cpu,
   FlaskConical, Scissors, Crosshair, Filter, Search, Wrench,
@@ -87,11 +89,53 @@ export function App() {
 
   // Верхняя панель: режим отображения и свернута/развернута
   const [topPanelTab, setTopPanelTab] = useState<'all' | 'benches' | 'professions'>('all');
-  const [isTopPanelOpen, setIsTopPanelOpen] = useState<boolean>(true);
+  const [isTopPanelOpen, setIsTopPanelOpen] = useState<boolean>(false);
   const [selectedProfFilter, setSelectedProfFilter] = useState<ProfessionId | 'all'>('all');
+  const [showAllRecipes, setShowAllRecipes] = useState<boolean>(true);
 
   // Кастомные выбранные тиры для подкомпонентов дерева
   const [customComponentTiers, setCustomComponentTiers] = useState<Record<string, CraftTier>>({});
+
+  // Исключенные ресурсы из итоговых подсчетов (по дефолту галочка стоит, т.е. ресурс включен)
+  const [excludedItemIds, setExcludedItemIds] = useState<Record<string, boolean>>({});
+
+  // Helper to collect all descendant item IDs from a crafted tree node
+  const collectDescendants = (nodes: CraftedTreeNode[], targetItemId: string): string[] => {
+    const descendants: string[] = [];
+
+    const findAndCollect = (list: CraftedTreeNode[], isInsideTarget: boolean) => {
+      for (const node of list) {
+        if (isInsideTarget) {
+          descendants.push(node.item.id);
+          findAndCollect(node.children, true);
+        } else if (node.item.id === targetItemId) {
+          findAndCollect(node.children, true);
+        } else {
+          findAndCollect(node.children, false);
+        }
+      }
+    };
+
+    findAndCollect(nodes, false);
+    return Array.from(new Set(descendants));
+  };
+
+  const toggleItemExclusion = (itemId: string, craftedTree: CraftedTreeNode[]) => {
+    setExcludedItemIds(prev => {
+      const willBeExcluded = !prev[itemId];
+      const next = { ...prev, [itemId]: willBeExcluded };
+
+      if (willBeExcluded) {
+        // Если выключаем вышестоящий предмет, все нижестоящие крафтовые предметы тоже выключаются
+        const descendants = collectDescendants(craftedTree, itemId);
+        descendants.forEach(dId => {
+          next[dId] = true;
+        });
+      }
+
+      return next;
+    });
+  };
 
   const [workstationDurability, setWorkstationDurability] = useState<Record<WorkstationId, DurabilityLevel>>(() => {
     const saved = localStorage.getItem(STORAGE_KEY_DURABILITY);
@@ -150,12 +194,14 @@ export function App() {
       if (selectedBench !== 'all' && r.workstationId !== selectedBench) return false;
       if (selectedCategory !== 'all' && r.category !== selectedCategory) return false;
 
-      const unlockedTier = categoryTiers[r.category] ?? 1;
-      if (r.tier > unlockedTier) return false;
+      if (!showAllRecipes) {
+        const unlockedTier = categoryTiers[r.category] ?? 1;
+        if (r.tier > unlockedTier) return false;
 
-      if (r.requiredSkill) {
-        const currentSkillLevel = userSkillLevels[r.requiredSkill.skillId] ?? 0;
-        if (currentSkillLevel < r.requiredSkill.level) return false;
+        if (r.requiredSkill) {
+          const currentSkillLevel = userSkillLevels[r.requiredSkill.skillId] ?? 0;
+          if (currentSkillLevel < r.requiredSkill.level) return false;
+        }
       }
 
       if (selectedTierFilter !== 'all' && r.tier !== selectedTierFilter) return false;
@@ -172,7 +218,7 @@ export function App() {
 
       return true;
     });
-  }, [selectedBench, selectedCategory, categoryTiers, userSkillLevels, selectedTierFilter, searchQuery]);
+  }, [selectedBench, selectedCategory, categoryTiers, userSkillLevels, selectedTierFilter, searchQuery, showAllRecipes]);
 
   const activeRecipeId = useMemo(() => {
     if (filteredRecipes.length === 0) return '';
@@ -187,9 +233,11 @@ export function App() {
       Math.max(1, craftAmount),
       categoryTiers,
       userSkillLevels,
-      customComponentTiers
+      customComponentTiers,
+      showAllRecipes,
+      excludedItemIds
     );
-  }, [activeRecipeId, craftAmount, categoryTiers, userSkillLevels, customComponentTiers]);
+  }, [activeRecipeId, craftAmount, categoryTiers, userSkillLevels, customComponentTiers, showAllRecipes, excludedItemIds]);
 
   const totalHelixCost = useMemo(() => {
     if (!calculation) return 0;
@@ -529,6 +577,22 @@ export function App() {
               />
             </div>
 
+            <div className="flex items-center justify-between p-2 bg-[#0a0b0d] border border-zinc-800 rounded-xs">
+              <label htmlFor="all-recipes-checkbox" className="text-xs font-mono uppercase tracking-wide text-zinc-300 flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  id="all-recipes-checkbox"
+                  type="checkbox"
+                  checked={showAllRecipes}
+                  onChange={(e) => setShowAllRecipes(e.target.checked)}
+                  className="w-4 h-4 accent-orange-600 rounded cursor-pointer"
+                />
+                <span>Все рецепты</span>
+              </label>
+              <span className="text-[10px] font-mono text-zinc-500">
+                {showAllRecipes ? 'Без фильтра доступных' : 'Только доступные'}
+              </span>
+            </div>
+
             <div className="space-y-1.5">
               <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono flex justify-between">
                 <span>Фильтр рецептов по Тиру</span>
@@ -788,16 +852,54 @@ export function App() {
                 </div>
               </div>
 
+              {/* ИТОГО ТРЕБУЕМЫХ КРАФТОВЫХ ПРЕДМЕТОВ */}
+              {calculation.craftedTree.length > 0 && (
+                <div className="bg-[#121418]/90 border border-zinc-800/90 rounded-sm p-4 space-y-3 shadow-xl backdrop-blur-sm">
+                  <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                    <h3 className="text-xs font-bold uppercase font-mono tracking-wider text-zinc-300 flex items-center gap-2">
+                      <Wrench className="w-4 h-4 text-orange-400" />
+                      Итого требуемых крафтовых предметов
+                    </h3>
+                    <span className="text-[10px] font-mono text-zinc-500">
+                      Учтено: {Object.values(calculation.craftedResources).filter(({ item }) => !excludedItemIds[item.id]).length} из {Object.keys(calculation.craftedResources).length}
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {calculation.craftedTree.map((node, idx) => (
+                      <CraftedTreeItemView
+                        key={`${node.item.id}-${idx}`}
+                        node={node}
+                        excludedItemIds={excludedItemIds}
+                        onToggle={(id) => toggleItemExclusion(id, calculation.craftedTree)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* ИТОГО СЫРЬЯ */}
               <div className="bg-[#121418]/90 border border-zinc-800/90 rounded-sm p-4 space-y-3 shadow-xl backdrop-blur-sm">
-                <h3 className="text-xs font-bold uppercase font-mono tracking-wider text-zinc-300 border-b border-zinc-800 pb-2">
-                  Итого требуемого сырья
-                </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <h3 className="text-xs font-bold uppercase font-mono tracking-wider text-zinc-300 flex items-center gap-2">
+                    <FlaskConical className="w-4 h-4 text-emerald-400" />
+                    Итого требуемого сырья
+                  </h3>
+                  <span className="text-[10px] font-mono text-zinc-500">
+                    Всего видов: {Object.keys(calculation.baseResources).length}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                   {Object.values(calculation.baseResources).map(({ item, amount }) => (
-                    <div key={item.id} className="p-2 bg-[#0a0b0d] border border-zinc-800/80 rounded-xs flex items-center justify-between">
-                      <span className="text-xs text-zinc-300 font-mono uppercase truncate">{item.name}</span>
-                      <span className="text-xs font-mono font-bold text-orange-400 ml-2">x{amount}</span>
+                    <div
+                      key={item.id}
+                      className="p-2 border rounded-xs flex items-center justify-between bg-[#0a0b0d] border-zinc-800/80"
+                    >
+                      <span className="text-xs font-mono uppercase truncate text-zinc-300 pr-2" title={item.name}>
+                        {item.name}
+                      </span>
+                      <span className="text-xs font-mono font-bold text-orange-400 flex-shrink-0">
+                        x{amount}
+                      </span>
                     </div>
                   ))}
                 </div>
