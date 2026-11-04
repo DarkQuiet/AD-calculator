@@ -8,11 +8,13 @@ import type {
   UserCategoryTiers,
   DurabilityLevel,
   UserSkillLevels,
-  ProfessionId
+  ProfessionId,
+  CraftedTreeNode
 } from './types/crafting';
 import { DURABILITY_LEVELS } from './types/crafting';
 import { calculateHelixCost } from './utils/repairCalculator';
 import { TreeNodeView } from './components/TreeNodeView';
+import { CraftedTreeItemView } from './components/CraftedTreeItemView';
 import {
   Hammer, Clock, ShieldAlert, Layers, Cpu,
   FlaskConical, Scissors, Crosshair, Filter, Search, Wrench,
@@ -97,11 +99,42 @@ export function App() {
   // Исключенные ресурсы из итоговых подсчетов (по дефолту галочка стоит, т.е. ресурс включен)
   const [excludedItemIds, setExcludedItemIds] = useState<Record<string, boolean>>({});
 
-  const toggleItemExclusion = (itemId: string) => {
-    setExcludedItemIds(prev => ({
-      ...prev,
-      [itemId]: !prev[itemId]
-    }));
+  // Helper to collect all descendant item IDs from a crafted tree node
+  const collectDescendants = (nodes: CraftedTreeNode[], targetItemId: string): string[] => {
+    const descendants: string[] = [];
+
+    const findAndCollect = (list: CraftedTreeNode[], isInsideTarget: boolean) => {
+      for (const node of list) {
+        if (isInsideTarget) {
+          descendants.push(node.item.id);
+          findAndCollect(node.children, true);
+        } else if (node.item.id === targetItemId) {
+          findAndCollect(node.children, true);
+        } else {
+          findAndCollect(node.children, false);
+        }
+      }
+    };
+
+    findAndCollect(nodes, false);
+    return Array.from(new Set(descendants));
+  };
+
+  const toggleItemExclusion = (itemId: string, craftedTree: CraftedTreeNode[]) => {
+    setExcludedItemIds(prev => {
+      const willBeExcluded = !prev[itemId];
+      const next = { ...prev, [itemId]: willBeExcluded };
+
+      if (willBeExcluded) {
+        // Если выключаем вышестоящий предмет, все нижестоящие крафтовые предметы тоже выключаются
+        const descendants = collectDescendants(craftedTree, itemId);
+        descendants.forEach(dId => {
+          next[dId] = true;
+        });
+      }
+
+      return next;
+    });
   };
 
   const [workstationDurability, setWorkstationDurability] = useState<Record<WorkstationId, DurabilityLevel>>(() => {
@@ -820,7 +853,7 @@ export function App() {
               </div>
 
               {/* ИТОГО ТРЕБУЕМЫХ КРАФТОВЫХ ПРЕДМЕТОВ */}
-              {Object.keys(calculation.craftedResources).length > 0 && (
+              {calculation.craftedTree.length > 0 && (
                 <div className="bg-[#121418]/90 border border-zinc-800/90 rounded-sm p-4 space-y-3 shadow-xl backdrop-blur-sm">
                   <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
                     <h3 className="text-xs font-bold uppercase font-mono tracking-wider text-zinc-300 flex items-center gap-2">
@@ -831,39 +864,15 @@ export function App() {
                       Учтено: {Object.values(calculation.craftedResources).filter(({ item }) => !excludedItemIds[item.id]).length} из {Object.keys(calculation.craftedResources).length}
                     </span>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                    {Object.values(calculation.craftedResources).map(({ item, amount }) => {
-                      const isIncluded = !excludedItemIds[item.id];
-                      return (
-                        <div
-                          key={item.id}
-                          className={`p-2 border rounded-xs flex items-center justify-between transition-colors ${
-                            isIncluded
-                              ? 'bg-[#0a0b0d] border-zinc-800/80'
-                              : 'bg-zinc-950/50 border-zinc-900 opacity-60'
-                          }`}
-                        >
-                          <label className="flex items-center gap-2 min-w-0 cursor-pointer select-none flex-1 pr-2">
-                            <input
-                              type="checkbox"
-                              checked={isIncluded}
-                              onChange={() => toggleItemExclusion(item.id)}
-                              className="w-3.5 h-3.5 accent-orange-600 rounded cursor-pointer flex-shrink-0"
-                            />
-                            <span className={`text-xs font-mono uppercase truncate ${
-                              isIncluded ? 'text-zinc-300' : 'text-zinc-500 line-through'
-                            }`} title={item.name}>
-                              {item.name}
-                            </span>
-                          </label>
-                          <span className={`text-xs font-mono font-bold flex-shrink-0 ${
-                            isIncluded ? 'text-orange-400' : 'text-zinc-600'
-                          }`}>
-                            x{amount}
-                          </span>
-                        </div>
-                      );
-                    })}
+                  <div className="space-y-1.5">
+                    {calculation.craftedTree.map((node, idx) => (
+                      <CraftedTreeItemView
+                        key={`${node.item.id}-${idx}`}
+                        node={node}
+                        excludedItemIds={excludedItemIds}
+                        onToggle={(id) => toggleItemExclusion(id, calculation.craftedTree)}
+                      />
+                    ))}
                   </div>
                 </div>
               )}

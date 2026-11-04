@@ -2,6 +2,7 @@ import type {
   Recipe,
   Item,
   TreeNode,
+  CraftedTreeNode,
   CalculationResult,
   UserCategoryTiers,
   UserSkillLevels,
@@ -45,10 +46,11 @@ export class CraftingEngine {
       metallurgist: 0,
     };
 
-    // Сначала проходим всё дерево без исключений, чтобы собрать полный список требуемых крафтовых предметов
-    const collectAllCraftedItems = (recipe: Recipe, requiredAmount: number) => {
+    // Сначала проходим всё дерево без исключений, чтобы собрать полный список требуемых крафтовых предметов и построить дерево крафтовых предметов
+    const collectAllCraftedItems = (recipe: Recipe, requiredAmount: number): CraftedTreeNode[] => {
       const outputAmount = recipe.outputs[0]?.amount || 1;
       const craftsNeeded = Math.ceil(requiredAmount / outputAmount);
+      const craftedNodes: CraftedTreeNode[] = [];
 
       recipe.inputs.forEach(inp => {
         const item = this.items[inp.itemId] || { id: inp.itemId, name: inp.itemId, isBase: true };
@@ -76,6 +78,7 @@ export class CraftingEngine {
           const candidates = unlockedRecipes.length > 0 ? unlockedRecipes : allItemRecipes;
           candidates.sort((a, b) => a.tier - b.tier);
 
+          let childCraftedNodes: CraftedTreeNode[] = [];
           if (candidates.length > 0) {
             let defaultTier: CraftTier;
             if (showAllRecipes) {
@@ -93,13 +96,21 @@ export class CraftingEngine {
                 : candidates[candidates.length - 1];
             }
 
-            collectAllCraftedItems(selectedRecipe, totalInputAmount);
+            childCraftedNodes = collectAllCraftedItems(selectedRecipe, totalInputAmount);
           }
+
+          craftedNodes.push({
+            item,
+            amount: totalInputAmount,
+            children: childCraftedNodes
+          });
         }
       });
+
+      return craftedNodes;
     };
 
-    collectAllCraftedItems(rootRecipe, targetAmount);
+    const craftedTree = collectAllCraftedItems(rootRecipe, targetAmount);
 
     const buildTree = (recipe: Recipe, requiredAmount: number): TreeNode => {
       const outputAmount = recipe.outputs[0]?.amount || 1;
@@ -231,6 +242,7 @@ export class CraftingEngine {
       tree,
       baseResources,
       craftedResources,
+      craftedTree,
       durabilityCostByBench: durabilityCostByBench as Record<WorkstationId, number>,
       totalTimeSec,
       expByProfession
